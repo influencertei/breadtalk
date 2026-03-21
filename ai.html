@@ -4,10 +4,15 @@
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>AI 빵 상태 분석 | 빵톡</title>
+  <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>🍞</text></svg>" />
   <link rel="stylesheet" href="style.css" />
   <meta name="description" content="카메라 또는 사진 업로드로 빵 상태를 AI가 즉시 분석해드립니다. 빵톡 전용 Teachable Machine 모델 탑재." />
+<script>
+    (function(){var t=localStorage.getItem("theme"),d=window.matchMedia("(prefers-color-scheme: dark)").matches;if(t==="dark"||((!t)&&d)){document.documentElement.setAttribute("data-theme","dark");}})();
+  </script>
 </head>
 <body>
+  <a class="skip-link" href="#main-content">본문 바로가기</a>
   <header class="site-header">
     <div class="container header-inner">
       <a href="index.html" class="logo" aria-label="빵톡 홈으로 이동">
@@ -28,9 +33,10 @@
         <a href="contact.html">문의</a>
       </nav>
     </div>
+    <div class="nav-backdrop" id="navBackdrop"></div>
   </header>
 
-  <main>
+  <main id="main-content">
     <div class="page-hero">
       <div class="container">
         <span class="eyebrow">Teachable Machine · 실시간 AI 분석</span>
@@ -182,8 +188,8 @@
 
   <button class="top-btn" id="topBtn" aria-label="맨 위로 이동">↑</button>
 
-  <script src="https://cdn.jsdelivr.net/npm/@tensorflow/tfjs@latest/dist/tf.min.js"></script>
-  <script src="https://cdn.jsdelivr.net/npm/@teachablemachine/image@latest/dist/teachablemachine-image.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/@tensorflow/tfjs@latest/dist/tf.min.js" defer></script>
+  <script src="https://cdn.jsdelivr.net/npm/@teachablemachine/image@latest/dist/teachablemachine-image.min.js" defer></script>
 
   <script>
     /* ── 다크모드 ── */
@@ -215,11 +221,26 @@
       navToggle.setAttribute("aria-expanded", isOpen ? "true" : "false");
       navToggle.textContent = isOpen ? "✕" : "☰";
     });
+
+    /* 모바일 메뉴 백드롭 */
+    const navBackdrop = document.getElementById("navBackdrop");
+    if (navBackdrop) {
+      navToggle.addEventListener("click", () => {
+        navBackdrop.classList.toggle("show", mainNav.classList.contains("open"));
+      });
+      navBackdrop.addEventListener("click", () => {
+        mainNav.classList.remove("open");
+        navToggle.setAttribute("aria-expanded", "false");
+        navToggle.textContent = "☰";
+        navBackdrop.classList.remove("show");
+      });
+    }
     mainNav.querySelectorAll("a").forEach(link => {
       link.addEventListener("click", () => {
         mainNav.classList.remove("open");
         navToggle.setAttribute("aria-expanded", "false");
         navToggle.textContent = "☰";
+        if (navBackdrop) navBackdrop.classList.remove("show");
       });
     });
 

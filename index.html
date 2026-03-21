@@ -4,6 +4,7 @@
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>빵톡 | 건강빵·손반죽 레시피 홈페이지</title>
+  <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>🍞</text></svg>" />
   <link rel="stylesheet" href="style.css" />
   <meta
     name="description"
@@ -19,8 +20,12 @@
   <meta property="og:type" content="website" />
   <meta property="og:locale" content="ko_KR" />
 
+<script>
+    (function(){var t=localStorage.getItem("theme"),d=window.matchMedia("(prefers-color-scheme: dark)").matches;if(t==="dark"||((!t)&&d)){document.documentElement.setAttribute("data-theme","dark");}})();
+  </script>
 </head>
 <body>
+  <a class="skip-link" href="#main-content">본문 바로가기</a>
   <header class="site-header">
     <div class="container header-inner">
       <a href="index.html" class="logo" aria-label="빵톡 홈으로 이동">
@@ -45,9 +50,10 @@
         <a href="contact.html">문의</a>
       </nav>
     </div>
+    <div class="nav-backdrop" id="navBackdrop"></div>
   </header>
 
-  <main>
+  <main id="main-content">
     <section class="hero">
       <div class="container hero-grid">
         <div>
@@ -91,8 +97,8 @@
               <span class="info-value">글 + 영상 + 팁</span>
             </div>
             <div class="info-item">
-              <span class="info-label">확장 방향</span>
-              <span class="info-value">광고 · 전자책 · 클래스</span>
+              <span class="info-label">업데이트</span>
+              <span class="info-value">매주 새 레시피 공개</span>
             </div>
           </div>
         </div>
@@ -111,21 +117,21 @@
             <li>영상만으로 헷갈렸던 과정까지 글로 정리</li>
             <li>시니어도 보기 쉬운 큰 글씨와 넓은 간격</li>
             <li>건강빵 중심으로 재료 선택 기준까지 안내</li>
-            <li>나중에 전자책, 클래스, 추천 재료 정보까지 확장 가능</li>
+            <li>전자책, 클래스, 추천 재료 정보까지 한눈에</li>
           </ul>
         </div>
 
         <div class="soft-box">
           <h2 class="section-title">빵톡이 드리는 가치</h2>
           <p class="section-desc">
-            보기 쉬운 정보는 끝까지 읽게 만들고, 끝까지 읽는 페이지가 결국 수익으로 이어진다.
-            빵톡은 처음부터 실전형 구조로 설계되어 있다.
+            보기 쉬운 정보는 끝까지 읽게 만들고, 반복 방문으로 이어집니다.
+            빵톡은 처음부터 실전형 구조로 설계되어 있습니다.
           </p>
           <ul class="check-list">
-            <li>레시피 상세 페이지로 체류시간 확보</li>
-            <li>유튜브와 연결해 반복 방문 구조 형성</li>
-            <li>문의와 구독 신청으로 리드 수집 준비</li>
-            <li>Adsense 심사를 고려한 정보형 사이트 구조</li>
+            <li>레시피 상세 페이지로 풍부한 읽기 경험</li>
+            <li>유튜브와 연결해 영상 · 글 함께 활용</li>
+            <li>문의와 구독 신청으로 소통 창구 마련</li>
+            <li>누구나 따라할 수 있는 단계별 정보 구성</li>
           </ul>
         </div>
       </div>
@@ -217,22 +223,18 @@
           영상으로 흐름을 보고, 홈페이지에서 재료와 핵심 팁을 다시 확인하면 훨씬 편하다.
         </p>
 
-        <div class="video-wrap">
-          <div class="video-frame">
-            <!-- 아래 VIDEO_ID를 실제 유튜브 영상 ID로 교체 -->
-            <iframe
-              src="https://www.youtube.com/embed/VIDEO_ID"
-              title="빵톡 대표 유튜브 영상"
-              allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
-              allowfullscreen
-            ></iframe>
-          </div>
+        <div class="video-wrap" style="text-align:center; padding: 40px 20px;">
+          <div style="font-size:3rem; margin-bottom:16px;">▶️</div>
+          <p style="color:var(--muted); font-size:1rem; line-height:1.7; margin:0 0 20px;">
+            유튜브 빵톡 채널에서 영상 레시피를 확인하세요.<br />
+            영상과 함께 보면 훨씬 쉽게 따라할 수 있습니다.
+          </p>
+          <a class="btn btn-primary" href="https://www.youtube.com/" target="_blank" rel="noopener noreferrer">
+            유튜브 채널 바로가기
+          </a>
         </div>
 
-        <div class="btn-group">
-          <a class="btn btn-primary" href="https://www.youtube.com/" target="_blank" rel="noopener noreferrer">
-            유튜브 빵톡 채널 가기
-          </a>
+        <div class="btn-group" style="justify-content:center; margin-top:28px;">
           <a class="btn btn-secondary" href="recipes.html">
             영상과 연결된 레시피 보기
           </a>
@@ -254,7 +256,7 @@
             <li>초보자용 기본 재료 추천</li>
             <li>건강빵에 맞는 통밀/잡곡 재료 추천</li>
             <li>손반죽에 적합한 도구 정리</li>
-            <li>추후 제휴 링크 연결 가능</li>
+            <li>쿠팡 파트너스 연계로 쉽게 구매 가능</li>
           </ul>
           <div class="btn-group">
             <a class="btn btn-secondary" href="recommend.html">추천 재료 페이지 보기</a>
@@ -265,8 +267,8 @@
           <span class="eyebrow">소개와 문의</span>
           <h2 class="section-title">신뢰를 만드는 기본 페이지도 준비</h2>
           <p class="section-desc">
-            소개 페이지와 문의 페이지는 단순한 형식이 아니다.
-            방문자에게 신뢰를 주고, Adsense 심사나 협업 문의에도 중요한 역할을 한다.
+            소개 페이지와 문의 페이지는 단순한 형식이 아닙니다.
+            방문자에게 신뢰를 주고, 협업과 제휴 문의에도 중요한 역할을 합니다.
           </p>
           <ul class="check-list">
             <li>빵톡 브랜드 소개</li>
@@ -289,15 +291,15 @@
             <h3>빵톡의 목표는 예쁜 사이트가 아니라<br />실제로 도움이 되는 레시피 허브입니다</h3>
             <p>
               유튜브에서 보고 끝나는 것이 아니라, 홈페이지에서 다시 확인하고 저장하고
-              문의까지 이어질 수 있는 구조를 만들었다.
-              이것이 빵톡 1주차 MVP의 핵심이다.
+              문의까지 이어질 수 있는 구조로 만들었습니다.
+              영상과 글을 함께 활용해 더 쉽게 빵을 만들어보세요.
             </p>
           </div>
           <div class="cta-box">
             <strong>지금 바로 시작하기</strong>
-            <p>대표 레시피 3개를 먼저 공개하고, 추천 재료와 문의 페이지를 연결해 첫 반응을 확인해보세요.</p>
+            <p>대표 레시피를 확인하고, 추천 재료 정보와 문의 페이지도 함께 둘러보세요.</p>
             <div class="btn-group" style="margin-top:16px;">
-              <a class="btn btn-secondary" href="recipes.html">레시피 보기</a>
+              <a class="btn btn-primary" href="recipes.html">레시피 보기</a>
               <a class="btn btn-secondary" href="contact.html">문의 연결</a>
             </div>
           </div>
@@ -367,10 +369,13 @@
       }
     });
 
+    const navBackdrop = document.getElementById("navBackdrop");
+
     navToggle.addEventListener("click", () => {
       const isOpen = mainNav.classList.toggle("open");
       navToggle.setAttribute("aria-expanded", isOpen ? "true" : "false");
       navToggle.textContent = isOpen ? "✕" : "☰";
+      if (navBackdrop) navBackdrop.classList.toggle("show", isOpen);
     });
 
     document.querySelectorAll(".nav a").forEach((link) => {
@@ -378,8 +383,18 @@
         mainNav.classList.remove("open");
         navToggle.setAttribute("aria-expanded", "false");
         navToggle.textContent = "☰";
+        if (navBackdrop) navBackdrop.classList.remove("show");
       });
     });
+
+    if (navBackdrop) {
+      navBackdrop.addEventListener("click", () => {
+        mainNav.classList.remove("open");
+        navToggle.setAttribute("aria-expanded", "false");
+        navToggle.textContent = "☰";
+        navBackdrop.classList.remove("show");
+      });
+    }
 
     window.addEventListener("scroll", () => {
       if (window.scrollY > 300) {

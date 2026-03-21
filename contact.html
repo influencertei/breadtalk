@@ -4,11 +4,16 @@
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>문의하기 | 빵톡</title>
+  <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>🍞</text></svg>" />
   <link rel="stylesheet" href="style.css" />
   <meta name="description" content="빵톡에 제휴, 협업, 클래스 문의를 남겨주세요." />
 
+<script>
+    (function(){var t=localStorage.getItem("theme"),d=window.matchMedia("(prefers-color-scheme: dark)").matches;if(t==="dark"||((!t)&&d)){document.documentElement.setAttribute("data-theme","dark");}})();
+  </script>
 </head>
 <body>
+  <a class="skip-link" href="#main-content">본문 바로가기</a>
   <header class="site-header">
     <div class="container header-inner">
       <a href="index.html" class="logo" aria-label="빵톡 홈으로 이동">
@@ -31,9 +36,10 @@
         <a href="contact.html" class="active">문의</a>
       </nav>
     </div>
+    <div class="nav-backdrop" id="navBackdrop"></div>
   </header>
 
-  <main>
+  <main id="main-content">
     <div class="page-hero">
       <div class="container">
         <span class="eyebrow">제휴 · 협업 · 클래스 문의</span>
@@ -45,18 +51,20 @@
     <section class="form-section">
       <div class="container">
         <div class="form-wrap">
-          <form id="contactForm" action="https://formspree.io/f/xeerwjao" method="POST">
-            <div class="form-group">
+          <form id="contactForm" action="https://formspree.io/f/xeerwjao" method="POST" novalidate>
+            <div class="form-group" id="group-name">
               <label for="name">이름 <span>*</span></label>
               <input type="text" id="name" name="name" placeholder="홍길동" required />
+              <span class="field-error">이름을 입력해주세요.</span>
             </div>
 
-            <div class="form-group">
+            <div class="form-group" id="group-email">
               <label for="email">이메일 <span>*</span></label>
               <input type="email" id="email" name="email" placeholder="example@email.com" required />
+              <span class="field-error">올바른 이메일 주소를 입력해주세요.</span>
             </div>
 
-            <div class="form-group">
+            <div class="form-group" id="group-type">
               <label for="type">문의 유형 <span>*</span></label>
               <select id="type" name="type" required>
                 <option value="" disabled selected>문의 유형을 선택해주세요</option>
@@ -66,11 +74,13 @@
                 <option value="전자책">전자책 알림 신청</option>
                 <option value="기타">기타</option>
               </select>
+              <span class="field-error">문의 유형을 선택해주세요.</span>
             </div>
 
-            <div class="form-group">
+            <div class="form-group" id="group-message">
               <label for="message">문의 내용 <span>*</span></label>
               <textarea id="message" name="message" placeholder="문의하실 내용을 자유롭게 적어주세요." required></textarea>
+              <span class="field-error">문의 내용을 입력해주세요.</span>
             </div>
 
             <button type="submit" class="submit-btn" id="submitBtn">문의 보내기</button>
@@ -151,6 +161,20 @@
       navToggle.textContent = isOpen ? "✕" : "☰";
     });
 
+    /* 모바일 메뉴 백드롭 */
+    const navBackdrop = document.getElementById("navBackdrop");
+    if (navBackdrop) {
+      navToggle.addEventListener("click", () => {
+        navBackdrop.classList.toggle("show", mainNav.classList.contains("open"));
+      });
+      navBackdrop.addEventListener("click", () => {
+        mainNav.classList.remove("open");
+        navToggle.setAttribute("aria-expanded", "false");
+        navToggle.textContent = "☰";
+        navBackdrop.classList.remove("show");
+      });
+    }
+
     // 맨 위로 버튼
     const topBtn = document.getElementById("topBtn");
     window.addEventListener("scroll", () => {
@@ -160,6 +184,22 @@
       window.scrollTo({ top: 0, behavior: "smooth" });
     });
 
+    // 폼 검증 헬퍼
+    function validateField(input, groupId) {
+      const group = document.getElementById(groupId);
+      const valid = input.checkValidity();
+      group.classList.toggle("has-error", !valid);
+      return valid;
+    }
+
+    // 실시간 오류 해제
+    ["name","email","type","message"].forEach(id => {
+      const el = document.getElementById(id);
+      el.addEventListener("input", () => {
+        document.getElementById("group-" + id).classList.remove("has-error");
+      });
+    });
+
     // Formspree AJAX 제출
     const form = document.getElementById("contactForm");
     const submitBtn = document.getElementById("submitBtn");
@@ -167,19 +207,35 @@
 
     form.addEventListener("submit", async (e) => {
       e.preventDefault();
+
+      // 클라이언트 검증
+      const nameOk    = validateField(document.getElementById("name"),    "group-name");
+      const emailOk   = validateField(document.getElementById("email"),   "group-email");
+      const typeOk    = validateField(document.getElementById("type"),    "group-type");
+      const messageOk = validateField(document.getElementById("message"), "group-message");
+
+      if (!nameOk || !emailOk || !typeOk || !messageOk) {
+        form.querySelector(".form-group.has-error input, .form-group.has-error select, .form-group.has-error textarea")?.focus();
+        return;
+      }
+
       submitBtn.disabled = true;
       submitBtn.textContent = "전송 중...";
 
-      const res = await fetch(form.action, {
-        method: "POST",
-        body: new FormData(form),
-        headers: { Accept: "application/json" },
-      });
+      try {
+        const res = await fetch(form.action, {
+          method: "POST",
+          body: new FormData(form),
+          headers: { Accept: "application/json" },
+        });
 
-      if (res.ok) {
-        form.style.display = "none";
-        successMsg.style.display = "block";
-      } else {
+        if (res.ok) {
+          form.style.display = "none";
+          successMsg.style.display = "block";
+        } else {
+          throw new Error("server error");
+        }
+      } catch {
         submitBtn.disabled = false;
         submitBtn.textContent = "문의 보내기";
         alert("전송에 실패했습니다. 잠시 후 다시 시도해주세요.");

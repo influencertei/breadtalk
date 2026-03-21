@@ -4,10 +4,15 @@
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>잡곡 통밀 식빵 레시피 | 빵톡</title>
+  <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>🍞</text></svg>" />
   <link rel="stylesheet" href="../style.css" />
   <meta name="description" content="오트밀과 통밀을 섞어 만든 건강 식빵. 씹을수록 고소하고 포만감이 오래 가는 잡곡 통밀 식빵 레시피." />
+<script>
+    (function(){var t=localStorage.getItem("theme"),d=window.matchMedia("(prefers-color-scheme: dark)").matches;if(t==="dark"||((!t)&&d)){document.documentElement.setAttribute("data-theme","dark");}})();
+  </script>
 </head>
 <body>
+  <a class="skip-link" href="#main-content">본문 바로가기</a>
   <header class="site-header">
     <div class="container header-inner">
       <a href="../index.html" class="logo" aria-label="빵톡 홈으로 이동">
@@ -28,9 +33,10 @@
         <a href="../contact.html">문의</a>
       </nav>
     </div>
+    <div class="nav-backdrop" id="navBackdrop"></div>
   </header>
 
-  <main>
+  <main id="main-content">
     <div class="page-hero">
       <div class="container">
         <span class="eyebrow">건강빵 · 통밀 · 잡곡</span>
@@ -268,11 +274,26 @@
       navToggle.setAttribute("aria-expanded", isOpen ? "true" : "false");
       navToggle.textContent = isOpen ? "✕" : "☰";
     });
+
+    /* 모바일 메뉴 백드롭 */
+    const navBackdrop = document.getElementById("navBackdrop");
+    if (navBackdrop) {
+      navToggle.addEventListener("click", () => {
+        navBackdrop.classList.toggle("show", mainNav.classList.contains("open"));
+      });
+      navBackdrop.addEventListener("click", () => {
+        mainNav.classList.remove("open");
+        navToggle.setAttribute("aria-expanded", "false");
+        navToggle.textContent = "☰";
+        navBackdrop.classList.remove("show");
+      });
+    }
     mainNav.querySelectorAll("a").forEach(link => {
       link.addEventListener("click", () => {
         mainNav.classList.remove("open");
         navToggle.setAttribute("aria-expanded", "false");
         navToggle.textContent = "☰";
+        if (navBackdrop) navBackdrop.classList.remove("show");
       });
     });
     const topBtn = document.getElementById("topBtn");
