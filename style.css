@@ -371,6 +371,39 @@ ul, ol { list-style: none; padding: 0; margin: 0; }
   max-width: 640px;
 }
 
+/* 브랜드 철학 인용구 */
+.brand-quote {
+  margin-top: 24px;
+  padding: 16px 20px 16px 22px;
+  border-left: 3px solid var(--primary);
+  background: var(--surface-soft);
+  border-radius: 0 var(--radius-sm) var(--radius-sm) 0;
+  font-size: 1.05rem;
+  color: var(--primary-dark);
+  font-weight: 700;
+  line-height: 1.65;
+}
+
+.brand-quote em {
+  font-style: normal;
+  color: var(--muted);
+  font-weight: 600;
+}
+
+.brand-quote strong {
+  color: var(--primary);
+}
+
+.brand-quote cite {
+  display: block;
+  margin-top: 10px;
+  font-size: 0.82rem;
+  color: var(--muted);
+  font-style: normal;
+  font-weight: 600;
+  letter-spacing: 0.04em;
+}
+
 .hero-points {
   display: flex;
   flex-wrap: wrap;
