@@ -1,14 +1,977 @@
-<!doctype html>
-<html lang="en">
+<!DOCTYPE html>
+<html lang="ko">
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Hello World</title>
-  <link href='/style.css' rel='stylesheet'>
+  <title>빵톡 | 건강빵·손반죽 레시피 홈페이지</title>
+  <meta
+    name="description"
+    content="40대 이상 여성과 시니어도 쉽게 따라할 수 있는 건강빵·손반죽 레시피를 소개하는 빵톡 홈페이지입니다. 유튜브 영상과 함께 재료, 과정, 팁을 한눈에 확인해보세요."
+  />
+  <meta name="keywords" content="빵톡, 건강빵, 손반죽, 홈베이킹, 레시피, 통밀빵, 모닝빵, 시니어 베이킹" />
+  <meta name="author" content="빵톡" />
+  <meta property="og:title" content="빵톡 | 건강빵·손반죽 레시피 홈페이지" />
+  <meta
+    property="og:description"
+    content="유튜브와 함께 보는 건강빵·손반죽 레시피. 초보자도 쉽게 따라할 수 있는 빵 레시피를 만나보세요."
+  />
+  <meta property="og:type" content="website" />
+  <meta property="og:locale" content="ko_KR" />
+
+  <style>
+    :root {
+      --bg: #fffaf3;
+      --surface: #ffffff;
+      --surface-soft: #f7f1e7;
+      --text: #333333;
+      --muted: #6b675f;
+      --primary: #8a6240;
+      --primary-dark: #6f4f34;
+      --accent: #8e9b62;
+      --border: #e7dccd;
+      --shadow: 0 10px 25px rgba(88, 67, 46, 0.08);
+      --radius-lg: 22px;
+      --radius-md: 16px;
+      --radius-sm: 12px;
+      --max-width: 1180px;
+    }
+
+    * {
+      box-sizing: border-box;
+    }
+
+    html {
+      scroll-behavior: smooth;
+    }
+
+    body {
+      margin: 0;
+      font-family: "Pretendard", "Apple SD Gothic Neo", "Noto Sans KR", sans-serif;
+      color: var(--text);
+      background: var(--bg);
+      line-height: 1.75;
+      word-break: keep-all;
+    }
+
+    img {
+      max-width: 100%;
+      display: block;
+    }
+
+    a {
+      color: inherit;
+      text-decoration: none;
+    }
+
+    button {
+      font: inherit;
+      cursor: pointer;
+      border: none;
+      background: none;
+    }
+
+    .container {
+      width: min(100% - 32px, var(--max-width));
+      margin: 0 auto;
+    }
+
+    .section {
+      padding: 72px 0;
+    }
+
+    .section-title {
+      font-size: clamp(1.8rem, 3vw, 2.6rem);
+      line-height: 1.3;
+      margin: 0 0 14px;
+      color: var(--primary-dark);
+      font-weight: 800;
+    }
+
+    .section-desc {
+      font-size: 1.06rem;
+      color: var(--muted);
+      margin: 0 0 32px;
+    }
+
+    .eyebrow {
+      display: inline-block;
+      margin-bottom: 12px;
+      padding: 6px 12px;
+      border-radius: 999px;
+      background: #efe5d7;
+      color: var(--primary-dark);
+      font-size: 0.95rem;
+      font-weight: 700;
+    }
+
+    .btn-group {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 12px;
+      margin-top: 28px;
+    }
+
+    .btn {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      min-height: 52px;
+      padding: 0 20px;
+      border-radius: 999px;
+      font-weight: 700;
+      transition: 0.2s ease;
+    }
+
+    .btn-primary {
+      background: var(--primary);
+      color: #fff;
+      box-shadow: var(--shadow);
+    }
+
+    .btn-primary:hover {
+      background: var(--primary-dark);
+      transform: translateY(-1px);
+    }
+
+    .btn-secondary {
+      background: #fff;
+      color: var(--primary-dark);
+      border: 1px solid var(--border);
+    }
+
+    .btn-secondary:hover {
+      background: #f9f6f0;
+    }
+
+    /* Header */
+    .site-header {
+      position: sticky;
+      top: 0;
+      z-index: 1000;
+      background: rgba(255, 250, 243, 0.92);
+      backdrop-filter: blur(10px);
+      border-bottom: 1px solid rgba(231, 220, 205, 0.8);
+    }
+
+    .header-inner {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      min-height: 76px;
+      gap: 16px;
+    }
+
+    .logo {
+      display: inline-flex;
+      align-items: center;
+      gap: 12px;
+      font-weight: 900;
+      color: var(--primary-dark);
+      font-size: 1.25rem;
+    }
+
+    .logo-badge {
+      width: 42px;
+      height: 42px;
+      border-radius: 50%;
+      display: grid;
+      place-items: center;
+      background: linear-gradient(135deg, #c59b74, #8a6240);
+      color: #fff;
+      font-weight: 800;
+      box-shadow: var(--shadow);
+      flex-shrink: 0;
+    }
+
+    .nav {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+    }
+
+    .nav a {
+      padding: 10px 14px;
+      border-radius: 999px;
+      color: var(--muted);
+      font-weight: 700;
+      transition: 0.2s ease;
+    }
+
+    .nav a:hover,
+    .nav a.active {
+      background: #f2e8db;
+      color: var(--primary-dark);
+    }
+
+    .nav-toggle {
+      display: none;
+      width: 46px;
+      height: 46px;
+      border-radius: 14px;
+      background: #f3eadf;
+      color: var(--primary-dark);
+      font-size: 1.2rem;
+      font-weight: 900;
+    }
+
+    /* Hero */
+    .hero {
+      padding: 72px 0 56px;
+    }
+
+    .hero-grid {
+      display: grid;
+      grid-template-columns: 1.15fr 0.85fr;
+      gap: 32px;
+      align-items: center;
+    }
+
+    .hero-title {
+      font-size: clamp(2.2rem, 4vw, 4rem);
+      line-height: 1.2;
+      margin: 0 0 18px;
+      color: var(--primary-dark);
+      font-weight: 900;
+      letter-spacing: -0.02em;
+    }
+
+    .hero-desc {
+      font-size: 1.1rem;
+      color: var(--muted);
+      margin: 0;
+      max-width: 700px;
+    }
+
+    .hero-points {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 10px;
+      margin-top: 24px;
+    }
+
+    .hero-points span {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      background: #fff;
+      border: 1px solid var(--border);
+      border-radius: 999px;
+      padding: 10px 14px;
+      color: var(--primary-dark);
+      font-weight: 700;
+      box-shadow: var(--shadow);
+    }
+
+    .hero-card {
+      background: linear-gradient(180deg, #fff 0%, #f8f2e8 100%);
+      border: 1px solid var(--border);
+      border-radius: var(--radius-lg);
+      padding: 24px;
+      box-shadow: var(--shadow);
+    }
+
+    .hero-image {
+      border-radius: 18px;
+      min-height: 340px;
+      background:
+        linear-gradient(rgba(72, 52, 37, 0.15), rgba(72, 52, 37, 0.15)),
+        url("https://images.unsplash.com/photo-1509440159596-0249088772ff?auto=format&fit=crop&w=1200&q=80")
+        center/cover no-repeat;
+    }
+
+    .hero-card-info {
+      margin-top: 18px;
+      display: grid;
+      grid-template-columns: repeat(2, 1fr);
+      gap: 12px;
+    }
+
+    .info-item {
+      background: #fff;
+      border-radius: 14px;
+      padding: 14px;
+      border: 1px solid var(--border);
+    }
+
+    .info-label {
+      display: block;
+      font-size: 0.92rem;
+      color: var(--muted);
+      margin-bottom: 4px;
+    }
+
+    .info-value {
+      display: block;
+      font-weight: 800;
+      color: var(--primary-dark);
+      font-size: 1.02rem;
+    }
+
+    /* Cards */
+    .grid-3 {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 22px;
+    }
+
+    .card {
+      background: var(--surface);
+      border: 1px solid var(--border);
+      border-radius: var(--radius-lg);
+      overflow: hidden;
+      box-shadow: var(--shadow);
+      display: flex;
+      flex-direction: column;
+      min-height: 100%;
+    }
+
+    .card-thumb {
+      aspect-ratio: 16 / 10;
+      background-size: cover;
+      background-position: center;
+    }
+
+    .card-body {
+      padding: 22px;
+      display: flex;
+      flex-direction: column;
+      flex: 1;
+    }
+
+    .card-tag {
+      display: inline-block;
+      align-self: flex-start;
+      margin-bottom: 12px;
+      background: #f4ecdf;
+      color: var(--primary-dark);
+      font-size: 0.9rem;
+      font-weight: 800;
+      padding: 6px 10px;
+      border-radius: 999px;
+    }
+
+    .card-title {
+      font-size: 1.35rem;
+      line-height: 1.35;
+      margin: 0 0 10px;
+      color: var(--primary-dark);
+      font-weight: 800;
+    }
+
+    .card-text {
+      margin: 0 0 18px;
+      color: var(--muted);
+      font-size: 1rem;
+    }
+
+    .card-meta {
+      margin-top: auto;
+      font-size: 0.95rem;
+      color: var(--muted);
+      font-weight: 700;
+    }
+
+    /* Intro block */
+    .intro-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 24px;
+    }
+
+    .soft-box {
+      background: var(--surface-soft);
+      border: 1px solid var(--border);
+      border-radius: var(--radius-lg);
+      padding: 28px;
+      box-shadow: var(--shadow);
+    }
+
+    .check-list {
+      margin: 18px 0 0;
+      padding: 0;
+      list-style: none;
+    }
+
+    .check-list li {
+      position: relative;
+      padding-left: 28px;
+      margin-bottom: 12px;
+      color: var(--text);
+    }
+
+    .check-list li::before {
+      content: "✓";
+      position: absolute;
+      left: 0;
+      top: 0;
+      color: var(--accent);
+      font-weight: 900;
+    }
+
+    /* Video */
+    .video-wrap {
+      background: #fff;
+      border: 1px solid var(--border);
+      border-radius: var(--radius-lg);
+      padding: 18px;
+      box-shadow: var(--shadow);
+    }
+
+    .video-frame {
+      position: relative;
+      width: 100%;
+      padding-top: 56.25%;
+      border-radius: 18px;
+      overflow: hidden;
+      background: #ddd;
+    }
+
+    .video-frame iframe {
+      position: absolute;
+      inset: 0;
+      width: 100%;
+      height: 100%;
+      border: 0;
+    }
+
+    /* CTA Banner */
+    .cta-banner {
+      background: linear-gradient(135deg, #8a6240, #a27f53);
+      color: #fff;
+      border-radius: 28px;
+      padding: 36px;
+      box-shadow: var(--shadow);
+      display: grid;
+      grid-template-columns: 1.2fr 0.8fr;
+      gap: 24px;
+      align-items: center;
+    }
+
+    .cta-banner h3 {
+      margin: 0 0 10px;
+      font-size: clamp(1.6rem, 2.5vw, 2.3rem);
+      line-height: 1.3;
+    }
+
+    .cta-banner p {
+      margin: 0;
+      color: rgba(255, 255, 255, 0.92);
+      font-size: 1.02rem;
+    }
+
+    .cta-box {
+      background: rgba(255, 255, 255, 0.12);
+      border: 1px solid rgba(255, 255, 255, 0.2);
+      border-radius: 20px;
+      padding: 20px;
+    }
+
+    .cta-box strong {
+      display: block;
+      margin-bottom: 8px;
+      font-size: 1.08rem;
+    }
+
+    /* Footer */
+    .site-footer {
+      padding: 42px 0 70px;
+      border-top: 1px solid var(--border);
+      margin-top: 72px;
+    }
+
+    .footer-grid {
+      display: grid;
+      grid-template-columns: 1.2fr 0.8fr;
+      gap: 24px;
+      align-items: start;
+    }
+
+    .footer-brand {
+      color: var(--muted);
+    }
+
+    .footer-title {
+      color: var(--primary-dark);
+      font-weight: 800;
+      margin-bottom: 10px;
+      font-size: 1.05rem;
+    }
+
+    .footer-links {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 10px 14px;
+    }
+
+    .footer-links a {
+      color: var(--muted);
+      font-weight: 700;
+    }
+
+    .footer-links a:hover {
+      color: var(--primary-dark);
+    }
+
+    /* Top button */
+    .top-btn {
+      position: fixed;
+      right: 20px;
+      bottom: 20px;
+      width: 52px;
+      height: 52px;
+      border-radius: 50%;
+      background: var(--primary-dark);
+      color: #fff;
+      box-shadow: var(--shadow);
+      display: none;
+      align-items: center;
+      justify-content: center;
+      font-size: 1.15rem;
+      z-index: 1100;
+    }
+
+    .top-btn.show {
+      display: inline-flex;
+    }
+
+    /* Responsive */
+    @media (max-width: 980px) {
+      .hero-grid,
+      .intro-grid,
+      .cta-banner,
+      .footer-grid,
+      .grid-3 {
+        grid-template-columns: 1fr;
+      }
+
+      .hero {
+        padding-top: 52px;
+      }
+
+      .hero-card-info {
+        grid-template-columns: 1fr 1fr;
+      }
+    }
+
+    @media (max-width: 768px) {
+      .header-inner {
+        min-height: 72px;
+      }
+
+      .nav-toggle {
+        display: inline-grid;
+        place-items: center;
+      }
+
+      .nav {
+        position: absolute;
+        top: 76px;
+        left: 16px;
+        right: 16px;
+        display: none;
+        flex-direction: column;
+        align-items: stretch;
+        gap: 8px;
+        background: #fffaf3;
+        border: 1px solid var(--border);
+        padding: 14px;
+        border-radius: 20px;
+        box-shadow: var(--shadow);
+      }
+
+      .nav.open {
+        display: flex;
+      }
+
+      .nav a {
+        padding: 12px 14px;
+      }
+
+      .section {
+        padding: 56px 0;
+      }
+
+      .hero-title {
+        font-size: 2.15rem;
+      }
+
+      .hero-desc,
+      .section-desc,
+      .card-text,
+      .cta-banner p {
+        font-size: 1rem;
+      }
+
+      .hero-card-info {
+        grid-template-columns: 1fr;
+      }
+
+      .cta-banner {
+        padding: 28px;
+      }
+    }
+
+    @media (max-width: 480px) {
+      .container {
+        width: min(100% - 24px, var(--max-width));
+      }
+
+      .btn {
+        width: 100%;
+      }
+
+      .btn-group {
+        flex-direction: column;
+      }
+
+      .hero-points span {
+        width: 100%;
+        justify-content: center;
+      }
+
+      .card-body,
+      .soft-box {
+        padding: 20px;
+      }
+    }
+  </style>
 </head>
 <body>
-  <h1>Hello, world!</h1>
-  <button onclick="console.log('hello');">Press me</button>
-  <script defer type="text/javascript" src="/main.js"></script>
+  <header class="site-header">
+    <div class="container header-inner">
+      <a href="index.html" class="logo" aria-label="빵톡 홈으로 이동">
+        <span class="logo-badge">빵</span>
+        <span>빵톡</span>
+      </a>
+
+      <button class="nav-toggle" id="navToggle" aria-label="메뉴 열기" aria-expanded="false">
+        ☰
+      </button>
+
+      <nav class="nav" id="mainNav" aria-label="주 메뉴">
+        <a href="index.html" class="active">홈</a>
+        <a href="recipes.html">레시피</a>
+        <a href="recommend.html">추천 재료</a>
+        <a href="about.html">소개</a>
+        <a href="contact.html">문의</a>
+      </nav>
+    </div>
+  </header>
+
+  <main>
+    <section class="hero">
+      <div class="container hero-grid">
+        <div>
+          <span class="eyebrow">건강빵 · 손반죽 · 초보자 친화</span>
+          <h1 class="hero-title">
+            40대 이상 여성과 시니어도<br />
+            쉽게 따라하는 건강빵 레시피
+          </h1>
+          <p class="hero-desc">
+            빵톡은 유튜브 영상만으로 놓치기 쉬운 재료, 순서, 발효 팁을
+            한눈에 정리해주는 건강빵 레시피 홈페이지입니다.
+            복잡한 설명보다 쉽게 따라할 수 있는 실전형 레시피를 담았습니다.
+          </p>
+
+          <div class="hero-points">
+            <span>초보자도 쉬운 설명</span>
+            <span>손반죽 중심 레시피</span>
+            <span>건강한 재료 사용</span>
+            <span>유튜브와 함께 보기</span>
+          </div>
+
+          <div class="btn-group">
+            <a class="btn btn-primary" href="recipes.html">대표 레시피 보러가기</a>
+            <a class="btn btn-secondary" href="recommend.html">추천 재료 보기</a>
+          </div>
+        </div>
+
+        <div class="hero-card">
+          <div class="hero-image" role="img" aria-label="따뜻한 갓 구운 빵 이미지"></div>
+          <div class="hero-card-info">
+            <div class="info-item">
+              <span class="info-label">추천 대상</span>
+              <span class="info-value">초보 홈베이킹 입문자</span>
+            </div>
+            <div class="info-item">
+              <span class="info-label">핵심 스타일</span>
+              <span class="info-value">쉽고 따뜻한 설명</span>
+            </div>
+            <div class="info-item">
+              <span class="info-label">콘텐츠 구성</span>
+              <span class="info-value">글 + 영상 + 팁</span>
+            </div>
+            <div class="info-item">
+              <span class="info-label">확장 방향</span>
+              <span class="info-value">광고 · 전자책 · 클래스</span>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section class="section" aria-labelledby="why-bbangtalk">
+      <div class="container intro-grid">
+        <div class="soft-box">
+          <h2 id="why-bbangtalk" class="section-title">왜 빵톡이 필요한가요?</h2>
+          <p class="section-desc">
+            유튜브 영상은 보기 좋지만, 재료 양과 순서, 작은 팁은 다시 찾기 어렵다.
+            빵톡은 그 불편함을 줄이기 위해 만든 글형 레시피 허브다.
+          </p>
+          <ul class="check-list">
+            <li>영상만으로 헷갈렸던 과정까지 글로 정리</li>
+            <li>시니어도 보기 쉬운 큰 글씨와 넓은 간격</li>
+            <li>건강빵 중심으로 재료 선택 기준까지 안내</li>
+            <li>나중에 전자책, 클래스, 추천 재료 정보까지 확장 가능</li>
+          </ul>
+        </div>
+
+        <div class="soft-box">
+          <h2 class="section-title">빵톡이 드리는 가치</h2>
+          <p class="section-desc">
+            보기 쉬운 정보는 끝까지 읽게 만들고, 끝까지 읽는 페이지가 결국 수익으로 이어진다.
+            빵톡은 처음부터 실전형 구조로 설계되어 있다.
+          </p>
+          <ul class="check-list">
+            <li>레시피 상세 페이지로 체류시간 확보</li>
+            <li>유튜브와 연결해 반복 방문 구조 형성</li>
+            <li>문의와 구독 신청으로 리드 수집 준비</li>
+            <li>Adsense 심사를 고려한 정보형 사이트 구조</li>
+          </ul>
+        </div>
+      </div>
+    </section>
+
+    <section class="section" aria-labelledby="featured-recipes">
+      <div class="container">
+        <span class="eyebrow">대표 레시피</span>
+        <h2 id="featured-recipes" class="section-title">처음 시작하기 좋은 빵톡 대표 레시피</h2>
+        <p class="section-desc">
+          초보자도 부담 없이 시작할 수 있도록 쉬운 레시피부터 배치했다.
+          각 페이지에는 재료, 과정, 팁, 영상, 관련 레시피가 연결될 수 있다.
+        </p>
+
+        <div class="grid-3">
+          <article class="card">
+            <div
+              class="card-thumb"
+              style="background-image:url('https://images.unsplash.com/photo-1608198093002-ad4e005484ec?auto=format&fit=crop&w=1200&q=80');"
+              aria-hidden="true"
+            ></div>
+            <div class="card-body">
+              <span class="card-tag">입문 추천</span>
+              <h3 class="card-title">부드럽고 촉촉한 모닝빵</h3>
+              <p class="card-text">
+                처음 손반죽을 시작하는 분께 잘 맞는 레시피다.
+                반죽 감과 발효 흐름을 익히기에 좋다.
+              </p>
+              <div class="card-meta">난이도: 쉬움 · 식사빵 입문</div>
+              <div class="btn-group">
+                <a class="btn btn-secondary" href="recipe/morning-bread.html">자세히 보기</a>
+              </div>
+            </div>
+          </article>
+
+          <article class="card">
+            <div
+              class="card-thumb"
+              style="background-image:url('https://images.unsplash.com/photo-1509440159596-0249088772ff?auto=format&fit=crop&w=1200&q=80');"
+              aria-hidden="true"
+            ></div>
+            <div class="card-body">
+              <span class="card-tag">건강빵</span>
+              <h3 class="card-title">고소한 통밀 건강빵</h3>
+              <p class="card-text">
+                통밀을 활용해 부담을 낮춘 건강빵 레시피다.
+                재료 선택이 중요한 분에게 추천한다.
+              </p>
+              <div class="card-meta">난이도: 보통 · 통밀 활용</div>
+              <div class="btn-group">
+                <a class="btn btn-secondary" href="recipe/wholewheat-bread.html">자세히 보기</a>
+              </div>
+            </div>
+          </article>
+
+          <article class="card">
+            <div
+              class="card-thumb"
+              style="background-image:url('https://images.unsplash.com/photo-1517433670267-08bbd4be890f?auto=format&fit=crop&w=1200&q=80');"
+              aria-hidden="true"
+            ></div>
+            <div class="card-body">
+              <span class="card-tag">가족용 추천</span>
+              <h3 class="card-title">매일 먹기 좋은 건강 식사빵</h3>
+              <p class="card-text">
+                버터와 설탕 부담을 낮추고 매일 먹기 좋게 구성한 레시피다.
+                가족 식사용 빵으로 연결하기 좋다.
+              </p>
+              <div class="card-meta">난이도: 보통 · 식사 대용</div>
+              <div class="btn-group">
+                <a class="btn btn-secondary" href="recipe/healthy-bread.html">자세히 보기</a>
+              </div>
+            </div>
+          </article>
+        </div>
+
+        <div class="btn-group" style="justify-content:center; margin-top: 28px;">
+          <a class="btn btn-primary" href="recipes.html">전체 레시피 보러가기</a>
+        </div>
+      </div>
+    </section>
+
+    <section class="section" aria-labelledby="youtube-section">
+      <div class="container">
+        <span class="eyebrow">유튜브 연결</span>
+        <h2 id="youtube-section" class="section-title">영상과 함께 보면 더 쉬운 빵톡</h2>
+        <p class="section-desc">
+          빵톡 홈페이지는 유튜브 빵톡 채널과 함께 보는 구조다.
+          영상으로 흐름을 보고, 홈페이지에서 재료와 핵심 팁을 다시 확인하면 훨씬 편하다.
+        </p>
+
+        <div class="video-wrap">
+          <div class="video-frame">
+            <!-- 아래 VIDEO_ID를 실제 유튜브 영상 ID로 교체 -->
+            <iframe
+              src="https://www.youtube.com/embed/VIDEO_ID"
+              title="빵톡 대표 유튜브 영상"
+              allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
+              allowfullscreen
+            ></iframe>
+          </div>
+        </div>
+
+        <div class="btn-group">
+          <a class="btn btn-primary" href="https://www.youtube.com/" target="_blank" rel="noopener noreferrer">
+            유튜브 빵톡 채널 가기
+          </a>
+          <a class="btn btn-secondary" href="recipes.html">
+            영상과 연결된 레시피 보기
+          </a>
+        </div>
+      </div>
+    </section>
+
+    <section class="section" aria-labelledby="recommend-section">
+      <div class="container intro-grid">
+        <div class="soft-box">
+          <span class="eyebrow">추천 재료</span>
+          <h2 id="recommend-section" class="section-title">재료와 도구를 쉽게 고를 수 있게</h2>
+          <p class="section-desc">
+            초보자일수록 레시피보다 재료 선택에서 더 많이 막힌다.
+            빵톡은 강력분, 통밀가루, 이스트, 오일, 틀 같은 기본 재료와 도구를
+            쉽게 고를 수 있도록 안내하는 구조로 확장될 수 있다.
+          </p>
+          <ul class="check-list">
+            <li>초보자용 기본 재료 추천</li>
+            <li>건강빵에 맞는 통밀/잡곡 재료 추천</li>
+            <li>손반죽에 적합한 도구 정리</li>
+            <li>추후 제휴 링크 연결 가능</li>
+          </ul>
+          <div class="btn-group">
+            <a class="btn btn-secondary" href="recommend.html">추천 재료 페이지 보기</a>
+          </div>
+        </div>
+
+        <div class="soft-box">
+          <span class="eyebrow">소개와 문의</span>
+          <h2 class="section-title">신뢰를 만드는 기본 페이지도 준비</h2>
+          <p class="section-desc">
+            소개 페이지와 문의 페이지는 단순한 형식이 아니다.
+            방문자에게 신뢰를 주고, Adsense 심사나 협업 문의에도 중요한 역할을 한다.
+          </p>
+          <ul class="check-list">
+            <li>빵톡 브랜드 소개</li>
+            <li>운영 방향과 콘텐츠 철학 전달</li>
+            <li>전자책 알림 신청과 클래스 문의 연결</li>
+            <li>협업·제휴 문의 접점 확보</li>
+          </ul>
+          <div class="btn-group">
+            <a class="btn btn-secondary" href="about.html">빵톡 소개 보기</a>
+            <a class="btn btn-secondary" href="contact.html">문의하러 가기</a>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section class="section">
+      <div class="container">
+        <div class="cta-banner">
+          <div>
+            <h3>빵톡의 목표는 예쁜 사이트가 아니라<br />실제로 도움이 되는 레시피 허브입니다</h3>
+            <p>
+              유튜브에서 보고 끝나는 것이 아니라, 홈페이지에서 다시 확인하고 저장하고
+              문의까지 이어질 수 있는 구조를 만들었다.
+              이것이 빵톡 1주차 MVP의 핵심이다.
+            </p>
+          </div>
+          <div class="cta-box">
+            <strong>지금 바로 시작하기</strong>
+            <p>대표 레시피 3개를 먼저 공개하고, 추천 재료와 문의 페이지를 연결해 첫 반응을 확인해보세요.</p>
+            <div class="btn-group" style="margin-top:16px;">
+              <a class="btn btn-secondary" href="recipes.html">레시피 보기</a>
+              <a class="btn btn-secondary" href="contact.html">문의 연결</a>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+  </main>
+
+  <footer class="site-footer">
+    <div class="container footer-grid">
+      <div class="footer-brand">
+        <div class="footer-title">빵톡</div>
+        <p style="margin:0;">
+          40대 이상 여성과 시니어도 쉽게 따라할 수 있는 건강빵·손반죽 레시피 홈페이지.
+          유튜브와 함께 보는 쉬운 홈베이킹 가이드.
+        </p>
+      </div>
+
+      <div>
+        <div class="footer-title">바로가기</div>
+        <div class="footer-links">
+          <a href="index.html">홈</a>
+          <a href="recipes.html">레시피</a>
+          <a href="recommend.html">추천 재료</a>
+          <a href="about.html">소개</a>
+          <a href="contact.html">문의</a>
+        </div>
+      </div>
+    </div>
+  </footer>
+
+  <button class="top-btn" id="topBtn" aria-label="맨 위로 이동">↑</button>
+
+  <script>
+    const navToggle = document.getElementById("navToggle");
+    const mainNav = document.getElementById("mainNav");
+    const topBtn = document.getElementById("topBtn");
+
+    navToggle.addEventListener("click", () => {
+      const isOpen = mainNav.classList.toggle("open");
+      navToggle.setAttribute("aria-expanded", isOpen ? "true" : "false");
+      navToggle.textContent = isOpen ? "✕" : "☰";
+    });
+
+    document.querySelectorAll(".nav a").forEach((link) => {
+      link.addEventListener("click", () => {
+        mainNav.classList.remove("open");
+        navToggle.setAttribute("aria-expanded", "false");
+        navToggle.textContent = "☰";
+      });
+    });
+
+    window.addEventListener("scroll", () => {
+      if (window.scrollY > 300) {
+        topBtn.classList.add("show");
+      } else {
+        topBtn.classList.remove("show");
+      }
+    });
+
+    topBtn.addEventListener("click", () => {
+      window.scrollTo({ top: 0, behavior: "smooth" });
+    });
+  </script>
 </body>
 </html>
