@@ -36,6 +36,19 @@
       --max-width: 1180px;
     }
 
+    [data-theme="dark"] {
+      --bg: #1a1612;
+      --surface: #242018;
+      --surface-soft: #2c2720;
+      --text: #e8e0d4;
+      --muted: #a09484;
+      --primary: #c59b74;
+      --primary-dark: #d4a97e;
+      --accent: #a3b576;
+      --border: #3d3529;
+      --shadow: 0 10px 25px rgba(0, 0, 0, 0.3);
+    }
+
     * {
       box-sizing: border-box;
     }
@@ -148,9 +161,9 @@
       position: sticky;
       top: 0;
       z-index: 1000;
-      background: rgba(255, 250, 243, 0.92);
+      background: color-mix(in srgb, var(--bg) 92%, transparent);
       backdrop-filter: blur(10px);
-      border-bottom: 1px solid rgba(231, 220, 205, 0.8);
+      border-bottom: 1px solid var(--border);
     }
 
     .header-inner {
@@ -409,8 +422,28 @@
     }
 
     /* Video */
+    /* Theme toggle */
+    .theme-btn {
+      width: 46px;
+      height: 46px;
+      border-radius: 50%;
+      background: var(--surface-soft);
+      border: 1px solid var(--border);
+      color: var(--primary-dark);
+      font-size: 1.2rem;
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      transition: 0.2s ease;
+      flex-shrink: 0;
+    }
+
+    .theme-btn:hover {
+      background: var(--border);
+    }
+
     .video-wrap {
-      background: #fff;
+      background: var(--surface);
       border: 1px solid var(--border);
       border-radius: var(--radius-lg);
       padding: 18px;
@@ -572,7 +605,7 @@
         flex-direction: column;
         align-items: stretch;
         gap: 8px;
-        background: #fffaf3;
+        background: var(--bg);
         border: 1px solid var(--border);
         padding: 14px;
         border-radius: 20px;
@@ -644,9 +677,12 @@
         <span>빵톡</span>
       </a>
 
-      <button class="nav-toggle" id="navToggle" aria-label="메뉴 열기" aria-expanded="false">
-        ☰
-      </button>
+      <div style="display:flex;align-items:center;gap:8px;">
+        <button class="theme-btn" id="themeBtn" aria-label="다크/라이트 모드 전환">🌙</button>
+        <button class="nav-toggle" id="navToggle" aria-label="메뉴 열기" aria-expanded="false">
+          ☰
+        </button>
+      </div>
 
       <nav class="nav" id="mainNav" aria-label="주 메뉴">
         <a href="index.html" class="active">홈</a>
@@ -946,6 +982,29 @@
     const navToggle = document.getElementById("navToggle");
     const mainNav = document.getElementById("mainNav");
     const topBtn = document.getElementById("topBtn");
+    const themeBtn = document.getElementById("themeBtn");
+
+    // 다크모드 초기화 (저장된 설정 또는 시스템 설정 따름)
+    const savedTheme = localStorage.getItem("theme");
+    const prefersDark = window.matchMedia("(prefers-color-scheme: dark)").matches;
+    const isDark = savedTheme === "dark" || (!savedTheme && prefersDark);
+    if (isDark) {
+      document.documentElement.setAttribute("data-theme", "dark");
+      themeBtn.textContent = "☀️";
+    }
+
+    themeBtn.addEventListener("click", () => {
+      const current = document.documentElement.getAttribute("data-theme");
+      if (current === "dark") {
+        document.documentElement.removeAttribute("data-theme");
+        themeBtn.textContent = "🌙";
+        localStorage.setItem("theme", "light");
+      } else {
+        document.documentElement.setAttribute("data-theme", "dark");
+        themeBtn.textContent = "☀️";
+        localStorage.setItem("theme", "dark");
+      }
+    });
 
     navToggle.addEventListener("click", () => {
       const isOpen = mainNav.classList.toggle("open");
