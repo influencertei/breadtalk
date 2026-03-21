@@ -1,0 +1,714 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>영상 모아보기 | 빵톡</title>
+  <link rel="stylesheet" href="style.css" />
+  <meta name="description" content="빵톡 유튜브 채널의 건강빵 영상을 카테고리별로 모아봤습니다. 통밀빵, 깜빠뉴, 무반죽, 모닝빵 등 조회수 높은 순으로 바로 시청하세요." />
+  <style>
+    .videos-section { padding: 0 0 80px; }
+
+    .cat-block { margin-bottom: 64px; }
+
+    .cat-header {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 16px;
+      margin-bottom: 22px;
+      padding-bottom: 16px;
+      border-bottom: 2px solid var(--border-soft);
+    }
+
+    .cat-title-wrap { display: flex; align-items: center; gap: 14px; }
+
+    .cat-icon {
+      width: 48px;
+      height: 48px;
+      border-radius: var(--radius-md);
+      background: var(--surface-soft);
+      border: 1.5px solid var(--border-soft);
+      display: grid;
+      place-items: center;
+      font-size: 1.5rem;
+      flex-shrink: 0;
+    }
+
+    .cat-name {
+      font-size: 1.35rem;
+      font-weight: 900;
+      color: var(--primary-dark);
+      letter-spacing: -0.01em;
+      margin: 0;
+    }
+
+    .cat-count {
+      font-size: 0.88rem;
+      color: var(--muted);
+      font-weight: 700;
+      margin-top: 2px;
+    }
+
+    .cat-more {
+      font-size: 0.88rem;
+      font-weight: 800;
+      color: var(--primary);
+      white-space: nowrap;
+      padding: 7px 16px;
+      border: 1.5px solid var(--border);
+      border-radius: 999px;
+      background: var(--surface);
+      transition: background var(--ease), border-color var(--ease), color var(--ease);
+    }
+
+    .cat-more:hover {
+      background: var(--surface-soft);
+      border-color: var(--primary-light);
+      color: var(--primary-dark);
+    }
+
+    /* 영상 그리드 */
+    .video-grid {
+      display: grid;
+      grid-template-columns: repeat(4, 1fr);
+      gap: 18px;
+    }
+
+    .video-card {
+      background: var(--surface);
+      border: 1.5px solid var(--border-soft);
+      border-radius: var(--radius-md);
+      overflow: hidden;
+      display: flex;
+      flex-direction: column;
+      transition: transform var(--ease), box-shadow var(--ease), border-color var(--ease);
+      text-decoration: none;
+      color: inherit;
+    }
+
+    .video-card:hover {
+      transform: translateY(-4px);
+      box-shadow: var(--shadow-hover);
+      border-color: var(--border);
+    }
+
+    .thumb-wrap {
+      position: relative;
+      aspect-ratio: 16 / 9;
+      background: var(--surface-soft);
+      overflow: hidden;
+    }
+
+    .thumb-wrap img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      transition: transform 0.4s ease;
+    }
+
+    .video-card:hover .thumb-wrap img { transform: scale(1.05); }
+
+    .play-btn {
+      position: absolute;
+      inset: 0;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      opacity: 0;
+      transition: opacity var(--ease);
+      background: rgba(0,0,0,0.25);
+    }
+
+    .play-btn::after {
+      content: '▶';
+      width: 52px;
+      height: 52px;
+      border-radius: 50%;
+      background: rgba(255,255,255,0.92);
+      color: var(--primary-dark);
+      font-size: 1.3rem;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      padding-left: 4px;
+      box-shadow: 0 4px 16px rgba(0,0,0,0.3);
+    }
+
+    .video-card:hover .play-btn { opacity: 1; }
+
+    .view-badge {
+      position: absolute;
+      bottom: 8px;
+      right: 8px;
+      background: rgba(0,0,0,0.72);
+      color: #fff;
+      font-size: 0.76rem;
+      font-weight: 800;
+      padding: 3px 8px;
+      border-radius: 6px;
+      letter-spacing: 0.01em;
+    }
+
+    .rank-badge {
+      position: absolute;
+      top: 8px;
+      left: 8px;
+      width: 26px;
+      height: 26px;
+      border-radius: 50%;
+      background: var(--primary);
+      color: #fff;
+      font-size: 0.75rem;
+      font-weight: 900;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+
+    .rank-badge.gold   { background: #c9a84c; }
+    .rank-badge.silver { background: #8a9bb5; }
+    .rank-badge.bronze { background: #a0714f; }
+
+    .video-info {
+      padding: 14px 16px 16px;
+      flex: 1;
+      display: flex;
+      flex-direction: column;
+      gap: 6px;
+    }
+
+    .video-title {
+      font-size: 0.9rem;
+      font-weight: 800;
+      color: var(--primary-dark);
+      line-height: 1.45;
+      display: -webkit-box;
+      -webkit-line-clamp: 2;
+      -webkit-box-orient: vertical;
+      overflow: hidden;
+      margin: 0;
+    }
+
+    .video-meta {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      margin-top: auto;
+    }
+
+    .video-views {
+      font-size: 0.82rem;
+      color: var(--muted);
+      font-weight: 700;
+    }
+
+    /* TOP 배너 */
+    .top-banner {
+      background: linear-gradient(135deg, #7a5535 0%, #a27f53 100%);
+      border-radius: var(--radius-xl);
+      padding: 36px 44px;
+      color: #fff;
+      margin-bottom: 56px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 24px;
+      box-shadow: var(--shadow-lg);
+    }
+
+    .top-banner h2 { font-size: clamp(1.4rem, 2.5vw, 2rem); font-weight: 900; margin-bottom: 8px; letter-spacing: -0.02em; }
+    .top-banner p { color: rgba(255,255,255,0.88); margin: 0; font-size: 0.97rem; }
+
+    .top-video-grid {
+      display: grid;
+      grid-template-columns: repeat(5, 1fr);
+      gap: 16px;
+      margin-top: 28px;
+    }
+
+    @media (max-width: 1100px) { .video-grid { grid-template-columns: repeat(3, 1fr); } }
+    @media (max-width: 980px)  { .video-grid { grid-template-columns: repeat(2, 1fr); } .top-video-grid { grid-template-columns: repeat(3, 1fr); } .top-banner { flex-direction: column; } }
+    @media (max-width: 640px)  { .video-grid { grid-template-columns: repeat(2, 1fr); } .top-video-grid { grid-template-columns: repeat(2, 1fr); } }
+    @media (max-width: 420px)  { .video-grid { grid-template-columns: 1fr; } .top-video-grid { grid-template-columns: 1fr; } }
+  </style>
+</head>
+<body>
+  <header class="site-header">
+    <div class="container header-inner">
+      <a href="index.html" class="logo" aria-label="빵톡 홈으로 이동">
+        <span class="logo-badge">빵</span>
+        <span>빵톡</span>
+      </a>
+      <div class="header-controls">
+        <button class="theme-btn" id="themeBtn" aria-label="다크/라이트 모드 전환">🌙</button>
+        <button class="nav-toggle" id="navToggle" aria-label="메뉴 열기" aria-expanded="false">☰</button>
+      </div>
+      <nav class="nav" id="mainNav" aria-label="주 메뉴">
+        <a href="index.html">홈</a>
+        <a href="recipes.html">레시피</a>
+        <a href="videos.html" class="active">영상</a>
+        <a href="recommend.html">추천 재료</a>
+        <a href="about.html">소개</a>
+        <a href="contact.html">문의</a>
+      </nav>
+    </div>
+  </header>
+
+  <main>
+    <div class="page-hero">
+      <div class="container">
+        <span class="eyebrow">유튜브 영상 모아보기</span>
+        <h1 class="page-title">빵톡 유튜브 채널<br />카테고리별 인기 영상</h1>
+        <p class="page-desc">통밀빵, 깜빠뉴, 무반죽 등 카테고리별로 조회수 높은 순으로 정리했습니다.<br />영상을 클릭하면 바로 유튜브에서 시청할 수 있습니다.</p>
+      </div>
+    </div>
+
+    <section class="videos-section">
+      <div class="container">
+
+        <!-- ── TOP 5 인기 영상 ── -->
+        <div class="cat-block">
+          <div class="cat-header">
+            <div class="cat-title-wrap">
+              <div class="cat-icon">🔥</div>
+              <div>
+                <h2 class="cat-name">전체 인기 TOP 5</h2>
+                <p class="cat-count">조회수 기준 가장 많이 본 영상</p>
+              </div>
+            </div>
+            <a class="cat-more" href="https://www.youtube.com/@bread_talk/videos" target="_blank" rel="noopener noreferrer">채널 전체보기 →</a>
+          </div>
+          <div class="video-grid" style="grid-template-columns: repeat(5, 1fr);">
+            <a class="video-card" href="https://www.youtube.com/watch?v=5hwkTp45PVg" target="_blank" rel="noopener noreferrer">
+              <div class="thumb-wrap">
+                <img src="https://img.youtube.com/vi/5hwkTp45PVg/mqdefault.jpg" alt="다이어트 시골 통밀빵" loading="lazy" />
+                <div class="play-btn"></div>
+                <span class="view-badge">조회 3.9만</span>
+                <span class="rank-badge gold">1</span>
+              </div>
+              <div class="video-info">
+                <p class="video-title">다이어트 시골 통밀빵 레시피 | 섞기만 했어요</p>
+                <div class="video-meta"><span class="video-views">👁 39,474회</span></div>
+              </div>
+            </a>
+            <a class="video-card" href="https://www.youtube.com/watch?v=FkzpP3phu4g" target="_blank" rel="noopener noreferrer">
+              <div class="thumb-wrap">
+                <img src="https://img.youtube.com/vi/FkzpP3phu4g/mqdefault.jpg" alt="해바라기씨 통밀빵" loading="lazy" />
+                <div class="play-btn"></div>
+                <span class="view-badge">조회 3.4만</span>
+                <span class="rank-badge silver">2</span>
+              </div>
+              <div class="video-info">
+                <p class="video-title">해바라기씨 통밀빵 | 섞기만 했어요</p>
+                <div class="video-meta"><span class="video-views">👁 33,696회</span></div>
+              </div>
+            </a>
+            <a class="video-card" href="https://www.youtube.com/watch?v=msI4pBIGqvc" target="_blank" rel="noopener noreferrer">
+              <div class="thumb-wrap">
+                <img src="https://img.youtube.com/vi/msI4pBIGqvc/mqdefault.jpg" alt="100% 통밀빵" loading="lazy" />
+                <div class="play-btn"></div>
+                <span class="view-badge">조회 9,889</span>
+                <span class="rank-badge bronze">3</span>
+              </div>
+              <div class="video-info">
+                <p class="video-title">시골 느낌의 저당 통밀 100%</p>
+                <div class="video-meta"><span class="video-views">👁 9,889회</span></div>
+              </div>
+            </a>
+            <a class="video-card" href="https://www.youtube.com/watch?v=7pWUYRrmo0s" target="_blank" rel="noopener noreferrer">
+              <div class="thumb-wrap">
+                <img src="https://img.youtube.com/vi/7pWUYRrmo0s/mqdefault.jpg" alt="쌀뜨물 깜빠뉴" loading="lazy" />
+                <div class="play-btn"></div>
+                <span class="view-badge">조회 7,349</span>
+                <span class="rank-badge">4</span>
+              </div>
+              <div class="video-info">
+                <p class="video-title">쌀뜨물 깜빠뉴 | 당뇨식 저염식 건강시골빵</p>
+                <div class="video-meta"><span class="video-views">👁 7,349회</span></div>
+              </div>
+            </a>
+            <a class="video-card" href="https://www.youtube.com/watch?v=tCDTITodAe8" target="_blank" rel="noopener noreferrer">
+              <div class="thumb-wrap">
+                <img src="https://img.youtube.com/vi/tCDTITodAe8/mqdefault.jpg" alt="100% 통밀 무반죽" loading="lazy" />
+                <div class="play-btn"></div>
+                <span class="view-badge">조회 5,524</span>
+                <span class="rank-badge">5</span>
+              </div>
+              <div class="video-info">
+                <p class="video-title">100% 통밀 무반죽 노슈거 건강빵</p>
+                <div class="video-meta"><span class="video-views">👁 5,524회</span></div>
+              </div>
+            </a>
+          </div>
+        </div>
+
+        <!-- ── 통밀빵 ── -->
+        <div class="cat-block">
+          <div class="cat-header">
+            <div class="cat-title-wrap">
+              <div class="cat-icon">🌾</div>
+              <div>
+                <h2 class="cat-name">통밀빵</h2>
+                <p class="cat-count">건강한 통밀·잡곡으로 만든 빵 · 12개</p>
+              </div>
+            </div>
+          </div>
+          <div class="video-grid">
+            <a class="video-card" href="https://www.youtube.com/watch?v=5hwkTp45PVg" target="_blank" rel="noopener noreferrer">
+              <div class="thumb-wrap"><img src="https://img.youtube.com/vi/5hwkTp45PVg/mqdefault.jpg" alt="" loading="lazy" /><div class="play-btn"></div><span class="view-badge">39,474</span></div>
+              <div class="video-info"><p class="video-title">다이어트 시골 통밀빵 | 물·꿀·씨앗 섞기만</p><div class="video-meta"><span class="video-views">👁 39,474회</span></div></div>
+            </a>
+            <a class="video-card" href="https://www.youtube.com/watch?v=FkzpP3phu4g" target="_blank" rel="noopener noreferrer">
+              <div class="thumb-wrap"><img src="https://img.youtube.com/vi/FkzpP3phu4g/mqdefault.jpg" alt="" loading="lazy" /><div class="play-btn"></div><span class="view-badge">33,696</span></div>
+              <div class="video-info"><p class="video-title">통밀빵 해바라기씨 | 무설탕 저혈당</p><div class="video-meta"><span class="video-views">👁 33,696회</span></div></div>
+            </a>
+            <a class="video-card" href="https://www.youtube.com/watch?v=msI4pBIGqvc" target="_blank" rel="noopener noreferrer">
+              <div class="thumb-wrap"><img src="https://img.youtube.com/vi/msI4pBIGqvc/mqdefault.jpg" alt="" loading="lazy" /><div class="play-btn"></div><span class="view-badge">9,889</span></div>
+              <div class="video-info"><p class="video-title">시골 느낌 저당 통밀 100%</p><div class="video-meta"><span class="video-views">👁 9,889회</span></div></div>
+            </a>
+            <a class="video-card" href="https://www.youtube.com/watch?v=tCDTITodAe8" target="_blank" rel="noopener noreferrer">
+              <div class="thumb-wrap"><img src="https://img.youtube.com/vi/tCDTITodAe8/mqdefault.jpg" alt="" loading="lazy" /><div class="play-btn"></div><span class="view-badge">5,524</span></div>
+              <div class="video-info"><p class="video-title">100% 통밀 무반죽 노슈거 건강빵</p><div class="video-meta"><span class="video-views">👁 5,524회</span></div></div>
+            </a>
+            <a class="video-card" href="https://www.youtube.com/watch?v=x8mzb2KsCUU" target="_blank" rel="noopener noreferrer">
+              <div class="thumb-wrap"><img src="https://img.youtube.com/vi/x8mzb2KsCUU/mqdefault.jpg" alt="" loading="lazy" /><div class="play-btn"></div><span class="view-badge">2,192</span></div>
+              <div class="video-info"><p class="video-title">통밀빵 강력+통밀 황금비율 무설탕</p><div class="video-meta"><span class="video-views">👁 2,192회</span></div></div>
+            </a>
+            <a class="video-card" href="https://www.youtube.com/watch?v=9gX6KBHQMgo" target="_blank" rel="noopener noreferrer">
+              <div class="thumb-wrap"><img src="https://img.youtube.com/vi/9gX6KBHQMgo/mqdefault.jpg" alt="" loading="lazy" /><div class="play-btn"></div><span class="view-badge">1,149</span></div>
+              <div class="video-info"><p class="video-title">건강한 통밀빵 만들기</p><div class="video-meta"><span class="video-views">👁 1,149회</span></div></div>
+            </a>
+            <a class="video-card" href="https://www.youtube.com/watch?v=tD6IM_Dr0kY" target="_blank" rel="noopener noreferrer">
+              <div class="thumb-wrap"><img src="https://img.youtube.com/vi/tD6IM_Dr0kY/mqdefault.jpg" alt="" loading="lazy" /><div class="play-btn"></div><span class="view-badge">896</span></div>
+              <div class="video-info"><p class="video-title">100% 통밀 식빵 | 꿀·아마씨·올리브오일</p><div class="video-meta"><span class="video-views">👁 896회</span></div></div>
+            </a>
+            <a class="video-card" href="https://www.youtube.com/watch?v=NK3B4e02vnE" target="_blank" rel="noopener noreferrer">
+              <div class="thumb-wrap"><img src="https://img.youtube.com/vi/NK3B4e02vnE/mqdefault.jpg" alt="" loading="lazy" /><div class="play-btn"></div><span class="view-badge">665</span></div>
+              <div class="video-info"><p class="video-title">통밀 100% 퀴노아빵 | 무설탕 포만감</p><div class="video-meta"><span class="video-views">👁 665회</span></div></div>
+            </a>
+            <a class="video-card" href="https://www.youtube.com/watch?v=blg6v4_vSAM" target="_blank" rel="noopener noreferrer">
+              <div class="thumb-wrap"><img src="https://img.youtube.com/vi/blg6v4_vSAM/mqdefault.jpg" alt="" loading="lazy" /><div class="play-btn"></div><span class="view-badge">896</span></div>
+              <div class="video-info"><p class="video-title">통밀빵 깨 | 무설탕 저혈당</p><div class="video-meta"><span class="video-views">👁 896회</span></div></div>
+            </a>
+            <a class="video-card" href="https://www.youtube.com/watch?v=buHRw0b-5AE" target="_blank" rel="noopener noreferrer">
+              <div class="thumb-wrap"><img src="https://img.youtube.com/vi/buHRw0b-5AE/mqdefault.jpg" alt="" loading="lazy" /><div class="play-btn"></div><span class="view-badge">355</span></div>
+              <div class="video-info"><p class="video-title">100% 통밀씨앗빵 | 무설탕 다이어트</p><div class="video-meta"><span class="video-views">👁 355회</span></div></div>
+            </a>
+            <a class="video-card" href="https://www.youtube.com/watch?v=B_kmFMtudKs" target="_blank" rel="noopener noreferrer">
+              <div class="thumb-wrap"><img src="https://img.youtube.com/vi/B_kmFMtudKs/mqdefault.jpg" alt="" loading="lazy" /><div class="play-btn"></div><span class="view-badge">288</span></div>
+              <div class="video-info"><p class="video-title">통밀빵 강력+통밀 7:3 황금비율</p><div class="video-meta"><span class="video-views">👁 288회</span></div></div>
+            </a>
+            <a class="video-card" href="https://www.youtube.com/watch?v=Rpr8JRPYyKw" target="_blank" rel="noopener noreferrer">
+              <div class="thumb-wrap"><img src="https://img.youtube.com/vi/Rpr8JRPYyKw/mqdefault.jpg" alt="" loading="lazy" /><div class="play-btn"></div><span class="view-badge">234</span></div>
+              <div class="video-info"><p class="video-title">생딸기 통밀빵 | 무설탕 무반죽</p><div class="video-meta"><span class="video-views">👁 234회</span></div></div>
+            </a>
+          </div>
+        </div>
+
+        <!-- ── 깜빠뉴·시골빵 ── -->
+        <div class="cat-block">
+          <div class="cat-header">
+            <div class="cat-title-wrap">
+              <div class="cat-icon">🥖</div>
+              <div>
+                <h2 class="cat-name">깜빠뉴·시골빵</h2>
+                <p class="cat-count">프랑스식 시골빵·깜빠뉴 레시피 · 9개</p>
+              </div>
+            </div>
+          </div>
+          <div class="video-grid">
+            <a class="video-card" href="https://www.youtube.com/watch?v=7pWUYRrmo0s" target="_blank" rel="noopener noreferrer">
+              <div class="thumb-wrap"><img src="https://img.youtube.com/vi/7pWUYRrmo0s/mqdefault.jpg" alt="" loading="lazy" /><div class="play-btn"></div><span class="view-badge">7,349</span></div>
+              <div class="video-info"><p class="video-title">쌀뜨물 깜빠뉴 | 당뇨식 저염 건강시골빵</p><div class="video-meta"><span class="video-views">👁 7,349회</span></div></div>
+            </a>
+            <a class="video-card" href="https://www.youtube.com/watch?v=PCDXRx9TOsw" target="_blank" rel="noopener noreferrer">
+              <div class="thumb-wrap"><img src="https://img.youtube.com/vi/PCDXRx9TOsw/mqdefault.jpg" alt="" loading="lazy" /><div class="play-btn"></div><span class="view-badge">2,533</span></div>
+              <div class="video-info"><p class="video-title">T65+호밀 깜빠뉴 황금비율 고수분</p><div class="video-meta"><span class="video-views">👁 2,533회</span></div></div>
+            </a>
+            <a class="video-card" href="https://www.youtube.com/watch?v=ouhyXM0Z1MI" target="_blank" rel="noopener noreferrer">
+              <div class="thumb-wrap"><img src="https://img.youtube.com/vi/ouhyXM0Z1MI/mqdefault.jpg" alt="" loading="lazy" /><div class="play-btn"></div><span class="view-badge">2,371</span></div>
+              <div class="video-info"><p class="video-title">4가지 재료 유럽식 시골 건강빵</p><div class="video-meta"><span class="video-views">👁 2,371회</span></div></div>
+            </a>
+            <a class="video-card" href="https://www.youtube.com/watch?v=3bOAND8t92M" target="_blank" rel="noopener noreferrer">
+              <div class="thumb-wrap"><img src="https://img.youtube.com/vi/3bOAND8t92M/mqdefault.jpg" alt="" loading="lazy" /><div class="play-btn"></div><span class="view-badge">2,334</span></div>
+              <div class="video-info"><p class="video-title">4가지 재료 시골감성 빵 | 무설탕 담백</p><div class="video-meta"><span class="video-views">👁 2,334회</span></div></div>
+            </a>
+            <a class="video-card" href="https://www.youtube.com/watch?v=5SAwrPtL4qQ" target="_blank" rel="noopener noreferrer">
+              <div class="thumb-wrap"><img src="https://img.youtube.com/vi/5SAwrPtL4qQ/mqdefault.jpg" alt="" loading="lazy" /><div class="play-btn"></div><span class="view-badge">1,822</span></div>
+              <div class="video-info"><p class="video-title">T65 밀가루 시골빵 | 저염 홈베이킹</p><div class="video-meta"><span class="video-views">👁 1,822회</span></div></div>
+            </a>
+            <a class="video-card" href="https://www.youtube.com/watch?v=kF9e7jy4chI" target="_blank" rel="noopener noreferrer">
+              <div class="thumb-wrap"><img src="https://img.youtube.com/vi/kF9e7jy4chI/mqdefault.jpg" alt="" loading="lazy" /><div class="play-btn"></div><span class="view-badge">1,257</span></div>
+              <div class="video-info"><p class="video-title">둥글레차 깜빠뉴 | 당뇨식 식사빵</p><div class="video-meta"><span class="video-views">👁 1,257회</span></div></div>
+            </a>
+            <a class="video-card" href="https://www.youtube.com/watch?v=5ybqR2qpUZw" target="_blank" rel="noopener noreferrer">
+              <div class="thumb-wrap"><img src="https://img.youtube.com/vi/5ybqR2qpUZw/mqdefault.jpg" alt="" loading="lazy" /><div class="play-btn"></div><span class="view-badge">1,230</span></div>
+              <div class="video-info"><p class="video-title">무설탕 저혈당 호밀 깜빠뉴 건강빵</p><div class="video-meta"><span class="video-views">👁 1,230회</span></div></div>
+            </a>
+            <a class="video-card" href="https://www.youtube.com/watch?v=0VWUP1_wdDg" target="_blank" rel="noopener noreferrer">
+              <div class="thumb-wrap"><img src="https://img.youtube.com/vi/0VWUP1_wdDg/mqdefault.jpg" alt="" loading="lazy" /><div class="play-btn"></div><span class="view-badge">1,164</span></div>
+              <div class="video-info"><p class="video-title">T65+메밀 깜빠뉴 속편한 고수분</p><div class="video-meta"><span class="video-views">👁 1,164회</span></div></div>
+            </a>
+            <a class="video-card" href="https://www.youtube.com/watch?v=wqB-qJo6vY4" target="_blank" rel="noopener noreferrer">
+              <div class="thumb-wrap"><img src="https://img.youtube.com/vi/wqB-qJo6vY4/mqdefault.jpg" alt="" loading="lazy" /><div class="play-btn"></div><span class="view-badge">459</span></div>
+              <div class="video-info"><p class="video-title">녹차 깜빠뉴 | 무설탕 저혈당</p><div class="video-meta"><span class="video-views">👁 459회</span></div></div>
+            </a>
+          </div>
+        </div>
+
+        <!-- ── 무반죽·초간단 ── -->
+        <div class="cat-block">
+          <div class="cat-header">
+            <div class="cat-title-wrap">
+              <div class="cat-icon">✋</div>
+              <div>
+                <h2 class="cat-name">무반죽·초간단빵</h2>
+                <p class="cat-count">섞기만 하면 완성! 손반죽 없는 레시피 · 7개</p>
+              </div>
+            </div>
+          </div>
+          <div class="video-grid">
+            <a class="video-card" href="https://www.youtube.com/watch?v=s4XJLY7pWlI" target="_blank" rel="noopener noreferrer">
+              <div class="thumb-wrap"><img src="https://img.youtube.com/vi/s4XJLY7pWlI/mqdefault.jpg" alt="" loading="lazy" /><div class="play-btn"></div><span class="view-badge">4,090</span></div>
+              <div class="video-info"><p class="video-title">완전히 새로운 방법! 섞고 구우면 끝</p><div class="video-meta"><span class="video-views">👁 4,090회</span></div></div>
+            </a>
+            <a class="video-card" href="https://www.youtube.com/watch?v=CzbXImRW4aQ" target="_blank" rel="noopener noreferrer">
+              <div class="thumb-wrap"><img src="https://img.youtube.com/vi/CzbXImRW4aQ/mqdefault.jpg" alt="" loading="lazy" /><div class="play-btn"></div><span class="view-badge">2,779</span></div>
+              <div class="video-info"><p class="video-title">3분 완성 무반죽 통밀 치아바타</p><div class="video-meta"><span class="video-views">👁 2,779회</span></div></div>
+            </a>
+            <a class="video-card" href="https://www.youtube.com/watch?v=bQPYJCRtifI" target="_blank" rel="noopener noreferrer">
+              <div class="thumb-wrap"><img src="https://img.youtube.com/vi/bQPYJCRtifI/mqdefault.jpg" alt="" loading="lazy" /><div class="play-btn"></div><span class="view-badge">2,718</span></div>
+              <div class="video-info"><p class="video-title">무반죽 건강한 집빵 | 그냥 섞어서 완성</p><div class="video-meta"><span class="video-views">👁 2,718회</span></div></div>
+            </a>
+            <a class="video-card" href="https://www.youtube.com/watch?v=lo9KCXsdeDA" target="_blank" rel="noopener noreferrer">
+              <div class="thumb-wrap"><img src="https://img.youtube.com/vi/lo9KCXsdeDA/mqdefault.jpg" alt="" loading="lazy" /><div class="play-btn"></div><span class="view-badge">1,912</span></div>
+              <div class="video-info"><p class="video-title">밀가루+물❗ 설탕·버터·손반죽 없이</p><div class="video-meta"><span class="video-views">👁 1,912회</span></div></div>
+            </a>
+            <a class="video-card" href="https://www.youtube.com/watch?v=ayG2jH2PkTY" target="_blank" rel="noopener noreferrer">
+              <div class="thumb-wrap"><img src="https://img.youtube.com/vi/ayG2jH2PkTY/mqdefault.jpg" alt="" loading="lazy" /><div class="play-btn"></div><span class="view-badge">1,888</span></div>
+              <div class="video-info"><p class="video-title">초간단 시골 스타일 | 초보 홈베이킹</p><div class="video-meta"><span class="video-views">👁 1,888회</span></div></div>
+            </a>
+            <a class="video-card" href="https://www.youtube.com/watch?v=oYQga5eeRcE" target="_blank" rel="noopener noreferrer">
+              <div class="thumb-wrap"><img src="https://img.youtube.com/vi/oYQga5eeRcE/mqdefault.jpg" alt="" loading="lazy" /><div class="play-btn"></div><span class="view-badge">1,437</span></div>
+              <div class="video-info"><p class="video-title">"더 이상 빵 사먹지 마세요" 이게 진짜</p><div class="video-meta"><span class="video-views">👁 1,437회</span></div></div>
+            </a>
+            <a class="video-card" href="https://www.youtube.com/watch?v=4hffg6HnAQc" target="_blank" rel="noopener noreferrer">
+              <div class="thumb-wrap"><img src="https://img.youtube.com/vi/4hffg6HnAQc/mqdefault.jpg" alt="" loading="lazy" /><div class="play-btn"></div><span class="view-badge">433</span></div>
+              <div class="video-info"><p class="video-title">거의 아무도 모르는 반죽 방법 | 빵이 달라집니다</p><div class="video-meta"><span class="video-views">👁 433회</span></div></div>
+            </a>
+          </div>
+        </div>
+
+        <!-- ── 오트·씨앗빵 ── -->
+        <div class="cat-block">
+          <div class="cat-header">
+            <div class="cat-title-wrap">
+              <div class="cat-icon">🌱</div>
+              <div>
+                <h2 class="cat-name">오트·씨앗빵</h2>
+                <p class="cat-count">오트밀·씨앗류로 만든 건강빵 · 7개</p>
+              </div>
+            </div>
+          </div>
+          <div class="video-grid">
+            <a class="video-card" href="https://www.youtube.com/watch?v=wBSgAXm4F4k" target="_blank" rel="noopener noreferrer">
+              <div class="thumb-wrap"><img src="https://img.youtube.com/vi/wBSgAXm4F4k/mqdefault.jpg" alt="" loading="lazy" /><div class="play-btn"></div><span class="view-badge">3,682</span></div>
+              <div class="video-info"><p class="video-title">오트 통밀빵 | 무설탕 다이어트 포만감</p><div class="video-meta"><span class="video-views">👁 3,682회</span></div></div>
+            </a>
+            <a class="video-card" href="https://www.youtube.com/watch?v=GrWeScESY5Y" target="_blank" rel="noopener noreferrer">
+              <div class="thumb-wrap"><img src="https://img.youtube.com/vi/GrWeScESY5Y/mqdefault.jpg" alt="" loading="lazy" /><div class="play-btn"></div><span class="view-badge">1,704</span></div>
+              <div class="video-info"><p class="video-title">오트 불리기만! 부드러운 오트 우유빵</p><div class="video-meta"><span class="video-views">👁 1,704회</span></div></div>
+            </a>
+            <a class="video-card" href="https://www.youtube.com/watch?v=UJ0iJzjONMI" target="_blank" rel="noopener noreferrer">
+              <div class="thumb-wrap"><img src="https://img.youtube.com/vi/UJ0iJzjONMI/mqdefault.jpg" alt="" loading="lazy" /><div class="play-btn"></div><span class="view-badge">1,191</span></div>
+              <div class="video-info"><p class="video-title">씨앗 건강빵 | 해바라기씨·치아씨드</p><div class="video-meta"><span class="video-views">👁 1,191회</span></div></div>
+            </a>
+            <a class="video-card" href="https://www.youtube.com/watch?v=hDcmmFSAnGs" target="_blank" rel="noopener noreferrer">
+              <div class="thumb-wrap"><img src="https://img.youtube.com/vi/hDcmmFSAnGs/mqdefault.jpg" alt="" loading="lazy" /><div class="play-btn"></div><span class="view-badge">899</span></div>
+              <div class="video-info"><p class="video-title">100% 통밀 오트빵 | 무설탕 무반죽</p><div class="video-meta"><span class="video-views">👁 899회</span></div></div>
+            </a>
+            <a class="video-card" href="https://www.youtube.com/watch?v=2xSX01oNiY0" target="_blank" rel="noopener noreferrer">
+              <div class="thumb-wrap"><img src="https://img.youtube.com/vi/2xSX01oNiY0/mqdefault.jpg" alt="" loading="lazy" /><div class="play-btn"></div><span class="view-badge">498</span></div>
+              <div class="video-info"><p class="video-title">씨앗빵 | 무설탕 고단백 저혈당</p><div class="video-meta"><span class="video-views">👁 498회</span></div></div>
+            </a>
+            <a class="video-card" href="https://www.youtube.com/watch?v=Sxr0KByclEg" target="_blank" rel="noopener noreferrer">
+              <div class="thumb-wrap"><img src="https://img.youtube.com/vi/Sxr0KByclEg/mqdefault.jpg" alt="" loading="lazy" /><div class="play-btn"></div><span class="view-badge">494</span></div>
+              <div class="video-info"><p class="video-title">통밀 오트빵 | 무설탕 저혈당</p><div class="video-meta"><span class="video-views">👁 494회</span></div></div>
+            </a>
+            <a class="video-card" href="https://www.youtube.com/watch?v=QN5DHYp1CDs" target="_blank" rel="noopener noreferrer">
+              <div class="thumb-wrap"><img src="https://img.youtube.com/vi/QN5DHYp1CDs/mqdefault.jpg" alt="" loading="lazy" /><div class="play-btn"></div><span class="view-badge">458</span></div>
+              <div class="video-info"><p class="video-title">오트·씨앗 시골빵 | 무설탕 저혈당</p><div class="video-meta"><span class="video-views">👁 458회</span></div></div>
+            </a>
+          </div>
+        </div>
+
+        <!-- ── 모닝빵·식사빵 ── -->
+        <div class="cat-block">
+          <div class="cat-header">
+            <div class="cat-title-wrap">
+              <div class="cat-icon">🍞</div>
+              <div>
+                <h2 class="cat-name">모닝빵·식사빵</h2>
+                <p class="cat-count">아침·식사용 부드러운 빵 · 8개</p>
+              </div>
+            </div>
+          </div>
+          <div class="video-grid">
+            <a class="video-card" href="https://www.youtube.com/watch?v=5gnnYlsKkVk" target="_blank" rel="noopener noreferrer">
+              <div class="thumb-wrap"><img src="https://img.youtube.com/vi/5gnnYlsKkVk/mqdefault.jpg" alt="" loading="lazy" /><div class="play-btn"></div><span class="view-badge">4,791</span></div>
+              <div class="video-info"><p class="video-title">블루베리 건강빵 | 6가지 재료</p><div class="video-meta"><span class="video-views">👁 4,791회</span></div></div>
+            </a>
+            <a class="video-card" href="https://www.youtube.com/watch?v=ANQiYAEh2Mk" target="_blank" rel="noopener noreferrer">
+              <div class="thumb-wrap"><img src="https://img.youtube.com/vi/ANQiYAEh2Mk/mqdefault.jpg" alt="" loading="lazy" /><div class="play-btn"></div><span class="view-badge">4,399</span></div>
+              <div class="video-info"><p class="video-title">초간단 모닝빵 | 초보도 성공하는 촉촉</p><div class="video-meta"><span class="video-views">👁 4,399회</span></div></div>
+            </a>
+            <a class="video-card" href="https://www.youtube.com/watch?v=PdISwc4qzyE" target="_blank" rel="noopener noreferrer">
+              <div class="thumb-wrap"><img src="https://img.youtube.com/vi/PdISwc4qzyE/mqdefault.jpg" alt="" loading="lazy" /><div class="play-btn"></div><span class="view-badge">3,811</span></div>
+              <div class="video-info"><p class="video-title">4가지 재료 무설탕 건강빵</p><div class="video-meta"><span class="video-views">👁 3,811회</span></div></div>
+            </a>
+            <a class="video-card" href="https://www.youtube.com/watch?v=Ct1GI4h9yaU" target="_blank" rel="noopener noreferrer">
+              <div class="thumb-wrap"><img src="https://img.youtube.com/vi/Ct1GI4h9yaU/mqdefault.jpg" alt="" loading="lazy" /><div class="play-btn"></div><span class="view-badge">2,406</span></div>
+              <div class="video-info"><p class="video-title">강력분+메밀 무설탕 저혈당 건강빵</p><div class="video-meta"><span class="video-views">👁 2,406회</span></div></div>
+            </a>
+            <a class="video-card" href="https://www.youtube.com/watch?v=J_jmVmbqoa8" target="_blank" rel="noopener noreferrer">
+              <div class="thumb-wrap"><img src="https://img.youtube.com/vi/J_jmVmbqoa8/mqdefault.jpg" alt="" loading="lazy" /><div class="play-btn"></div><span class="view-badge">2,035</span></div>
+              <div class="video-info"><p class="video-title">미니 크러스트 브레드 | 저당 무첨가</p><div class="video-meta"><span class="video-views">👁 2,035회</span></div></div>
+            </a>
+            <a class="video-card" href="https://www.youtube.com/watch?v=mT--8X-0lE4" target="_blank" rel="noopener noreferrer">
+              <div class="thumb-wrap"><img src="https://img.youtube.com/vi/mT--8X-0lE4/mqdefault.jpg" alt="" loading="lazy" /><div class="play-btn"></div><span class="view-badge">1,331</span></div>
+              <div class="video-info"><p class="video-title">물 없이 반죽 시골 베이커리 식빵</p><div class="video-meta"><span class="video-views">👁 1,331회</span></div></div>
+            </a>
+            <a class="video-card" href="https://www.youtube.com/watch?v=kJ4ASA7S-ls" target="_blank" rel="noopener noreferrer">
+              <div class="thumb-wrap"><img src="https://img.youtube.com/vi/kJ4ASA7S-ls/mqdefault.jpg" alt="" loading="lazy" /><div class="play-btn"></div><span class="view-badge">683</span></div>
+              <div class="video-info"><p class="video-title">우유 100% 부드러운 우유빵</p><div class="video-meta"><span class="video-views">👁 683회</span></div></div>
+            </a>
+            <a class="video-card" href="https://www.youtube.com/watch?v=qZRTQCLzqUE" target="_blank" rel="noopener noreferrer">
+              <div class="thumb-wrap"><img src="https://img.youtube.com/vi/qZRTQCLzqUE/mqdefault.jpg" alt="" loading="lazy" /><div class="play-btn"></div><span class="view-badge">546</span></div>
+              <div class="video-info"><p class="video-title">통밀 모닝빵 | 꿀 2스푼 건강 베이커리</p><div class="video-meta"><span class="video-views">👁 546회</span></div></div>
+            </a>
+          </div>
+        </div>
+
+        <!-- ── 바게트·포카치아·베이글 ── -->
+        <div class="cat-block">
+          <div class="cat-header">
+            <div class="cat-title-wrap">
+              <div class="cat-icon">🥨</div>
+              <div>
+                <h2 class="cat-name">바게트·포카치아·베이글</h2>
+                <p class="cat-count">유럽풍 성형빵 레시피 · 3개</p>
+              </div>
+            </div>
+          </div>
+          <div class="video-grid">
+            <a class="video-card" href="https://www.youtube.com/watch?v=gdzThWhVRac" target="_blank" rel="noopener noreferrer">
+              <div class="thumb-wrap"><img src="https://img.youtube.com/vi/gdzThWhVRac/mqdefault.jpg" alt="" loading="lazy" /><div class="play-btn"></div><span class="view-badge">2,591</span></div>
+              <div class="video-info"><p class="video-title">4가지 재료 미니 바게트 노슈거</p><div class="video-meta"><span class="video-views">👁 2,591회</span></div></div>
+            </a>
+            <a class="video-card" href="https://www.youtube.com/watch?v=wUBDUSIkIUs" target="_blank" rel="noopener noreferrer">
+              <div class="thumb-wrap"><img src="https://img.youtube.com/vi/wUBDUSIkIUs/mqdefault.jpg" alt="" loading="lazy" /><div class="play-btn"></div><span class="view-badge">990</span></div>
+              <div class="video-info"><p class="video-title">100% 통밀 저당 베이글 | 무설탕</p><div class="video-meta"><span class="video-views">👁 990회</span></div></div>
+            </a>
+            <a class="video-card" href="https://www.youtube.com/watch?v=5LX_5sfoCvo" target="_blank" rel="noopener noreferrer">
+              <div class="thumb-wrap"><img src="https://img.youtube.com/vi/5LX_5sfoCvo/mqdefault.jpg" alt="" loading="lazy" /><div class="play-btn"></div><span class="view-badge">425</span></div>
+              <div class="video-info"><p class="video-title">무반죽 통밀 포카치아 | 무설탕 저혈당</p><div class="video-meta"><span class="video-views">👁 425회</span></div></div>
+            </a>
+          </div>
+        </div>
+
+        <!-- ── 특별 재료빵 ── -->
+        <div class="cat-block">
+          <div class="cat-header">
+            <div class="cat-title-wrap">
+              <div class="cat-icon">🍫</div>
+              <div>
+                <h2 class="cat-name">특별 재료빵</h2>
+                <p class="cat-count">초코·고구마·요거트·미숫가루 등 · 7개</p>
+              </div>
+            </div>
+          </div>
+          <div class="video-grid">
+            <a class="video-card" href="https://www.youtube.com/watch?v=0jpk9PbA06s" target="_blank" rel="noopener noreferrer">
+              <div class="thumb-wrap"><img src="https://img.youtube.com/vi/0jpk9PbA06s/mqdefault.jpg" alt="" loading="lazy" /><div class="play-btn"></div><span class="view-badge">1,428</span></div>
+              <div class="video-info"><p class="video-title">무반죽 다크초코 건강빵 | 설탕 0g</p><div class="video-meta"><span class="video-views">👁 1,428회</span></div></div>
+            </a>
+            <a class="video-card" href="https://www.youtube.com/watch?v=bHCdBfnCIs8" target="_blank" rel="noopener noreferrer">
+              <div class="thumb-wrap"><img src="https://img.youtube.com/vi/bHCdBfnCIs8/mqdefault.jpg" alt="" loading="lazy" /><div class="play-btn"></div><span class="view-badge">667</span></div>
+              <div class="video-info"><p class="video-title">미숫가루 건강빵 | 무설탕 저혈당</p><div class="video-meta"><span class="video-views">👁 667회</span></div></div>
+            </a>
+            <a class="video-card" href="https://www.youtube.com/watch?v=5YxsMaj6E44" target="_blank" rel="noopener noreferrer">
+              <div class="thumb-wrap"><img src="https://img.youtube.com/vi/5YxsMaj6E44/mqdefault.jpg" alt="" loading="lazy" /><div class="play-btn"></div><span class="view-badge">448</span></div>
+              <div class="video-info"><p class="video-title">버터 없이 만드는 초간단 건강빵</p><div class="video-meta"><span class="video-views">👁 448회</span></div></div>
+            </a>
+            <a class="video-card" href="https://www.youtube.com/watch?v=GdIvelR5Jog" target="_blank" rel="noopener noreferrer">
+              <div class="thumb-wrap"><img src="https://img.youtube.com/vi/GdIvelR5Jog/mqdefault.jpg" alt="" loading="lazy" /><div class="play-btn"></div><span class="view-badge">386</span></div>
+              <div class="video-info"><p class="video-title">고구마 통밀 건강빵 | 무설탕 저혈당</p><div class="video-meta"><span class="video-views">👁 386회</span></div></div>
+            </a>
+            <a class="video-card" href="https://www.youtube.com/watch?v=1U9btoCPlaQ" target="_blank" rel="noopener noreferrer">
+              <div class="thumb-wrap"><img src="https://img.youtube.com/vi/1U9btoCPlaQ/mqdefault.jpg" alt="" loading="lazy" /><div class="play-btn"></div><span class="view-badge">276</span></div>
+              <div class="video-info"><p class="video-title">요거트 건강빵 | 무설탕 저혈당</p><div class="video-meta"><span class="video-views">👁 276회</span></div></div>
+            </a>
+          </div>
+        </div>
+
+      </div>
+    </section>
+  </main>
+
+  <footer class="site-footer">
+    <div class="container footer-inner">
+      <span class="footer-copy">© 2026 빵톡. All rights reserved.</span>
+      <div class="footer-links">
+        <a href="index.html">홈</a>
+        <a href="recipes.html">레시피</a>
+        <a href="videos.html">영상</a>
+        <a href="contact.html">문의</a>
+      </div>
+    </div>
+  </footer>
+
+  <button class="top-btn" id="topBtn" aria-label="맨 위로 이동">↑</button>
+
+  <script>
+    const themeBtn = document.getElementById("themeBtn");
+    const savedTheme = localStorage.getItem("theme");
+    const prefersDark = window.matchMedia("(prefers-color-scheme: dark)").matches;
+    if (savedTheme === "dark" || (!savedTheme && prefersDark)) {
+      document.documentElement.setAttribute("data-theme", "dark");
+      themeBtn.textContent = "☀️";
+    }
+    themeBtn.addEventListener("click", () => {
+      const isDark = document.documentElement.getAttribute("data-theme") === "dark";
+      if (isDark) {
+        document.documentElement.removeAttribute("data-theme");
+        themeBtn.textContent = "🌙";
+        localStorage.setItem("theme", "light");
+      } else {
+        document.documentElement.setAttribute("data-theme", "dark");
+        themeBtn.textContent = "☀️";
+        localStorage.setItem("theme", "dark");
+      }
+    });
+
+    const navToggle = document.getElementById("navToggle");
+    const mainNav = document.getElementById("mainNav");
+    navToggle.addEventListener("click", () => {
+      const isOpen = mainNav.classList.toggle("open");
+      navToggle.setAttribute("aria-expanded", isOpen ? "true" : "false");
+      navToggle.textContent = isOpen ? "✕" : "☰";
+    });
+    mainNav.querySelectorAll("a").forEach(link => {
+      link.addEventListener("click", () => {
+        mainNav.classList.remove("open");
+        navToggle.setAttribute("aria-expanded", "false");
+        navToggle.textContent = "☰";
+      });
+    });
+
+    const topBtn = document.getElementById("topBtn");
+    window.addEventListener("scroll", () => topBtn.classList.toggle("show", window.scrollY > 300));
+    topBtn.addEventListener("click", () => window.scrollTo({ top: 0, behavior: "smooth" }));
+  </script>
+</body>
+</html>
