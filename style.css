@@ -2054,3 +2054,26 @@ textarea { resize: vertical; min-height: 148px; }
   .top-video-grid { grid-template-columns: repeat(2, 1fr); }
   .top-banner { flex-direction: column; align-items: flex-start; padding: 24px 20px; }
 }
+
+/* 홈 인기영상 그리드 */
+.home-video-grid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 16px;
+  margin-top: 28px;
+}
+.home-video-card {
+  display: block;
+  text-decoration: none;
+  color: inherit;
+  border-radius: 12px;
+  overflow: hidden;
+  background: var(--card-bg);
+  border: 1px solid var(--border);
+  transition: transform 0.2s, box-shadow 0.2s;
+}
+.home-video-card:hover { transform: translateY(-4px); box-shadow: 0 8px 24px rgba(0,0,0,0.12); }
+.home-thumb-wrap { position: relative; aspect-ratio: 16/9; overflow: hidden; background: #000; }
+.home-thumb-wrap img { width: 100%; height: 100%; object-fit: cover; display: block; }
+.home-video-title { font-size: 0.875rem; font-weight: 600; padding: 10px 12px; line-height: 1.4; margin: 0; }
+@media (max-width: 640px) { .home-video-grid { grid-template-columns: 1fr; } }
