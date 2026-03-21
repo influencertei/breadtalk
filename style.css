@@ -226,7 +226,6 @@ ul, ol { list-style: none; padding: 0; margin: 0; }
 .header-inner {
   display: flex;
   align-items: center;
-  justify-content: space-between;
   min-height: 76px;
   gap: 16px;
 }
@@ -266,6 +265,9 @@ ul, ol { list-style: none; padding: 0; margin: 0; }
   display: flex;
   align-items: center;
   gap: 4px;
+  flex: 1;
+  justify-content: flex-end;
+  margin-right: 4px;
 }
 
 .nav a {
@@ -300,6 +302,8 @@ ul, ol { list-style: none; padding: 0; margin: 0; }
   display: flex;
   align-items: center;
   gap: 8px;
+  flex-shrink: 0;
+  margin-left: auto;
 }
 
 .theme-btn {
@@ -1106,6 +1110,7 @@ textarea { resize: vertical; min-height: 148px; }
     left: 16px;
     right: 16px;
     display: none;
+    flex: unset;
     flex-direction: column;
     align-items: stretch;
     gap: 6px;
@@ -1115,6 +1120,7 @@ textarea { resize: vertical; min-height: 148px; }
     border-radius: var(--radius-lg);
     box-shadow: var(--shadow-lg);
     z-index: 999;
+    margin-right: 0;
   }
 
   .nav.open { display: flex; }
