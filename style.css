@@ -2109,3 +2109,11 @@ textarea { resize: vertical; min-height: 148px; }
   margin: 0;
 }
 @media (max-width: 640px) { .expert-bar { grid-template-columns: 1fr; } }
+
+.expert-label {
+  font-size: 0.82rem;
+  font-weight: 700;
+  color: var(--muted);
+  margin: 20px 0 6px;
+  letter-spacing: 0.02em;
+}
