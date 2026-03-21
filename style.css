@@ -1496,6 +1496,38 @@ textarea { resize: vertical; min-height: 148px; }
 }
 
 /* ── 레시피 상세 페이지 ── */
+.recipe-hero-photo {
+  width: 100%;
+  height: clamp(220px, 40vw, 420px);
+  border-radius: var(--radius-lg);
+  overflow: hidden;
+  margin-bottom: 48px;
+  box-shadow: var(--shadow-lg);
+  position: relative;
+}
+.recipe-hero-photo img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  display: block;
+  transition: transform 0.4s ease;
+}
+.recipe-hero-photo:hover img { transform: scale(1.02); }
+.recipe-photo-badge {
+  position: absolute;
+  bottom: 16px;
+  left: 16px;
+  background: rgba(30, 20, 10, 0.58);
+  color: #fff;
+  padding: 6px 16px;
+  border-radius: 100px;
+  font-size: 0.8rem;
+  font-weight: 700;
+  letter-spacing: 0.04em;
+  backdrop-filter: blur(6px);
+  -webkit-backdrop-filter: blur(6px);
+}
+
 .recipe-meta-bar {
   display: flex;
   flex-wrap: wrap;
