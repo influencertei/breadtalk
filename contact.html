@@ -158,14 +158,10 @@
       margin-bottom: 12px;
       padding: 6px 12px;
       border-radius: 999px;
-      background: #efe5d7;
+      background: var(--surface-soft);
       color: var(--primary-dark);
       font-size: 0.95rem;
       font-weight: 700;
-    }
-
-    [data-theme="dark"] .eyebrow {
-      background: var(--surface-soft);
     }
 
     .page-title {
@@ -210,8 +206,12 @@
     }
 
     label span {
-      color: #c0392b;
+      color: #e05c4b;
       margin-left: 2px;
+    }
+
+    [data-theme="dark"] label span {
+      color: #ff7f70;
     }
 
     input, select, textarea {
