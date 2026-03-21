@@ -104,12 +104,17 @@
     </section>
   </main>
 
+  <button class="top-btn" id="topBtn" aria-label="맨 위로 이동">↑</button>
+
   <footer class="site-footer">
     <div class="container footer-inner">
       <span class="footer-copy">© 2026 빵톡. All rights reserved.</span>
       <div class="footer-links">
         <a href="index.html">홈</a>
         <a href="recipes.html">레시피</a>
+        <a href="videos.html">영상</a>
+        <a href="recommend.html">추천 재료</a>
+        <a href="about.html">소개</a>
         <a href="contact.html">문의</a>
       </div>
     </div>
@@ -144,6 +149,15 @@
       const isOpen = mainNav.classList.toggle("open");
       navToggle.setAttribute("aria-expanded", isOpen ? "true" : "false");
       navToggle.textContent = isOpen ? "✕" : "☰";
+    });
+
+    // 맨 위로 버튼
+    const topBtn = document.getElementById("topBtn");
+    window.addEventListener("scroll", () => {
+      topBtn.classList.toggle("show", window.scrollY > 300);
+    });
+    topBtn.addEventListener("click", () => {
+      window.scrollTo({ top: 0, behavior: "smooth" });
     });
 
     // Formspree AJAX 제출
