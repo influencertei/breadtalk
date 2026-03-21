@@ -2117,3 +2117,8 @@ textarea { resize: vertical; min-height: 148px; }
   margin: 20px 0 6px;
   letter-spacing: 0.02em;
 }
+
+/* 홈 인기영상 5열 그리드 */
+.home-video-grid--5 { grid-template-columns: repeat(5, 1fr); }
+@media (max-width: 900px) { .home-video-grid--5 { grid-template-columns: repeat(3, 1fr); } }
+@media (max-width: 640px) { .home-video-grid--5 { grid-template-columns: repeat(2, 1fr); } }
