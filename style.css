@@ -1133,3 +1133,72 @@ textarea { resize: vertical; min-height: 148px; }
   .card-body, .soft-box { padding: 20px; }
   .timeline-item { grid-template-columns: 64px 1fr; gap: 14px; }
 }
+
+/* ================================================
+   Disqus 댓글
+   ================================================ */
+.disqus-section {
+  padding: 64px 0 0;
+  border-top: 1px solid var(--border-soft);
+  margin-top: 80px;
+}
+
+.disqus-section .disqus-header {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  margin-bottom: 32px;
+}
+
+.disqus-section .disqus-icon {
+  width: 48px;
+  height: 48px;
+  border-radius: var(--radius-md);
+  background: var(--surface-soft);
+  border: 1.5px solid var(--border-soft);
+  display: grid;
+  place-items: center;
+  font-size: 1.5rem;
+  flex-shrink: 0;
+}
+
+.disqus-section .disqus-title {
+  font-size: 1.5rem;
+  font-weight: 900;
+  color: var(--primary-dark);
+  letter-spacing: -0.01em;
+  margin: 0;
+}
+
+.disqus-section .disqus-desc {
+  font-size: 0.9rem;
+  color: var(--muted);
+  margin: 3px 0 0;
+}
+
+#disqus_thread {
+  background: var(--surface);
+  border: 1.5px solid var(--border-soft);
+  border-radius: var(--radius-lg);
+  padding: 32px;
+  min-height: 200px;
+  box-shadow: var(--shadow-sm);
+}
+
+.disqus-noscript {
+  text-align: center;
+  padding: 24px;
+  color: var(--muted);
+  font-size: 0.95rem;
+}
+
+.disqus-noscript a {
+  color: var(--primary);
+  font-weight: 700;
+  text-decoration: underline;
+}
+
+@media (max-width: 768px) {
+  .disqus-section { padding: 48px 0 0; margin-top: 60px; }
+  #disqus_thread { padding: 20px; }
+}
