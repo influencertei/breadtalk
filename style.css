@@ -1202,3 +1202,125 @@ textarea { resize: vertical; min-height: 148px; }
   .disqus-section { padding: 48px 0 0; margin-top: 60px; }
   #disqus_thread { padding: 20px; }
 }
+
+/* ── 레시피 상세 페이지 ── */
+.recipe-meta-bar {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 12px 20px;
+  margin-top: 20px;
+  justify-content: center;
+}
+.recipe-meta-bar span {
+  background: var(--surface);
+  border: 1.5px solid var(--border);
+  border-radius: 100px;
+  padding: 6px 16px;
+  font-size: 0.92rem;
+  color: var(--text-soft);
+  font-weight: 500;
+}
+
+.recipe-detail-section {
+  padding: 60px 0 80px;
+}
+
+.recipe-layout {
+  display: grid;
+  grid-template-columns: 1fr 1.5fr;
+  gap: 40px;
+  align-items: start;
+  margin-bottom: 60px;
+}
+
+.section-label-lg {
+  font-size: 1.1rem;
+  font-weight: 700;
+  color: var(--primary);
+  border-bottom: 2px solid var(--border);
+  padding-bottom: 10px;
+  margin-bottom: 20px;
+}
+
+.ingredient-group {
+  margin-bottom: 20px;
+}
+.ingredient-group h3 {
+  font-size: 0.9rem;
+  font-weight: 700;
+  color: var(--muted);
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+  margin-bottom: 10px;
+}
+
+.ingredient-list {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+}
+.ingredient-list li {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 8px 0;
+  border-bottom: 1px solid var(--border-soft);
+  font-size: 0.95rem;
+}
+.ingredient-list li:last-child { border-bottom: none; }
+.ing-name { color: var(--text); font-weight: 500; }
+.ing-amount { color: var(--primary); font-weight: 700; }
+
+.step-list {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+  display: flex;
+  flex-direction: column;
+  gap: 24px;
+}
+.step-item {
+  display: flex;
+  gap: 16px;
+  align-items: flex-start;
+}
+.step-num {
+  flex-shrink: 0;
+  width: 32px;
+  height: 32px;
+  background: var(--primary);
+  color: #fff;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 0.9rem;
+  font-weight: 700;
+  margin-top: 2px;
+}
+.step-item h4 {
+  font-size: 1rem;
+  font-weight: 700;
+  color: var(--text);
+  margin: 0 0 6px;
+}
+.step-item p {
+  font-size: 0.93rem;
+  color: var(--text-soft);
+  line-height: 1.7;
+  margin: 0;
+}
+
+@media (max-width: 768px) {
+  .recipe-layout {
+    grid-template-columns: 1fr;
+    gap: 40px;
+  }
+  .recipe-meta-bar {
+    gap: 8px 12px;
+  }
+  .recipe-meta-bar span {
+    font-size: 0.85rem;
+    padding: 5px 12px;
+  }
+}
