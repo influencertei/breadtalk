@@ -1,0 +1,823 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>추천 재료 | 빵톡</title>
+  <meta name="description" content="홈베이킹 초보자를 위한 건강빵 재료와 도구 추천. 강력분, 통밀가루, 이스트, 오일, 발효 도구까지 빵톡이 엄선했습니다." />
+  <meta name="keywords" content="홈베이킹 재료, 강력분 추천, 통밀가루, 이스트, 손반죽 도구, 건강빵 재료" />
+
+  <style>
+    :root {
+      --bg: #fffaf3;
+      --surface: #ffffff;
+      --surface-soft: #f7f1e7;
+      --text: #333333;
+      --muted: #6b675f;
+      --primary: #8a6240;
+      --primary-dark: #6f4f34;
+      --accent: #8e9b62;
+      --border: #e7dccd;
+      --shadow: 0 10px 25px rgba(88, 67, 46, 0.08);
+      --radius-lg: 22px;
+      --max-width: 1180px;
+    }
+
+    [data-theme="dark"] {
+      --bg: #1a1612;
+      --surface: #242018;
+      --surface-soft: #2c2720;
+      --text: #e8e0d4;
+      --muted: #a09484;
+      --primary: #c59b74;
+      --primary-dark: #d4a97e;
+      --accent: #a3b576;
+      --border: #3d3529;
+      --shadow: 0 10px 25px rgba(0, 0, 0, 0.3);
+    }
+
+    * { box-sizing: border-box; }
+    html { scroll-behavior: smooth; }
+
+    body {
+      margin: 0;
+      font-family: "Pretendard", "Apple SD Gothic Neo", "Noto Sans KR", sans-serif;
+      color: var(--text);
+      background: var(--bg);
+      line-height: 1.75;
+      word-break: keep-all;
+    }
+
+    a { color: inherit; text-decoration: none; }
+    button { font: inherit; cursor: pointer; border: none; background: none; }
+
+    .container {
+      width: min(100% - 32px, var(--max-width));
+      margin: 0 auto;
+    }
+
+    /* Header */
+    .site-header {
+      position: sticky;
+      top: 0;
+      z-index: 1000;
+      background: color-mix(in srgb, var(--bg) 92%, transparent);
+      backdrop-filter: blur(10px);
+      border-bottom: 1px solid var(--border);
+    }
+
+    .header-inner {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      min-height: 76px;
+      gap: 16px;
+    }
+
+    .logo {
+      display: inline-flex;
+      align-items: center;
+      gap: 12px;
+      font-weight: 900;
+      color: var(--primary-dark);
+      font-size: 1.25rem;
+    }
+
+    .logo-badge {
+      width: 42px;
+      height: 42px;
+      border-radius: 50%;
+      display: grid;
+      place-items: center;
+      background: linear-gradient(135deg, #c59b74, #8a6240);
+      color: #fff;
+      font-weight: 800;
+      box-shadow: var(--shadow);
+      flex-shrink: 0;
+    }
+
+    .nav {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+    }
+
+    .nav a {
+      padding: 10px 14px;
+      border-radius: 999px;
+      color: var(--muted);
+      font-weight: 700;
+      transition: 0.2s ease;
+    }
+
+    .nav a:hover, .nav a.active {
+      background: var(--surface-soft);
+      color: var(--primary-dark);
+    }
+
+    .nav-toggle {
+      display: none;
+      width: 46px;
+      height: 46px;
+      border-radius: 14px;
+      background: var(--surface-soft);
+      color: var(--primary-dark);
+      font-size: 1.2rem;
+      font-weight: 900;
+    }
+
+    .theme-btn {
+      width: 46px;
+      height: 46px;
+      border-radius: 50%;
+      background: var(--surface-soft);
+      border: 1px solid var(--border);
+      color: var(--primary-dark);
+      font-size: 1.2rem;
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      transition: 0.2s ease;
+      flex-shrink: 0;
+    }
+
+    .theme-btn:hover { background: var(--border); }
+
+    /* Page hero */
+    .page-hero {
+      padding: 64px 0 56px;
+      text-align: center;
+    }
+
+    .eyebrow {
+      display: inline-block;
+      margin-bottom: 12px;
+      padding: 6px 12px;
+      border-radius: 999px;
+      background: var(--surface-soft);
+      color: var(--primary-dark);
+      font-size: 0.95rem;
+      font-weight: 700;
+    }
+
+    .page-title {
+      font-size: clamp(2rem, 4vw, 3rem);
+      font-weight: 900;
+      color: var(--primary-dark);
+      margin: 0 0 14px;
+      line-height: 1.2;
+    }
+
+    .page-desc {
+      color: var(--muted);
+      font-size: 1.05rem;
+      margin: 0 auto;
+      max-width: 600px;
+    }
+
+    /* Section */
+    .recommend-section {
+      padding: 0 0 80px;
+    }
+
+    .section-block {
+      margin-bottom: 64px;
+    }
+
+    .section-header {
+      display: flex;
+      align-items: center;
+      gap: 14px;
+      margin-bottom: 24px;
+    }
+
+    .section-icon {
+      width: 52px;
+      height: 52px;
+      border-radius: 16px;
+      background: var(--surface-soft);
+      border: 1px solid var(--border);
+      display: grid;
+      place-items: center;
+      font-size: 1.6rem;
+      flex-shrink: 0;
+    }
+
+    .section-title {
+      font-size: clamp(1.4rem, 2.5vw, 1.9rem);
+      font-weight: 900;
+      color: var(--primary-dark);
+      margin: 0 0 4px;
+    }
+
+    .section-sub {
+      color: var(--muted);
+      font-size: 0.95rem;
+      margin: 0;
+    }
+
+    /* Item grid */
+    .item-grid {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 18px;
+    }
+
+    .item-card {
+      background: var(--surface);
+      border: 1px solid var(--border);
+      border-radius: var(--radius-lg);
+      padding: 22px;
+      box-shadow: var(--shadow);
+      display: flex;
+      flex-direction: column;
+      gap: 10px;
+    }
+
+    .item-top {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+    }
+
+    .item-emoji {
+      font-size: 1.8rem;
+      flex-shrink: 0;
+    }
+
+    .item-name {
+      font-size: 1.05rem;
+      font-weight: 800;
+      color: var(--primary-dark);
+      margin: 0;
+    }
+
+    .item-tag {
+      display: inline-block;
+      background: var(--surface-soft);
+      color: var(--primary);
+      font-size: 0.8rem;
+      font-weight: 800;
+      padding: 3px 8px;
+      border-radius: 999px;
+      margin-top: 2px;
+    }
+
+    .item-desc {
+      color: var(--muted);
+      font-size: 0.93rem;
+      margin: 0;
+      line-height: 1.65;
+    }
+
+    .item-tip {
+      background: var(--surface-soft);
+      border-left: 3px solid var(--accent);
+      border-radius: 0 10px 10px 0;
+      padding: 10px 14px;
+      font-size: 0.88rem;
+      color: var(--text);
+    }
+
+    .item-tip strong {
+      color: var(--primary-dark);
+    }
+
+    /* Tip banner */
+    .tip-banner {
+      background: linear-gradient(135deg, #8a6240, #a27f53);
+      border-radius: var(--radius-lg);
+      padding: 36px 40px;
+      color: #fff;
+      display: grid;
+      grid-template-columns: 1fr auto;
+      gap: 24px;
+      align-items: center;
+      margin-bottom: 64px;
+      box-shadow: var(--shadow);
+    }
+
+    .tip-banner h3 {
+      font-size: clamp(1.3rem, 2.5vw, 1.8rem);
+      font-weight: 900;
+      margin: 0 0 8px;
+    }
+
+    .tip-banner p {
+      margin: 0;
+      color: rgba(255,255,255,0.9);
+      font-size: 1rem;
+    }
+
+    .tip-banner .btn {
+      white-space: nowrap;
+    }
+
+    /* Divider */
+    .divider {
+      border: none;
+      border-top: 1px solid var(--border);
+      margin: 0 0 64px;
+    }
+
+    /* Buttons */
+    .btn {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      min-height: 50px;
+      padding: 0 22px;
+      border-radius: 999px;
+      font-weight: 700;
+      transition: 0.2s ease;
+    }
+
+    .btn-primary {
+      background: var(--primary);
+      color: #fff;
+      box-shadow: var(--shadow);
+    }
+
+    .btn-primary:hover {
+      background: var(--primary-dark);
+      transform: translateY(-1px);
+    }
+
+    .btn-white {
+      background: rgba(255,255,255,0.15);
+      color: #fff;
+      border: 1px solid rgba(255,255,255,0.3);
+    }
+
+    .btn-white:hover {
+      background: rgba(255,255,255,0.25);
+    }
+
+    .btn-secondary {
+      background: var(--surface);
+      color: var(--primary-dark);
+      border: 1px solid var(--border);
+    }
+
+    .btn-secondary:hover { background: var(--surface-soft); }
+
+    /* CTA */
+    .cta-wrap {
+      background: var(--surface-soft);
+      border: 1px solid var(--border);
+      border-radius: var(--radius-lg);
+      padding: 40px;
+      text-align: center;
+      box-shadow: var(--shadow);
+    }
+
+    .cta-wrap h3 {
+      font-size: clamp(1.4rem, 2.5vw, 2rem);
+      font-weight: 900;
+      color: var(--primary-dark);
+      margin: 0 0 10px;
+    }
+
+    .cta-wrap p { color: var(--muted); margin: 0 0 24px; }
+
+    .btn-group {
+      display: flex;
+      gap: 12px;
+      justify-content: center;
+      flex-wrap: wrap;
+    }
+
+    /* Footer */
+    .site-footer {
+      padding: 36px 0 48px;
+      border-top: 1px solid var(--border);
+    }
+
+    .footer-inner {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      flex-wrap: wrap;
+      gap: 12px;
+    }
+
+    .footer-copy { color: var(--muted); font-size: 0.92rem; }
+
+    .footer-links {
+      display: flex;
+      gap: 14px;
+    }
+
+    .footer-links a {
+      color: var(--muted);
+      font-weight: 700;
+      font-size: 0.92rem;
+    }
+
+    .footer-links a:hover { color: var(--primary-dark); }
+
+    /* Top btn */
+    .top-btn {
+      position: fixed;
+      right: 20px;
+      bottom: 20px;
+      width: 52px;
+      height: 52px;
+      border-radius: 50%;
+      background: var(--primary-dark);
+      color: #fff;
+      box-shadow: var(--shadow);
+      display: none;
+      align-items: center;
+      justify-content: center;
+      font-size: 1.15rem;
+      z-index: 1100;
+    }
+
+    .top-btn.show { display: inline-flex; }
+
+    /* Responsive */
+    @media (max-width: 980px) {
+      .item-grid { grid-template-columns: repeat(2, 1fr); }
+      .tip-banner { grid-template-columns: 1fr; }
+    }
+
+    @media (max-width: 768px) {
+      .nav-toggle { display: inline-grid; place-items: center; }
+
+      .nav {
+        position: absolute;
+        top: 76px;
+        left: 16px;
+        right: 16px;
+        display: none;
+        flex-direction: column;
+        align-items: stretch;
+        gap: 8px;
+        background: var(--bg);
+        border: 1px solid var(--border);
+        padding: 14px;
+        border-radius: 20px;
+        box-shadow: var(--shadow);
+      }
+
+      .nav.open { display: flex; }
+      .nav a { padding: 12px 14px; }
+
+      .tip-banner { padding: 24px 20px; }
+      .cta-wrap { padding: 28px 20px; }
+    }
+
+    @media (max-width: 560px) {
+      .item-grid { grid-template-columns: 1fr; }
+    }
+
+    @media (max-width: 480px) {
+      .container { width: min(100% - 24px, var(--max-width)); }
+    }
+  </style>
+</head>
+<body>
+  <header class="site-header">
+    <div class="container header-inner">
+      <a href="index.html" class="logo" aria-label="빵톡 홈으로 이동">
+        <span class="logo-badge">빵</span>
+        <span>빵톡</span>
+      </a>
+
+      <div style="display:flex;align-items:center;gap:8px;">
+        <button class="theme-btn" id="themeBtn" aria-label="다크/라이트 모드 전환">🌙</button>
+        <button class="nav-toggle" id="navToggle" aria-label="메뉴 열기" aria-expanded="false">☰</button>
+      </div>
+
+      <nav class="nav" id="mainNav" aria-label="주 메뉴">
+        <a href="index.html">홈</a>
+        <a href="recipes.html">레시피</a>
+        <a href="recommend.html" class="active">추천 재료</a>
+        <a href="about.html">소개</a>
+        <a href="contact.html">문의</a>
+      </nav>
+    </div>
+  </header>
+
+  <main>
+    <div class="page-hero">
+      <div class="container">
+        <span class="eyebrow">재료 · 도구 · 팁</span>
+        <h1 class="page-title">초보자를 위한<br />건강빵 재료 추천</h1>
+        <p class="page-desc">어떤 재료를 골라야 할지 막막했던 분들을 위해 빵톡이 엄선한 기본 재료와 도구를 소개합니다.</p>
+      </div>
+    </div>
+
+    <section class="recommend-section">
+      <div class="container">
+
+        <!-- 안내 배너 -->
+        <div class="tip-banner">
+          <div>
+            <h3>재료 선택이 빵 맛의 절반입니다</h3>
+            <p>같은 레시피라도 재료의 품질과 종류에 따라 맛과 식감이 크게 달라집니다.<br />처음에는 기본 재료부터 하나씩 갖춰보세요.</p>
+          </div>
+          <a class="btn btn-white" href="recipes.html">레시피 바로가기</a>
+        </div>
+
+        <!-- 가루 재료 -->
+        <div class="section-block">
+          <div class="section-header">
+            <div class="section-icon">🌾</div>
+            <div>
+              <h2 class="section-title">가루 재료</h2>
+              <p class="section-sub">빵의 기본이 되는 밀가루·통밀·잡곡 재료</p>
+            </div>
+          </div>
+          <div class="item-grid">
+            <div class="item-card">
+              <div class="item-top">
+                <span class="item-emoji">🌾</span>
+                <div>
+                  <p class="item-name">강력분</p>
+                  <span class="item-tag">필수</span>
+                </div>
+              </div>
+              <p class="item-desc">단백질 함량이 높아 글루텐이 잘 형성됩니다. 식빵, 모닝빵 등 대부분의 빵에 사용하는 기본 밀가루입니다.</p>
+              <div class="item-tip"><strong>추천:</strong> 곰표 강력밀가루, 대한제분 강력분 1kg 단위로 시작하세요.</div>
+            </div>
+            <div class="item-card">
+              <div class="item-top">
+                <span class="item-emoji">🟤</span>
+                <div>
+                  <p class="item-name">통밀가루</p>
+                  <span class="item-tag">건강빵</span>
+                </div>
+              </div>
+              <p class="item-desc">밀기울이 포함돼 식이섬유가 풍부합니다. 강력분과 7:3 비율로 섞으면 건강하면서도 먹기 좋은 빵이 됩니다.</p>
+              <div class="item-tip"><strong>팁:</strong> 100% 통밀은 무겁고 퍽퍽할 수 있어 강력분과 혼합 사용을 추천합니다.</div>
+            </div>
+            <div class="item-card">
+              <div class="item-top">
+                <span class="item-emoji">🌿</span>
+                <div>
+                  <p class="item-name">오트밀·귀리가루</p>
+                  <span class="item-tag">잡곡</span>
+                </div>
+              </div>
+              <p class="item-desc">베타글루칸이 풍부해 혈당 조절에 도움이 됩니다. 강력분에 10~20% 섞으면 고소한 풍미가 더해집니다.</p>
+              <div class="item-tip"><strong>팁:</strong> 롤드 오트를 갈아서 사용하거나 시판 귀리가루를 활용하세요.</div>
+            </div>
+          </div>
+        </div>
+
+        <hr class="divider" />
+
+        <!-- 발효 재료 -->
+        <div class="section-block">
+          <div class="section-header">
+            <div class="section-icon">🫧</div>
+            <div>
+              <h2 class="section-title">발효 재료</h2>
+              <p class="section-sub">빵을 부풀게 하는 이스트와 발효 관련 재료</p>
+            </div>
+          </div>
+          <div class="item-grid">
+            <div class="item-card">
+              <div class="item-top">
+                <span class="item-emoji">🟡</span>
+                <div>
+                  <p class="item-name">인스턴트 드라이이스트</p>
+                  <span class="item-tag">필수</span>
+                </div>
+              </div>
+              <p class="item-desc">물에 따로 풀 필요 없이 가루에 바로 섞어 사용할 수 있어 초보자에게 가장 편리한 이스트입니다.</p>
+              <div class="item-tip"><strong>추천:</strong> 사프 골드 이스트 500g. 소분해서 냉동 보관하면 오래 사용할 수 있습니다.</div>
+            </div>
+            <div class="item-card">
+              <div class="item-top">
+                <span class="item-emoji">🧂</span>
+                <div>
+                  <p class="item-name">소금</p>
+                  <span class="item-tag">필수</span>
+                </div>
+              </div>
+              <p class="item-desc">글루텐을 강화하고 발효를 조절합니다. 빵의 풍미를 살리는 필수 재료로 이스트와 직접 닿지 않게 넣어야 합니다.</p>
+              <div class="item-tip"><strong>추천:</strong> 천일염 또는 꽃소금. 입자가 고운 것을 사용하면 잘 녹습니다.</div>
+            </div>
+            <div class="item-card">
+              <div class="item-top">
+                <span class="item-emoji">🍯</span>
+                <div>
+                  <p class="item-name">꿀·메이플시럽</p>
+                  <span class="item-tag">대체 감미료</span>
+                </div>
+              </div>
+              <p class="item-desc">설탕 대신 사용할 수 있는 천연 감미료입니다. 이스트 먹이 역할도 하며 빵에 윤기와 촉촉함을 더합니다.</p>
+              <div class="item-tip"><strong>팁:</strong> 설탕 대비 같은 양으로 대체하되 수분이 있어 물 양을 조금 줄이세요.</div>
+            </div>
+          </div>
+        </div>
+
+        <hr class="divider" />
+
+        <!-- 유지 재료 -->
+        <div class="section-block">
+          <div class="section-header">
+            <div class="section-icon">🫒</div>
+            <div>
+              <h2 class="section-title">유지 재료</h2>
+              <p class="section-sub">빵의 촉촉함과 풍미를 더하는 오일과 버터</p>
+            </div>
+          </div>
+          <div class="item-grid">
+            <div class="item-card">
+              <div class="item-top">
+                <span class="item-emoji">🫒</span>
+                <div>
+                  <p class="item-name">올리브오일</p>
+                  <span class="item-tag">건강 오일</span>
+                </div>
+              </div>
+              <p class="item-desc">버터 대신 사용하기 좋은 건강한 오일입니다. 포카치아, 식사빵에 잘 어울리며 상온에서 보관 가능합니다.</p>
+              <div class="item-tip"><strong>추천:</strong> 퓨어 올리브오일(extra virgin보다 발연점 높음)을 베이킹에 사용하세요.</div>
+            </div>
+            <div class="item-card">
+              <div class="item-top">
+                <span class="item-emoji">🧈</span>
+                <div>
+                  <p class="item-name">무염 버터</p>
+                  <span class="item-tag">풍미</span>
+                </div>
+              </div>
+              <p class="item-desc">빵에 고소한 풍미와 부드러운 식감을 더합니다. 건강빵에서는 양을 줄이거나 올리브오일로 대체할 수 있습니다.</p>
+              <div class="item-tip"><strong>팁:</strong> 반죽에 넣을 때는 실온에서 1시간 부드럽게 만든 뒤 사용하세요.</div>
+            </div>
+            <div class="item-card">
+              <div class="item-top">
+                <span class="item-emoji">🥛</span>
+                <div>
+                  <p class="item-name">우유·두유</p>
+                  <span class="item-tag">수분</span>
+                </div>
+              </div>
+              <p class="item-desc">물 대신 사용하면 빵이 더 부드럽고 촉촉해집니다. 유제품이 걱정된다면 두유나 귀리음료로 대체할 수 있습니다.</p>
+              <div class="item-tip"><strong>팁:</strong> 미지근하게(35~38°C) 데워 사용하면 이스트가 더 잘 활성화됩니다.</div>
+            </div>
+          </div>
+        </div>
+
+        <hr class="divider" />
+
+        <!-- 도구 -->
+        <div class="section-block">
+          <div class="section-header">
+            <div class="section-icon">🔧</div>
+            <div>
+              <h2 class="section-title">손반죽 도구</h2>
+              <p class="section-sub">기계 없이 손으로 빵 만들 때 필요한 도구</p>
+            </div>
+          </div>
+          <div class="item-grid">
+            <div class="item-card">
+              <div class="item-top">
+                <span class="item-emoji">⚖️</span>
+                <div>
+                  <p class="item-name">디지털 주방저울</p>
+                  <span class="item-tag">필수</span>
+                </div>
+              </div>
+              <p class="item-desc">베이킹은 계량이 생명입니다. 1g 단위까지 측정 가능한 디지털 저울은 반드시 갖춰야 할 도구입니다.</p>
+              <div class="item-tip"><strong>추천:</strong> 5kg 용량, 1g 단위 측정 제품. 2~3만원대로 구입 가능합니다.</div>
+            </div>
+            <div class="item-card">
+              <div class="item-top">
+                <span class="item-emoji">🥣</span>
+                <div>
+                  <p class="item-name">대형 스테인리스 볼</p>
+                  <span class="item-tag">필수</span>
+                </div>
+              </div>
+              <p class="item-desc">반죽할 때 넉넉한 크기의 볼이 있으면 편합니다. 스테인리스 소재는 세척이 쉽고 위생적입니다.</p>
+              <div class="item-tip"><strong>추천:</strong> 지름 28~30cm 대형 볼 1개. 발효 시 덮개로 쓸 수 있는 뚜껑도 함께 준비하세요.</div>
+            </div>
+            <div class="item-card">
+              <div class="item-top">
+                <span class="item-emoji">🌡️</span>
+                <div>
+                  <p class="item-name">온도계</p>
+                  <span class="item-tag">권장</span>
+                </div>
+              </div>
+              <p class="item-desc">물 온도와 반죽 온도가 발효에 직접 영향을 줍니다. 오차 없이 온도를 측정하면 실패 확률이 크게 줄어듭니다.</p>
+              <div class="item-tip"><strong>추천:</strong> 즉시 측정 가능한 탐침형 디지털 온도계. 1만원대 제품으로 충분합니다.</div>
+            </div>
+            <div class="item-card">
+              <div class="item-top">
+                <span class="item-emoji">🍞</span>
+                <div>
+                  <p class="item-name">식빵 틀 (1근)</p>
+                  <span class="item-tag">성형용</span>
+                </div>
+              </div>
+              <p class="item-desc">식빵과 풀먼식빵을 만들 때 필요한 기본 틀입니다. 논스틱 코팅이 된 제품이 분리가 쉽고 관리가 편합니다.</p>
+              <div class="item-tip"><strong>추천:</strong> 10×20cm 기본 1근 틀. 처음엔 뚜껑 없는 오픈 틀부터 시작하세요.</div>
+            </div>
+            <div class="item-card">
+              <div class="item-top">
+                <span class="item-emoji">🔪</span>
+                <div>
+                  <p class="item-name">스크레이퍼(도우 커터)</p>
+                  <span class="item-tag">권장</span>
+                </div>
+              </div>
+              <p class="item-desc">반죽을 자르고 작업대에서 모을 때 사용합니다. 손가락으로 하기 어려운 성형 작업을 훨씬 수월하게 해줍니다.</p>
+              <div class="item-tip"><strong>추천:</strong> 플라스틱 스크레이퍼 1개. 5천원 이하로 구입 가능하며 활용도가 높습니다.</div>
+            </div>
+            <div class="item-card">
+              <div class="item-top">
+                <span class="item-emoji">📏</span>
+                <div>
+                  <p class="item-name">밀대</p>
+                  <span class="item-tag">성형용</span>
+                </div>
+              </div>
+              <p class="item-desc">반죽을 밀어 성형할 때 사용합니다. 나무 또는 실리콘 소재가 반죽이 달라붙지 않아 다루기 쉽습니다.</p>
+              <div class="item-tip"><strong>팁:</strong> 밀대가 없으면 유리컵으로도 대체 가능합니다. 핸들 없는 타입이 힘 전달이 잘 됩니다.</div>
+            </div>
+          </div>
+        </div>
+
+        <!-- CTA -->
+        <div class="cta-wrap">
+          <h3>재료 준비가 끝났다면 레시피로!</h3>
+          <p>기본 재료가 갖춰지면 빵톡 레시피를 보며 바로 시작할 수 있습니다.<br />궁금한 재료가 있으면 문의로 남겨주세요.</p>
+          <div class="btn-group">
+            <a class="btn btn-primary" href="recipes.html">레시피 보러가기</a>
+            <a class="btn btn-secondary" href="contact.html">재료 문의하기</a>
+          </div>
+        </div>
+
+      </div>
+    </section>
+  </main>
+
+  <footer class="site-footer">
+    <div class="container footer-inner">
+      <span class="footer-copy">© 2026 빵톡. All rights reserved.</span>
+      <div class="footer-links">
+        <a href="index.html">홈</a>
+        <a href="recipes.html">레시피</a>
+        <a href="recommend.html">추천 재료</a>
+        <a href="contact.html">문의</a>
+      </div>
+    </div>
+  </footer>
+
+  <button class="top-btn" id="topBtn" aria-label="맨 위로 이동">↑</button>
+
+  <script>
+    // 다크모드
+    const themeBtn = document.getElementById("themeBtn");
+    const savedTheme = localStorage.getItem("theme");
+    const prefersDark = window.matchMedia("(prefers-color-scheme: dark)").matches;
+    if (savedTheme === "dark" || (!savedTheme && prefersDark)) {
+      document.documentElement.setAttribute("data-theme", "dark");
+      themeBtn.textContent = "☀️";
+    }
+    themeBtn.addEventListener("click", () => {
+      const isDark = document.documentElement.getAttribute("data-theme") === "dark";
+      if (isDark) {
+        document.documentElement.removeAttribute("data-theme");
+        themeBtn.textContent = "🌙";
+        localStorage.setItem("theme", "light");
+      } else {
+        document.documentElement.setAttribute("data-theme", "dark");
+        themeBtn.textContent = "☀️";
+        localStorage.setItem("theme", "dark");
+      }
+    });
+
+    // 모바일 메뉴
+    const navToggle = document.getElementById("navToggle");
+    const mainNav = document.getElementById("mainNav");
+    navToggle.addEventListener("click", () => {
+      const isOpen = mainNav.classList.toggle("open");
+      navToggle.setAttribute("aria-expanded", isOpen ? "true" : "false");
+      navToggle.textContent = isOpen ? "✕" : "☰";
+    });
+    mainNav.querySelectorAll("a").forEach(link => {
+      link.addEventListener("click", () => {
+        mainNav.classList.remove("open");
+        navToggle.setAttribute("aria-expanded", "false");
+        navToggle.textContent = "☰";
+      });
+    });
+
+    // 맨 위로 버튼
+    const topBtn = document.getElementById("topBtn");
+    window.addEventListener("scroll", () => {
+      topBtn.classList.toggle("show", window.scrollY > 300);
+    });
+    topBtn.addEventListener("click", () => {
+      window.scrollTo({ top: 0, behavior: "smooth" });
+    });
+  </script>
+</body>
+</html>
