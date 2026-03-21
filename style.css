@@ -1203,6 +1203,240 @@ textarea { resize: vertical; min-height: 148px; }
   #disqus_thread { padding: 20px; }
 }
 
+/* ── AI 빵 분석 페이지 ── */
+.ai-section {
+  padding: 60px 0 80px;
+}
+.ai-layout {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 40px;
+  align-items: start;
+}
+.webcam-wrap {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 20px;
+}
+.webcam-frame {
+  position: relative;
+  width: 320px;
+  height: 320px;
+  border-radius: var(--radius-lg);
+  overflow: hidden;
+  background: var(--surface-soft);
+  border: 2px solid var(--border);
+  box-shadow: var(--shadow-lg);
+}
+.webcam-frame #webcam-container {
+  width: 100%;
+  height: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+.webcam-frame #webcam-container canvas {
+  width: 320px !important;
+  height: 320px !important;
+  object-fit: cover;
+  border-radius: var(--radius-lg);
+}
+.webcam-placeholder {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  width: 100%;
+  height: 100%;
+  gap: 12px;
+  color: var(--muted);
+}
+.webcam-placeholder .cam-icon {
+  font-size: 3.5rem;
+  opacity: 0.5;
+}
+.webcam-placeholder p {
+  font-size: 0.9rem;
+  text-align: center;
+  line-height: 1.5;
+}
+.webcam-corner {
+  position: absolute;
+  width: 20px;
+  height: 20px;
+  border-color: var(--primary);
+  border-style: solid;
+  opacity: 0.7;
+}
+.webcam-corner.tl { top: 10px; left: 10px; border-width: 2px 0 0 2px; border-radius: 3px 0 0 0; }
+.webcam-corner.tr { top: 10px; right: 10px; border-width: 2px 2px 0 0; border-radius: 0 3px 0 0; }
+.webcam-corner.bl { bottom: 10px; left: 10px; border-width: 0 0 2px 2px; border-radius: 0 0 0 3px; }
+.webcam-corner.br { bottom: 10px; right: 10px; border-width: 0 2px 2px 0; border-radius: 0 0 3px 0; }
+
+.ai-start-btn {
+  width: 100%;
+  max-width: 320px;
+  padding: 14px 24px;
+  font-size: 1rem;
+  font-weight: 700;
+  border: none;
+  cursor: pointer;
+  border-radius: var(--radius-md);
+  background: var(--primary);
+  color: #fff;
+  transition: background 0.2s, transform 0.15s;
+}
+.ai-start-btn:hover { background: var(--primary-dark); transform: translateY(-2px); }
+.ai-start-btn:disabled { background: var(--muted); cursor: not-allowed; transform: none; }
+
+.ai-status {
+  font-size: 0.85rem;
+  color: var(--muted);
+  display: flex;
+  align-items: center;
+  gap: 6px;
+}
+.ai-status.running { color: var(--accent); }
+.ai-pulse {
+  width: 8px; height: 8px;
+  background: var(--accent);
+  border-radius: 50%;
+  animation: pulse 1.2s ease-in-out infinite;
+}
+@keyframes pulse {
+  0%, 100% { opacity: 1; transform: scale(1); }
+  50% { opacity: 0.4; transform: scale(0.6); }
+}
+
+.result-panel {
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+}
+.result-top-card {
+  background: var(--surface);
+  border: 1.5px solid var(--border);
+  border-radius: var(--radius-lg);
+  padding: 28px 24px;
+  text-align: center;
+  box-shadow: var(--shadow);
+  min-height: 140px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+}
+.result-waiting {
+  color: var(--muted);
+  font-size: 0.95rem;
+  line-height: 1.6;
+}
+.result-waiting .wait-icon { font-size: 2.5rem; display: block; margin-bottom: 6px; }
+.result-label {
+  font-size: 0.8rem;
+  font-weight: 700;
+  color: var(--muted);
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+}
+.result-name {
+  font-size: 1.6rem;
+  font-weight: 900;
+  color: var(--primary);
+  line-height: 1.2;
+}
+.result-conf {
+  font-size: 2.2rem;
+  font-weight: 900;
+  color: var(--text);
+}
+
+.result-bars-card {
+  background: var(--surface);
+  border: 1.5px solid var(--border);
+  border-radius: var(--radius-lg);
+  padding: 20px 24px;
+  box-shadow: var(--shadow-sm);
+}
+.result-bars-title {
+  font-size: 0.82rem;
+  font-weight: 700;
+  color: var(--muted);
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+  margin-bottom: 14px;
+}
+#label-container { display: flex; flex-direction: column; gap: 10px; }
+.pred-row {
+  display: grid;
+  grid-template-columns: 1fr 2fr auto;
+  align-items: center;
+  gap: 10px;
+}
+.pred-label {
+  font-size: 0.88rem;
+  font-weight: 600;
+  color: var(--text-soft);
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+.pred-row.pred-top .pred-label { color: var(--primary); font-weight: 800; }
+.pred-bar-wrap {
+  height: 10px;
+  background: var(--surface-soft);
+  border-radius: 100px;
+  overflow: hidden;
+}
+.pred-bar {
+  height: 100%;
+  background: var(--border);
+  border-radius: 100px;
+  transition: width 0.3s ease;
+}
+.pred-row.pred-top .pred-bar { background: var(--primary); }
+.pred-pct {
+  font-size: 0.82rem;
+  font-weight: 700;
+  color: var(--muted);
+  width: 36px;
+  text-align: right;
+}
+.pred-row.pred-top .pred-pct { color: var(--primary); }
+
+.ai-guide-grid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 16px;
+  margin-top: 8px;
+}
+.ai-guide-card {
+  background: var(--surface-soft);
+  border-radius: var(--radius-md);
+  padding: 18px 14px;
+  text-align: center;
+}
+.ai-guide-card .guide-num {
+  width: 28px; height: 28px;
+  background: var(--primary);
+  color: #fff;
+  border-radius: 50%;
+  font-size: 0.85rem;
+  font-weight: 800;
+  display: flex; align-items: center; justify-content: center;
+  margin: 0 auto 10px;
+}
+.ai-guide-card p { font-size: 0.85rem; color: var(--text-soft); line-height: 1.5; margin: 0; }
+
+@media (max-width: 860px) {
+  .ai-layout { grid-template-columns: 1fr; }
+  .webcam-frame { width: 280px; height: 280px; }
+  .webcam-frame #webcam-container canvas { width: 280px !important; height: 280px !important; }
+  .ai-guide-grid { grid-template-columns: 1fr; }
+}
+
 /* ── 레시피 상세 페이지 ── */
 .recipe-meta-bar {
   display: flex;
