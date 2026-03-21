@@ -5,7 +5,7 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>AI 빵 상태 분석 | 빵톡</title>
   <link rel="stylesheet" href="style.css" />
-  <meta name="description" content="카메라로 빵을 비추면 AI가 빵의 상태를 즉시 분석해드립니다. 빵톡 전용 Teachable Machine 모델 탑재." />
+  <meta name="description" content="카메라 또는 사진 업로드로 빵 상태를 AI가 즉시 분석해드립니다. 빵톡 전용 Teachable Machine 모델 탑재." />
 </head>
 <body>
   <header class="site-header">
@@ -33,54 +33,92 @@
   <main>
     <div class="page-hero">
       <div class="container">
-        <span class="eyebrow">Teachable Machine · 실시간 분석</span>
+        <span class="eyebrow">Teachable Machine · 실시간 AI 분석</span>
         <h1 class="page-title">AI 빵 상태 분석</h1>
-        <p class="page-desc">카메라로 빵을 비추면 AI가 상태를 즉시 판단해드립니다.<br />직접 훈련한 모델로 더 정확하게 분석합니다.</p>
+        <p class="page-desc">카메라로 비추거나 사진을 업로드하면<br />AI가 빵의 상태를 즉시 판단해드립니다.</p>
       </div>
     </div>
 
     <section class="ai-section">
       <div class="container">
+
+        <!-- ── 모드 선택 탭 ── -->
+        <div class="mode-tabs" role="tablist">
+          <button class="mode-tab active" id="tabCamera" role="tab" aria-selected="true" onclick="switchMode('camera')">
+            📷 카메라로 분석
+          </button>
+          <button class="mode-tab" id="tabUpload" role="tab" aria-selected="false" onclick="switchMode('upload')">
+            🖼️ 사진 업로드
+          </button>
+        </div>
+
         <div class="ai-layout">
 
-          <!-- 웹캠 영역 -->
-          <div class="webcam-wrap">
-            <div class="webcam-frame">
-              <div id="webcam-container">
-                <div class="webcam-placeholder" id="camPlaceholder">
-                  <span class="cam-icon">📷</span>
-                  <p>아래 버튼을 누르면<br />카메라가 활성화됩니다</p>
+          <!-- ── 입력 패널 ── -->
+          <div class="ai-input-panel">
+
+            <!-- 카메라 모드 -->
+            <div id="cameraPanel">
+              <div class="webcam-frame">
+                <div id="webcam-container">
+                  <div class="webcam-placeholder" id="camPlaceholder">
+                    <span class="cam-icon">📷</span>
+                    <p>아래 버튼을 누르면<br />카메라가 활성화됩니다</p>
+                  </div>
                 </div>
+                <div class="webcam-corner tl"></div>
+                <div class="webcam-corner tr"></div>
+                <div class="webcam-corner bl"></div>
+                <div class="webcam-corner br"></div>
               </div>
-              <div class="webcam-corner tl"></div>
-              <div class="webcam-corner tr"></div>
-              <div class="webcam-corner bl"></div>
-              <div class="webcam-corner br"></div>
+              <button type="button" class="ai-start-btn" id="cameraBtn" onclick="initCamera()">
+                📸 카메라 시작하기
+              </button>
+              <div class="ai-status" id="cameraStatus">
+                버튼을 눌러 카메라를 활성화하세요
+              </div>
             </div>
 
-            <button type="button" class="ai-start-btn" id="startBtn" onclick="init()">
-              📸 분석 시작하기
-            </button>
-
-            <div class="ai-status" id="aiStatus">
-              카메라 버튼을 눌러 분석을 시작하세요
+            <!-- 업로드 모드 -->
+            <div id="uploadPanel" style="display:none;">
+              <div class="drop-zone" id="dropZone">
+                <div class="drop-prompt" id="dropPrompt">
+                  <span class="drop-icon">🖼️</span>
+                  <p>사진을 여기에 <strong>드래그</strong>하거나<br /><strong>클릭하여 파일 선택</strong></p>
+                  <p class="drop-hint">JPG · PNG · WebP · GIF 지원</p>
+                </div>
+                <div class="upload-preview" id="uploadPreview">
+                  <img id="previewImg" src="" alt="업로드한 빵 사진" />
+                </div>
+                <!-- accept="image/*" — 모바일에서 카메라/갤러리 둘 다 선택 가능 -->
+                <input type="file" id="fileInput" accept="image/*" aria-label="사진 파일 선택" />
+              </div>
+              <button type="button" class="ai-start-btn" id="analyzeBtn" onclick="analyzeUpload()" disabled>
+                🔍 분석하기
+              </button>
+              <button type="button" class="ai-secondary-btn" id="resetBtn" onclick="resetUpload()" style="display:none;">
+                ↩ 다른 사진 선택
+              </button>
+              <div class="ai-status" id="uploadStatus">
+                사진을 업로드하면 분석할 수 있습니다
+              </div>
             </div>
+
           </div>
 
-          <!-- 결과 영역 -->
+          <!-- ── 결과 패널 ── -->
           <div class="result-panel">
             <div class="result-top-card" id="topResultCard">
               <div class="result-waiting">
                 <span class="wait-icon">🍞</span>
-                빵을 카메라에 비추면<br />분석 결과가 여기에 표시됩니다
+                빵을 분석하면<br />결과가 여기에 표시됩니다
               </div>
             </div>
-
             <div class="result-bars-card">
-              <div class="result-bars-title">전체 분석 결과</div>
+              <div class="result-bars-title">전체 분류 신뢰도</div>
               <div id="label-container">
                 <div class="pred-row" style="opacity:0.3;">
-                  <span class="pred-label">분석 대기 중</span>
+                  <span class="pred-label">대기 중</span>
                   <div class="pred-bar-wrap"><div class="pred-bar" style="width:0%"></div></div>
                   <span class="pred-pct">—</span>
                 </div>
@@ -88,16 +126,16 @@
             </div>
           </div>
 
-        </div>
+        </div><!-- /.ai-layout -->
 
-        <!-- 사용 가이드 -->
-        <div class="section-block" style="margin-top:60px;">
+        <!-- ── 사용 가이드 ── -->
+        <div class="section-block" style="margin-top:64px;">
           <p class="section-label">사용 가이드</p>
-          <h2 class="section-title">이렇게 사용하세요</h2>
-          <div class="ai-guide-grid">
+          <h2 class="section-title" id="guideTitle">카메라로 분석하는 방법</h2>
+          <div class="ai-guide-grid" id="guideCamera">
             <div class="ai-guide-card">
               <div class="guide-num">1</div>
-              <p><strong>분석 시작</strong><br />버튼을 누르면 카메라 권한을 요청합니다. 허용을 눌러주세요.</p>
+              <p><strong>카메라 시작</strong><br />버튼을 누르면 카메라 권한을 요청합니다. <em>허용</em>을 눌러주세요.</p>
             </div>
             <div class="ai-guide-card">
               <div class="guide-num">2</div>
@@ -105,7 +143,21 @@
             </div>
             <div class="ai-guide-card">
               <div class="guide-num">3</div>
-              <p><strong>결과 확인</strong><br />오른쪽 패널에서 분석 결과와 신뢰도를 확인하세요.</p>
+              <p><strong>결과 확인</strong><br />오른쪽(모바일: 아래)에서 분류명과 신뢰도를 확인하세요.</p>
+            </div>
+          </div>
+          <div class="ai-guide-grid" id="guideUpload" style="display:none;">
+            <div class="ai-guide-card">
+              <div class="guide-num">1</div>
+              <p><strong>사진 선택</strong><br />사진을 드래그 앤 드롭하거나, 영역을 클릭해 파일을 선택하세요. 모바일에서는 갤러리·카메라 중 선택 가능합니다.</p>
+            </div>
+            <div class="ai-guide-card">
+              <div class="guide-num">2</div>
+              <p><strong>분석하기</strong><br />미리보기를 확인한 후 <em>분석하기</em> 버튼을 누르세요.</p>
+            </div>
+            <div class="ai-guide-card">
+              <div class="guide-num">3</div>
+              <p><strong>결과 확인</strong><br />아래 결과 패널에서 분류명과 신뢰도를 확인하세요. 다른 사진을 다시 올릴 수도 있습니다.</p>
             </div>
           </div>
         </div>
@@ -131,7 +183,7 @@
   <script src="https://cdn.jsdelivr.net/npm/@teachablemachine/image@latest/dist/teachablemachine-image.min.js"></script>
 
   <script>
-    // 다크모드
+    /* ── 다크모드 ── */
     const themeBtn = document.getElementById("themeBtn");
     const savedTheme = localStorage.getItem("theme");
     const prefersDark = window.matchMedia("(prefers-color-scheme: dark)").matches;
@@ -152,7 +204,7 @@
       }
     });
 
-    // 모바일 메뉴
+    /* ── 모바일 메뉴 ── */
     const navToggle = document.getElementById("navToggle");
     const mainNav = document.getElementById("mainNav");
     navToggle.addEventListener("click", () => {
@@ -168,92 +220,55 @@
       });
     });
 
-    // 맨 위로 버튼
+    /* ── 맨 위로 ── */
     const topBtn = document.getElementById("topBtn");
-    window.addEventListener("scroll", () => {
-      topBtn.classList.toggle("show", window.scrollY > 300);
-    });
-    topBtn.addEventListener("click", () => {
-      window.scrollTo({ top: 0, behavior: "smooth" });
-    });
+    window.addEventListener("scroll", () => topBtn.classList.toggle("show", window.scrollY > 300));
+    topBtn.addEventListener("click", () => window.scrollTo({ top: 0, behavior: "smooth" }));
 
-    // ── Teachable Machine AI 분석 ──
+    /* ────────────────────────────────────────────
+       Teachable Machine AI 분석
+    ──────────────────────────────────────────── */
     const MODEL_URL = "https://teachablemachine.withgoogle.com/models/U1Bb11qql/";
-    let model, webcam, labelContainer, maxPredictions;
+    let model = null;
+    let webcam = null;
+    let webcamRunning = false;
+    let maxPredictions = 0;
+    const labelContainer = document.getElementById("label-container");
 
-    async function init() {
-      const startBtn = document.getElementById("startBtn");
-      const aiStatus = document.getElementById("aiStatus");
-      const placeholder = document.getElementById("camPlaceholder");
+    /* 모델 로드 (공통 — 최초 1회만) */
+    async function loadModel() {
+      if (model) return model;
+      model = await tmImage.load(MODEL_URL + "model.json", MODEL_URL + "metadata.json");
+      maxPredictions = model.getTotalClasses();
+      initBars();
+      return model;
+    }
 
-      startBtn.disabled = true;
-      startBtn.textContent = "⏳ 모델 로딩 중...";
-      aiStatus.innerHTML = '<span class="ai-pulse"></span> AI 모델을 불러오는 중입니다...';
-      aiStatus.classList.add("running");
-
-      try {
-        model = await tmImage.load(MODEL_URL + "model.json", MODEL_URL + "metadata.json");
-        maxPredictions = model.getTotalClasses();
-
-        webcam = new tmImage.Webcam(320, 320, true);
-        await webcam.setup();
-        await webcam.play();
-
-        // 플레이스홀더 제거 후 캔버스 삽입
-        if (placeholder) placeholder.remove();
-        document.getElementById("webcam-container").appendChild(webcam.canvas);
-
-        // 결과 바 초기화
-        labelContainer = document.getElementById("label-container");
-        labelContainer.innerHTML = "";
-        for (let i = 0; i < maxPredictions; i++) {
-          const row = document.createElement("div");
-          row.className = "pred-row";
-          row.innerHTML = `
-            <span class="pred-label">—</span>
-            <div class="pred-bar-wrap"><div class="pred-bar" style="width:0%"></div></div>
-            <span class="pred-pct">0%</span>
-          `;
-          labelContainer.appendChild(row);
-        }
-
-        startBtn.textContent = "✅ 분석 중";
-        aiStatus.innerHTML = '<span class="ai-pulse"></span> 실시간 분석 중입니다';
-
-        window.requestAnimationFrame(loop);
-      } catch (err) {
-        startBtn.disabled = false;
-        startBtn.textContent = "📸 다시 시도하기";
-        aiStatus.innerHTML = "⚠️ 카메라 접근에 실패했습니다. 권한을 허용해주세요.";
-        aiStatus.classList.remove("running");
+    /* 결과 바 초기화 */
+    function initBars() {
+      labelContainer.innerHTML = "";
+      for (let i = 0; i < maxPredictions; i++) {
+        const row = document.createElement("div");
+        row.className = "pred-row";
+        row.innerHTML = `
+          <span class="pred-label">—</span>
+          <div class="pred-bar-wrap"><div class="pred-bar" style="width:0%"></div></div>
+          <span class="pred-pct">0%</span>`;
+        labelContainer.appendChild(row);
       }
     }
 
-    async function loop() {
-      webcam.update();
-      await predict();
-      window.requestAnimationFrame(loop);
-    }
-
-    async function predict() {
-      const prediction = await model.predict(webcam.canvas);
-
-      // 최고 신뢰도 찾기
+    /* 결과 표시 공통 함수 */
+    function showResults(prediction) {
       let topIdx = 0;
       prediction.forEach((p, i) => {
         if (p.probability > prediction[topIdx].probability) topIdx = i;
       });
-
-      // 상단 결과 카드 업데이트
-      const topCard = document.getElementById("topResultCard");
       const topProb = Math.round(prediction[topIdx].probability * 100);
-      topCard.innerHTML = `
-        <div class="result-label">현재 분석 결과</div>
+      document.getElementById("topResultCard").innerHTML = `
+        <div class="result-label">분석 결과</div>
         <div class="result-name">${prediction[topIdx].className}</div>
-        <div class="result-conf">${topProb}%</div>
-      `;
-
-      // 바 업데이트
+        <div class="result-conf">${topProb}%</div>`;
       for (let i = 0; i < maxPredictions; i++) {
         const row = labelContainer.childNodes[i];
         const pct = Math.round(prediction[i].probability * 100);
@@ -263,6 +278,168 @@
         row.querySelector(".pred-bar").style.width = pct + "%";
         row.querySelector(".pred-pct").textContent = pct + "%";
       }
+    }
+
+    /* ── 모드 전환 ── */
+    function switchMode(mode) {
+      const isCamera = mode === "camera";
+      document.getElementById("cameraPanel").style.display = isCamera ? "" : "none";
+      document.getElementById("uploadPanel").style.display = isCamera ? "none" : "";
+      document.getElementById("tabCamera").classList.toggle("active", isCamera);
+      document.getElementById("tabUpload").classList.toggle("active", !isCamera);
+      document.getElementById("tabCamera").setAttribute("aria-selected", isCamera);
+      document.getElementById("tabUpload").setAttribute("aria-selected", !isCamera);
+      document.getElementById("guideCamera").style.display = isCamera ? "" : "none";
+      document.getElementById("guideUpload").style.display = isCamera ? "none" : "";
+      document.getElementById("guideTitle").textContent = isCamera
+        ? "카메라로 분석하는 방법"
+        : "사진 업로드로 분석하는 방법";
+      // 카메라 모드 떠날 때 웹캠 정지
+      if (!isCamera && webcam && webcamRunning) {
+        webcam.stop();
+        webcamRunning = false;
+        const btn = document.getElementById("cameraBtn");
+        btn.disabled = false;
+        btn.textContent = "📸 카메라 시작하기";
+        const status = document.getElementById("cameraStatus");
+        status.innerHTML = "버튼을 눌러 카메라를 활성화하세요";
+        status.classList.remove("running");
+      }
+    }
+
+    /* ────────────────────────────────────────────
+       카메라 모드
+    ──────────────────────────────────────────── */
+    async function initCamera() {
+      const btn = document.getElementById("cameraBtn");
+      const status = document.getElementById("cameraStatus");
+      const placeholder = document.getElementById("camPlaceholder");
+
+      btn.disabled = true;
+      btn.textContent = "⏳ AI 모델 로딩 중...";
+      status.innerHTML = '<span class="ai-pulse"></span> AI 모델을 불러오는 중입니다...';
+      status.classList.add("running");
+
+      try {
+        await loadModel();
+
+        // 모바일 후면 카메라 우선, PC는 전면
+        const isMobile = /Mobi|Android|iPhone|iPad/i.test(navigator.userAgent);
+        webcam = new tmImage.Webcam(320, 320, !isMobile); // flip=true on desktop
+        await webcam.setup(isMobile ? { facingMode: { ideal: "environment" } } : undefined);
+        await webcam.play();
+        webcamRunning = true;
+
+        if (placeholder) placeholder.remove();
+        document.getElementById("webcam-container").appendChild(webcam.canvas);
+
+        btn.textContent = "✅ 실시간 분석 중";
+        status.innerHTML = '<span class="ai-pulse"></span> 실시간으로 분석하고 있습니다';
+
+        (async function loop() {
+          if (!webcamRunning) return;
+          webcam.update();
+          const prediction = await model.predict(webcam.canvas);
+          showResults(prediction);
+          window.requestAnimationFrame(loop);
+        })();
+
+      } catch (err) {
+        btn.disabled = false;
+        btn.textContent = "📸 다시 시도하기";
+        status.innerHTML = "⚠️ 카메라 접근 실패. 권한을 허용했는지 확인해주세요.";
+        status.classList.remove("running");
+      }
+    }
+
+    /* ────────────────────────────────────────────
+       업로드 모드
+    ──────────────────────────────────────────── */
+    const dropZone = document.getElementById("dropZone");
+    const fileInput = document.getElementById("fileInput");
+    const uploadPreview = document.getElementById("uploadPreview");
+    const previewImg = document.getElementById("previewImg");
+    const dropPrompt = document.getElementById("dropPrompt");
+    const analyzeBtn = document.getElementById("analyzeBtn");
+    const resetBtn = document.getElementById("resetBtn");
+    const uploadStatus = document.getElementById("uploadStatus");
+    let uploadedFile = null;
+
+    /* 파일 선택 → 미리보기 */
+    function handleFile(file) {
+      if (!file || !file.type.startsWith("image/")) {
+        uploadStatus.textContent = "⚠️ 이미지 파일만 업로드할 수 있습니다.";
+        return;
+      }
+      uploadedFile = file;
+      const url = URL.createObjectURL(file);
+      previewImg.src = url;
+      dropPrompt.style.display = "none";
+      uploadPreview.style.display = "block";
+      analyzeBtn.disabled = false;
+      resetBtn.style.display = "";
+      uploadStatus.textContent = `"${file.name}" 업로드 완료 — 분석하기를 눌러주세요`;
+    }
+
+    fileInput.addEventListener("change", () => {
+      if (fileInput.files[0]) handleFile(fileInput.files[0]);
+    });
+
+    /* 드래그 앤 드롭 */
+    dropZone.addEventListener("dragenter", e => { e.preventDefault(); dropZone.classList.add("drag-over"); });
+    dropZone.addEventListener("dragover",  e => { e.preventDefault(); dropZone.classList.add("drag-over"); });
+    dropZone.addEventListener("dragleave", e => { if (!dropZone.contains(e.relatedTarget)) dropZone.classList.remove("drag-over"); });
+    dropZone.addEventListener("drop", e => {
+      e.preventDefault();
+      dropZone.classList.remove("drag-over");
+      const file = e.dataTransfer.files[0];
+      if (file) handleFile(file);
+    });
+
+    /* 분석하기 */
+    async function analyzeUpload() {
+      if (!uploadedFile) return;
+      analyzeBtn.disabled = true;
+      analyzeBtn.textContent = "⏳ 분석 중...";
+      uploadStatus.innerHTML = '<span class="ai-pulse"></span> AI가 분석하고 있습니다...';
+
+      try {
+        await loadModel();
+        const img = document.getElementById("previewImg");
+        const prediction = await model.predict(img);
+        showResults(prediction);
+        analyzeBtn.textContent = "🔍 다시 분석";
+        analyzeBtn.disabled = false;
+        uploadStatus.innerHTML = '<span class="ai-pulse" style="background:var(--primary)"></span> 분석 완료';
+      } catch (err) {
+        analyzeBtn.disabled = false;
+        analyzeBtn.textContent = "🔍 분석하기";
+        uploadStatus.textContent = "⚠️ 분석에 실패했습니다. 다시 시도해주세요.";
+      }
+    }
+
+    /* 초기화 */
+    function resetUpload() {
+      uploadedFile = null;
+      fileInput.value = "";
+      previewImg.src = "";
+      uploadPreview.style.display = "none";
+      dropPrompt.style.display = "";
+      analyzeBtn.disabled = true;
+      analyzeBtn.textContent = "🔍 분석하기";
+      resetBtn.style.display = "none";
+      uploadStatus.textContent = "사진을 업로드하면 분석할 수 있습니다";
+      document.getElementById("topResultCard").innerHTML = `
+        <div class="result-waiting">
+          <span class="wait-icon">🍞</span>
+          빵을 분석하면<br />결과가 여기에 표시됩니다
+        </div>`;
+      labelContainer.innerHTML = `
+        <div class="pred-row" style="opacity:0.3;">
+          <span class="pred-label">대기 중</span>
+          <div class="pred-bar-wrap"><div class="pred-bar" style="width:0%"></div></div>
+          <span class="pred-pct">—</span>
+        </div>`;
     }
   </script>
 </body>
