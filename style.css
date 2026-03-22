@@ -2292,3 +2292,36 @@ textarea { resize: vertical; min-height: 148px; }
   color: #fff;
   border-color: var(--primary);
 }
+
+/* ── Recipe Share Bar ── */
+.recipe-share-bar {
+  display: flex;
+  gap: 10px;
+  flex-wrap: wrap;
+  margin: 12px 0 20px;
+}
+.share-btn {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  padding: 8px 16px;
+  border-radius: 8px;
+  font-size: 0.85rem;
+  font-weight: 600;
+  cursor: pointer;
+  border: 1.5px solid var(--border);
+  background: var(--card-bg);
+  color: var(--text);
+  text-decoration: none;
+  transition: background 0.2s, color 0.2s, border-color 0.2s;
+}
+.share-btn:hover {
+  background: var(--primary);
+  color: #fff;
+  border-color: var(--primary);
+}
+@media print {
+  .site-header, .top-btn, .cookie-banner, .recipe-share-bar, .disqus-section, footer { display: none !important; }
+  body { background: #fff; color: #000; }
+  .recipe-layout { display: block; }
+}
