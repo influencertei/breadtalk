@@ -2273,3 +2273,22 @@ textarea { resize: vertical; min-height: 148px; }
   border-color: #c17f24;
   color: #e8c97a;
 }
+
+/* ── Language Toggle Button ── */
+.lang-btn {
+  background: transparent;
+  border: 1.5px solid var(--border);
+  color: var(--text);
+  border-radius: 6px;
+  padding: 4px 10px;
+  font-size: 0.78rem;
+  font-weight: 700;
+  cursor: pointer;
+  letter-spacing: 0.05em;
+  transition: background 0.2s, color 0.2s;
+}
+.lang-btn:hover {
+  background: var(--primary);
+  color: #fff;
+  border-color: var(--primary);
+}

@@ -72,6 +72,7 @@
       
 
       <div class="header-controls">
+        <button class="lang-btn" id="langBtn" aria-label="언어 전환 / Switch language">EN</button>
         <button class="theme-btn" id="themeBtn" aria-label="다크/라이트 모드 전환">🌙</button>
         <button class="nav-toggle" id="navToggle" aria-label="메뉴 열기" aria-expanded="false">
           ☰
@@ -563,6 +564,350 @@
     topBtn.addEventListener("click", () => {
       window.scrollTo({ top: 0, behavior: "smooth" });
     });
+  </script>
+  <script>
+  // ── Language Toggle ──────────────────────────────────────
+  (function () {
+    var KO = 'ko', EN = 'en';
+
+    var dict = {
+      // Navigation
+      'nav.nav a[href="index.html"]': { en: 'Home' },
+      'nav.nav a[href="videos.html"]': { en: 'Videos' },
+      'nav.nav a[href="recipes.html"]': { en: 'Recipes' },
+      'nav.nav a[href="ai.html"]': { en: 'AI Analysis' },
+      'nav.nav a[href="recommend.html"]': { en: 'Ingredients' },
+      'nav.nav a[href="about.html"]': { en: 'About' },
+      'nav.nav a[href="contact.html"]': { en: 'Contact' },
+
+      // Hero
+      '.hero .eyebrow': { en: 'Healthy Bread · Hand-kneading · Practical Recipes' },
+      '.hero-title': { en: 'Delicious Healthy Bread<br />Even for Beginners' },
+      '.hero-desc': { en: 'Missed the ingredients, steps &amp; fermentation tips on YouTube?<br />Find them all here, in detailed written form.' },
+      '.brand-quote': { en: "Healthy bread is not a bread with <em>'less ingredients'</em>,<br /><strong>'but a bread with more time'</strong>.<cite>— BbangTalk's Philosophy</cite>" },
+      '.hero-stat:nth-child(1) .stat-label': { en: 'Top #1 Views' },
+      '.hero-stat:nth-child(2) .stat-label': { en: 'Healthy Bread Videos' },
+      '.hero-stat:nth-child(3) .stat-label': { en: 'Popular Recipe Videos' },
+      '.hero-points span:nth-child(1)': { en: 'No sugar, no butter' },
+      '.hero-points span:nth-child(2)': { en: 'No-knead &amp; hand-knead' },
+      '.hero-points span:nth-child(3)': { en: 'Easy for beginners' },
+      '.hero-points span:nth-child(4)': { en: 'Video + text double-check' },
+      '.hero .btn-primary': { en: 'View Recipes' },
+      '.hero .btn-secondary': { en: 'Watch Videos' },
+      '.info-item:nth-child(1) .info-label': { en: 'For' },
+      '.info-item:nth-child(2) .info-label': { en: 'Key Values' },
+      '.info-item:nth-child(3) .info-label': { en: 'Content' },
+      '.info-item:nth-child(4) .info-label': { en: 'Top Viewed' },
+      '.info-item:nth-child(1) .info-value': { en: 'Health-conscious · Home baking beginners' },
+      '.info-item:nth-child(2) .info-value': { en: 'No-knead · No sugar · Low GI' },
+      '.info-item:nth-child(3) .info-value': { en: 'Video + Recipe + Expert Analysis' },
+      '.info-item:nth-child(4) .info-value': { en: 'Whole Wheat Bread 39,000+ views' },
+
+      // Why BbangTalk section
+      '#why-bbangtalk': { en: 'For Those Who Want to Get More from the Video' },
+      '#why-bbangtalk + p': { en: 'Even when watching recipe videos on YouTube, the ingredient amounts, fermentation times and small tips are easy to miss. That\'s why BbangTalk was created.' },
+      '#why-bbangtalk ~ ul li:nth-child(1)': { en: 'Detailed written notes on steps that fly by in the video' },
+      '#why-bbangtalk ~ ul li:nth-child(2)': { en: 'Recipes you can revisit anytime you get stuck while baking' },
+      '#why-bbangtalk ~ ul li:nth-child(3)': { en: 'Friendly guidance on choosing the right ingredients for healthy bread' },
+      '#why-bbangtalk ~ ul li:nth-child(4)': { en: 'Recipes, videos, and recommended ingredients all in one place' },
+
+      // Featured Recipes
+      '.section:nth-of-type(3) .eyebrow': { en: 'Featured Recipes' },
+      '#featured-recipes': { en: '3 Popular Recipes You Can Make Right Now' },
+      '#featured-recipes + p': { en: 'Follow the steps from prep to finish and anyone can make these. Each recipe includes ingredients, process, tips, and video.' },
+      '.grid-3 .card:nth-child(1) .card-tag': { en: 'Beginner Pick' },
+      '.grid-3 .card:nth-child(1) .card-title': { en: 'Soft & Moist Morning Rolls' },
+      '.grid-3 .card:nth-child(1) .card-text': { en: 'The perfect recipe for those just starting hand-kneading. You\'ll naturally learn the feel of dough and the flow of fermentation.' },
+      '.grid-3 .card:nth-child(1) .card-meta': { en: 'Difficulty: Easy · Bread Intro' },
+      '.grid-3 .card:nth-child(1) .btn-primary': { en: 'View Recipe' },
+      '.grid-3 .card:nth-child(2) .card-tag': { en: 'Healthy Bread' },
+      '.grid-3 .card:nth-child(2) .card-title': { en: 'Nutty Whole Wheat Bread' },
+      '.grid-3 .card:nth-child(2) .card-text': { en: 'A healthy bread recipe full of whole wheat\'s natural nuttiness and care. Recommended for those who want to eat healthily with good ingredients.' },
+      '.grid-3 .card:nth-child(2) .card-meta': { en: 'Difficulty: Medium · Whole Wheat' },
+      '.grid-3 .card:nth-child(2) .btn-primary': { en: 'View Recipe' },
+      '.grid-3 .card:nth-child(3) .card-tag': { en: 'Family Pick' },
+      '.grid-3 .card:nth-child(3) .card-title': { en: 'Healthy Daily Sandwich Bread' },
+      '.grid-3 .card:nth-child(3) .card-text': { en: 'A sandwich bread crafted with carefully chosen ingredients for everyday eating. The whole family can enjoy it together.' },
+      '.grid-3 .card:nth-child(3) .card-meta': { en: 'Difficulty: Medium · Meal Replacement' },
+      '.grid-3 .card:nth-child(3) .btn-primary': { en: 'View Recipe' },
+      '.section:nth-of-type(3) .btn-group a.btn-primary': { en: 'View All Recipes' },
+
+      // YouTube section
+      '#youtube-section + p': { en: 'Watch the full flow in the video, then check ingredient amounts and key tips here.<br />See marketing, nutrition, and baking expert recommendations below each video.' },
+      '.home-video-card:nth-child(1) .home-video-title': { en: 'Diet Country Whole Wheat Bread | No Sugar, High Protein, Low GI' },
+      '.home-video-card:nth-child(2) .home-video-title': { en: 'Sunflower Seed Bread | No Sugar, Low GI' },
+      '.home-video-card:nth-child(3) .home-video-title': { en: 'Low-Sugar 100% Whole Wheat Country Bread' },
+      '.home-video-card:nth-child(4) .home-video-title': { en: 'Rice Water Campagne | Low-Sugar Healthy Country Bread' },
+      '.home-video-card:nth-child(5) .home-video-title': { en: 'Whole Wheat No-Knead No-Sugar Healthy Bread' },
+
+      // Expert tags (all of them)
+      '.expert-tag:nth-child(1)': { en: 'Marketing' },
+
+      // Expert labels
+      '.expert-label:nth-child(1)': { en: '🏆 #1 Expert Points' },
+      '.expert-label:nth-child(2)': { en: '🥈 #2 Expert Points' },
+      '.expert-label:nth-child(3)': { en: '🥉 #3 Expert Points' },
+      '.expert-label:nth-child(4)': { en: '🎯 #4 Expert Points' },
+      '.expert-label:nth-child(5)': { en: '⭐ #5 Expert Points' },
+
+      // YouTube section buttons
+      '#youtube-section ~ .btn-group a.btn-primary': { en: 'Visit YouTube Channel' },
+      '#youtube-section ~ .btn-group a.btn-secondary': { en: 'View All Videos' },
+
+      // Recommend section
+      '#recommend-section': { en: "Not Sure Which Ingredients to Buy?" },
+      '#recommend-section + p': { en: 'Choosing ingredients is harder than the recipe at first. We\'ve organized the ingredients beginners often get confused about — bread flour, whole wheat flour, yeast, and pans.' },
+      '#recommend-section ~ ul li:nth-child(1)': { en: 'Basic ingredient recommendations for beginners' },
+      '#recommend-section ~ ul li:nth-child(2)': { en: 'Guide to whole wheat and multigrain ingredients for healthy bread' },
+      '#recommend-section ~ ul li:nth-child(3)': { en: 'Tools suitable for hand-kneading at a glance' },
+      '#recommend-section ~ ul li:nth-child(4)': { en: 'Direct purchase links for all ingredients' },
+      'a[href="recommend.html"].btn-primary': { en: 'View Recommended Ingredients' },
+
+      // About/Contact section
+      '.intro-grid .soft-box:nth-child(2) h2': { en: 'Have Questions?' },
+      '.intro-grid .soft-box:nth-child(2) p': { en: 'If you\'re curious about BbangTalk or have inquiries about partnerships, collaborations, or classes, feel free to reach out anytime.' },
+      '.intro-grid .soft-box:nth-child(2) ul li:nth-child(1)': { en: 'BbangTalk brand story and operations' },
+      '.intro-grid .soft-box:nth-child(2) ul li:nth-child(2)': { en: 'Content philosophy and production process' },
+      '.intro-grid .soft-box:nth-child(2) ul li:nth-child(3)': { en: 'Sign up for e-book & class launch notifications' },
+      '.intro-grid .soft-box:nth-child(2) ul li:nth-child(4)': { en: 'Dedicated contact form for partnerships' },
+      'a[href="about.html"].btn-primary': { en: 'About BbangTalk' },
+      'a[href="contact.html"].btn-secondary': { en: 'Contact Us' },
+
+      // CTA banner
+      '.cta-banner h3': { en: "Healthy bread is not bread with 'less',<br />it's bread with 'more time'." },
+      '.cta-banner > div > p': { en: 'The flow of fermentation, the reason for each ingredient, the feel of your hands.<br />BbangTalk shares that time through video and writing.' },
+      '.cta-box strong': { en: 'Make Your First Healthy Bread Today' },
+      '.cta-box p': { en: 'Open the recipe, check the ingredients, and follow along with the video.' },
+      '.cta-box .btn-primary': { en: 'View Recipes' },
+      '.cta-box .btn-secondary': { en: 'View All Videos' },
+
+      // Disqus
+      '.disqus-title': { en: 'Comments' },
+      '.disqus-desc': { en: 'Join the conversation with BbangTalk.' },
+
+      // Footer links
+      '.footer-links a[href="index.html"]': { en: 'Home' },
+      '.footer-links a[href="videos.html"]': { en: 'Videos' },
+      '.footer-links a[href="recipes.html"]': { en: 'Recipes' },
+      '.footer-links a[href="ai.html"]': { en: 'AI Analysis' },
+      '.footer-links a[href="recommend.html"]': { en: 'Ingredients' },
+      '.footer-links a[href="about.html"]': { en: 'About' },
+      '.footer-links a[href="contact.html"]': { en: 'Contact' },
+      '.footer-links a[href="privacy.html"]': { en: 'Privacy Policy' },
+
+      // Cookie banner
+      '.cookie-banner p': { en: 'BbangTalk uses cookies to improve services and personalize ads. <a href="privacy.html">Privacy Policy</a>' },
+      '.cookie-accept': { en: 'Accept' },
+      '.cookie-decline': { en: 'Decline' }
+    };
+
+    // Expert tags — all have same class, handle separately
+    var expertTagSelectors = [
+      '.expert-bar:nth-child(1) .expert-tag:nth-child(1)',
+      '.expert-bar:nth-child(1) .expert-tag:nth-child(2)',
+      '.expert-bar:nth-child(1) .expert-tag:nth-child(3)',
+    ];
+    var expertTagEn = ['Marketing', 'Nutrition', 'Baking'];
+
+    // Save original KO content
+    var originals = {};
+    Object.keys(dict).forEach(function(sel) {
+      var el = document.querySelector(sel);
+      if (el) originals[sel] = el.innerHTML;
+    });
+
+    // Save all expert tags originals
+    document.querySelectorAll('.expert-tag').forEach(function(el, i) {
+      el.dataset.koText = el.innerHTML;
+    });
+    document.querySelectorAll('.expert-label').forEach(function(el, i) {
+      el.dataset.koText = el.innerHTML;
+    });
+
+    var expertTagEnMap = { '마케팅': 'Marketing', '영양': 'Nutrition', '베이킹': 'Baking' };
+    var expertLabelEnMap = {
+      '🏆 1위 전문가 포인트': '🏆 #1 Expert Points',
+      '🥈 2위 전문가 포인트': '🥈 #2 Expert Points',
+      '🥉 3위 전문가 포인트': '🥉 #3 Expert Points',
+      '🎯 4위 전문가 포인트': '🎯 #4 Expert Points',
+      '⭐ 5위 전문가 포인트': '⭐ #5 Expert Points'
+    };
+    var expertTagKoMap = { 'Marketing': '마케팅', 'Nutrition': '영양', 'Baking': '베이킹' };
+
+    function applyLang(lang) {
+      document.documentElement.lang = lang;
+
+      Object.keys(dict).forEach(function(sel) {
+        var el = document.querySelector(sel);
+        if (!el) return;
+        if (lang === EN) {
+          el.innerHTML = dict[sel].en;
+        } else {
+          el.innerHTML = originals[sel] || el.innerHTML;
+        }
+      });
+
+      // Expert tags
+      document.querySelectorAll('.expert-tag').forEach(function(el) {
+        if (lang === EN) {
+          el.innerHTML = expertTagEnMap[el.dataset.koText] || el.innerHTML;
+        } else {
+          el.innerHTML = el.dataset.koText || el.innerHTML;
+        }
+      });
+
+      // Expert labels
+      document.querySelectorAll('.expert-label').forEach(function(el) {
+        if (lang === EN) {
+          el.innerHTML = expertLabelEnMap[el.dataset.koText] || el.innerHTML;
+        } else {
+          el.innerHTML = el.dataset.koText || el.innerHTML;
+        }
+      });
+
+      // Youtube section eyebrow and h2 (these have no easy selectors)
+      var ytEyebrow = document.querySelector('#youtube-section').previousElementSibling;
+      if (ytEyebrow && ytEyebrow.classList.contains('eyebrow')) {
+        if (!ytEyebrow.dataset.koText) ytEyebrow.dataset.koText = ytEyebrow.innerHTML;
+        ytEyebrow.innerHTML = lang === EN ? 'TOP 5 Popular Videos' : ytEyebrow.dataset.koText;
+      }
+      var ytH2 = document.getElementById('youtube-section');
+      if (ytH2) {
+        if (!ytH2.dataset.koText) ytH2.dataset.koText = ytH2.innerHTML;
+        ytH2.innerHTML = lang === EN ? "BbangTalk's Own Recipes · #1 Most Viewed: 39,494 Views" : ytH2.dataset.koText;
+      }
+      var ytDesc = ytH2 ? ytH2.nextElementSibling : null;
+      if (ytDesc && ytDesc.classList.contains('section-desc')) {
+        if (!ytDesc.dataset.koText) ytDesc.dataset.koText = ytDesc.innerHTML;
+        ytDesc.innerHTML = lang === EN
+          ? 'Watch the full flow in the video, then check ingredient amounts and key tips here.<br />See marketing, nutrition, and baking expert recommendations below each video.'
+          : ytDesc.dataset.koText;
+      }
+
+      // Recommend section eyebrows
+      document.querySelectorAll('.soft-box .eyebrow').forEach(function(el) {
+        if (!el.dataset.koText) el.dataset.koText = el.innerHTML;
+        var map = { '추천 재료': 'Ingredients', '소개 · 문의': 'About · Contact' };
+        el.innerHTML = lang === EN ? (map[el.dataset.koText] || el.innerHTML) : el.dataset.koText;
+      });
+
+      // Why-bbangtalk section description and lists
+      var whyH2 = document.getElementById('why-bbangtalk');
+      if (whyH2) {
+        var whyBox = whyH2.closest('.soft-box');
+        if (whyBox) {
+          var whyDesc = whyBox.querySelector('p');
+          if (whyDesc) {
+            if (!whyDesc.dataset.koText) whyDesc.dataset.koText = whyDesc.innerHTML;
+            whyDesc.innerHTML = lang === EN
+              ? "Even when watching recipe videos on YouTube, the ingredient amounts, fermentation times and small tips are easy to miss. That's why BbangTalk was created."
+              : whyDesc.dataset.koText;
+          }
+          var whyItems = whyBox.querySelectorAll('li');
+          var whyEnItems = [
+            'Detailed written notes on steps that fly by in the video',
+            'Recipes you can revisit anytime you get stuck while baking',
+            'Friendly guidance on choosing the right ingredients for healthy bread',
+            'Recipes, videos, and recommended ingredients all in one place'
+          ];
+          whyItems.forEach(function(li, i) {
+            if (!li.dataset.koText) li.dataset.koText = li.innerHTML;
+            li.innerHTML = lang === EN ? (whyEnItems[i] || li.innerHTML) : li.dataset.koText;
+          });
+        }
+
+        // Second soft-box (이런 분께 딱 맞습니다)
+        var allBoxes = document.querySelectorAll('.section:nth-of-type(2) .soft-box');
+        var box2 = allBoxes[1];
+        if (box2) {
+          var box2H2 = box2.querySelector('h2');
+          if (box2H2) {
+            if (!box2H2.dataset.koText) box2H2.dataset.koText = box2H2.innerHTML;
+            box2H2.innerHTML = lang === EN ? 'Perfect for You If...' : box2H2.dataset.koText;
+          }
+          var box2Desc = box2.querySelector('p');
+          if (box2Desc) {
+            if (!box2Desc.dataset.koText) box2Desc.dataset.koText = box2Desc.innerHTML;
+            box2Desc.innerHTML = lang === EN
+              ? "For those trying bread-making for the first time, or those who want to bake delicious, healthy bread for their family."
+              : box2Desc.dataset.koText;
+          }
+          var box2Items = box2.querySelectorAll('li');
+          var box2En = [
+            'Those trying hand-kneading for the first time',
+            'Those who want to make healthy bread with whole wheat and multigrain',
+            'Those who want to follow along with YouTube videos',
+            'Those looking for healthy daily bread for their family'
+          ];
+          box2Items.forEach(function(li, i) {
+            if (!li.dataset.koText) li.dataset.koText = li.innerHTML;
+            li.innerHTML = lang === EN ? (box2En[i] || li.innerHTML) : li.dataset.koText;
+          });
+        }
+      }
+
+      // Recommend section lists
+      var recBox = document.querySelector('#recommend-section') ? document.querySelector('#recommend-section').closest('.soft-box') : null;
+      if (recBox) {
+        var recDesc = recBox.querySelector('p');
+        if (recDesc) {
+          if (!recDesc.dataset.koText) recDesc.dataset.koText = recDesc.innerHTML;
+          recDesc.innerHTML = lang === EN
+            ? "Choosing ingredients is harder than the recipe at first. We've organized the ingredients beginners often get confused about — bread flour, whole wheat flour, yeast, and pans."
+            : recDesc.dataset.koText;
+        }
+        var recItems = recBox.querySelectorAll('li');
+        var recEn = [
+          'Basic ingredient recommendations for beginners',
+          'Guide to whole wheat and multigrain ingredients for healthy bread',
+          'Tools suitable for hand-kneading at a glance',
+          'Direct purchase links for all ingredients'
+        ];
+        recItems.forEach(function(li, i) {
+          if (!li.dataset.koText) li.dataset.koText = li.innerHTML;
+          li.innerHTML = lang === EN ? (recEn[i] || li.innerHTML) : li.dataset.koText;
+        });
+      }
+
+      // About/Contact box lists
+      var aboutBox = document.querySelector('.intro-grid .soft-box:nth-child(2)');
+      if (aboutBox) {
+        var aboutItems = aboutBox.querySelectorAll('li');
+        var aboutEn = [
+          'BbangTalk brand story and operations',
+          'Content philosophy and production process',
+          'Sign up for e-book &amp; class launch notifications',
+          'Dedicated contact form for partnerships'
+        ];
+        aboutItems.forEach(function(li, i) {
+          if (!li.dataset.koText) li.dataset.koText = li.innerHTML;
+          li.innerHTML = lang === EN ? (aboutEn[i] || li.innerHTML) : li.dataset.koText;
+        });
+      }
+
+      // Update page title
+      if (lang === EN) {
+        document.title = 'BbangTalk | Healthy Bread & Hand-kneading Recipes';
+      } else {
+        document.title = '빵톡 | 건강빵·손반죽 레시피';
+      }
+
+      // Update lang button label
+      var btn = document.getElementById('langBtn');
+      if (btn) btn.textContent = lang === EN ? 'KO' : 'EN';
+
+      localStorage.setItem('lang', lang);
+    }
+
+    // Init
+    var savedLang = localStorage.getItem('lang') || KO;
+    if (savedLang === EN) applyLang(EN);
+
+    document.getElementById('langBtn').addEventListener('click', function () {
+      var current = localStorage.getItem('lang') || KO;
+      applyLang(current === EN ? KO : EN);
+    });
+  })();
   </script>
   <script>
     var disqus_config = function () {
