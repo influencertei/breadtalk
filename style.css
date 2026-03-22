@@ -2184,3 +2184,92 @@ textarea { resize: vertical; min-height: 148px; }
   color: var(--muted);
   font-weight: 500;
 }
+
+/* ── 쿠키 동의 배너 ── */
+.cookie-banner {
+  position: fixed;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  background: var(--surface);
+  border-top: 2px solid var(--border);
+  box-shadow: 0 -4px 20px rgba(88,67,46,0.12);
+  z-index: 9999;
+  padding: 16px 24px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 16px;
+  flex-wrap: wrap;
+}
+.cookie-banner p {
+  margin: 0;
+  font-size: 0.88rem;
+  color: var(--text-soft);
+  line-height: 1.6;
+  flex: 1;
+  min-width: 260px;
+}
+.cookie-banner a { color: var(--primary); text-decoration: underline; }
+.cookie-banner-btns { display: flex; gap: 8px; flex-shrink: 0; }
+.cookie-btn-accept {
+  background: var(--primary);
+  color: #fff;
+  border: none;
+  border-radius: var(--radius-sm);
+  padding: 9px 20px;
+  font-size: 0.88rem;
+  font-weight: 700;
+  cursor: pointer;
+  font-family: var(--font);
+}
+.cookie-btn-accept:hover { background: var(--primary-dark); }
+.cookie-btn-decline {
+  background: transparent;
+  color: var(--muted);
+  border: 1px solid var(--border);
+  border-radius: var(--radius-sm);
+  padding: 9px 16px;
+  font-size: 0.85rem;
+  cursor: pointer;
+  font-family: var(--font);
+}
+.cookie-btn-decline:hover { background: var(--surface-soft); }
+@media (max-width: 640px) {
+  .cookie-banner { padding: 14px 16px; }
+  .cookie-banner p { font-size: 0.82rem; }
+}
+
+/* ── 레시피 저자 정보 ── */
+.recipe-author-bar {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  background: var(--surface-soft);
+  border: 1px solid var(--border-soft);
+  border-radius: var(--radius-sm);
+  padding: 12px 18px;
+  margin: 20px 0 0;
+  font-size: 0.88rem;
+  color: var(--text-soft);
+}
+.recipe-author-bar .author-icon { font-size: 1.3rem; }
+.recipe-author-bar strong { color: var(--text); }
+.recipe-author-bar time { color: var(--muted); }
+
+/* ── 면책조항 배너 ── */
+.health-disclaimer {
+  background: #fff8e1;
+  border-left: 4px solid #f59e0b;
+  border-radius: 0 var(--radius-sm) var(--radius-sm) 0;
+  padding: 12px 16px;
+  font-size: 0.85rem;
+  color: #78570a;
+  margin: 16px 0 0;
+  line-height: 1.6;
+}
+[data-theme="dark"] .health-disclaimer {
+  background: #2c2208;
+  border-color: #c17f24;
+  color: #e8c97a;
+}
