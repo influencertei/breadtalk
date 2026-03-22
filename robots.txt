@@ -1,0 +1,4 @@
+User-agent: *
+Allow: /
+
+Sitemap: https://influencertei.github.io/breadtalk/sitemap.xml
