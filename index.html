@@ -32,6 +32,7 @@
   <meta property="og:image" content="https://images.unsplash.com/photo-1509440159596-0249088772ff?auto=format&fit=crop&w=1200&q=80" />
   <meta property="og:image:width" content="1200" />
   <meta property="og:image:height" content="630" />
+  <meta property="og:image:alt" content="빵톡 건강빵 레시피 — 갓 구운 통밀빵" />
   <meta property="og:site_name" content="빵톡" />
   <meta name="twitter:card" content="summary_large_image" />
   <meta name="twitter:title" content="빵톡 | 건강빵·손반죽 레시피" />
@@ -81,6 +82,67 @@
         "urlTemplate": "https://influencertei.github.io/breadtalk/recipes.html?q={search_term_string}"
       },
       "query-input": "required name=search_term_string"
+    }
+  }
+  </script>
+  <script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@type": "FAQPage",
+    "mainEntity": [
+      {
+        "@type": "Question",
+        "name": "설탕·버터 없이 맛있는 빵을 만들 수 있나요?",
+        "acceptedAnswer": {
+          "@type": "Answer",
+          "text": "네, 충분히 가능합니다. 빵톡의 건강빵은 설탕 대신 소량의 꿀·원당, 버터 대신 올리브오일을 사용합니다. 대신 발효 시간을 충분히 주어 밀가루 자체의 단맛과 풍미를 살립니다. '건강빵은 덜 넣은 빵이 아니라, 시간을 더 넣은 빵입니다.'"
+        }
+      },
+      {
+        "@type": "Question",
+        "name": "손반죽이 처음인데 어떤 레시피부터 시작하면 좋나요?",
+        "acceptedAnswer": {
+          "@type": "Answer",
+          "text": "모닝빵이나 포카치아를 추천합니다. 모닝빵은 강력분 250g으로 12개를 만들 수 있고 총 2시간 30분이면 완성됩니다. 포카치아는 아예 손반죽이 필요 없고 접기만으로 1시간 30분이면 완성되어 입문자에게 가장 적합합니다."
+        }
+      },
+      {
+        "@type": "Question",
+        "name": "홈베이킹에 오븐이 꼭 필요한가요?",
+        "acceptedAnswer": {
+          "@type": "Answer",
+          "text": "건강빵을 제대로 굽기 위해서는 오븐이 필요합니다. 에어프라이어로도 일부 레시피는 가능하지만, 발효빵은 일정한 온도와 스팀이 필요해 오븐이 가장 좋은 결과를 냅니다. 가정용 오븐은 10~20만원대부터 있습니다."
+        }
+      },
+      {
+        "@type": "Question",
+        "name": "빵톡 레시피는 저혈당 다이어트에도 맞나요?",
+        "acceptedAnswer": {
+          "@type": "Answer",
+          "text": "빵톡 레시피는 통밀가루·잡곡 사용, 설탕 최소화, 버터 대신 올리브오일을 기본으로 합니다. 혈당 걱정이 있다면 통밀빵·잡곡빵 레시피를 추천합니다. 다만 개인 건강 상태에 따라 다를 수 있으니 전문가 상담도 병행하세요."
+        }
+      }
+    ]
+  }
+  </script>
+  <script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@type": "WebPage",
+    "name": "빵톡 | 건강빵·손반죽 레시피",
+    "url": "https://influencertei.github.io/breadtalk/",
+    "datePublished": "2026-03-01",
+    "dateModified": "2026-03-29",
+    "inLanguage": "ko",
+    "speakable": {
+      "@type": "SpeakableSpecification",
+      "cssSelector": [".hero-title", ".hero-desc", ".brand-quote", ".section-title"]
+    },
+    "author": {
+      "@type": "Person",
+      "name": "빵톡",
+      "url": "https://influencertei.github.io/breadtalk/about.html",
+      "sameAs": "https://www.youtube.com/@bread_talk"
     }
   }
   </script>
@@ -156,6 +218,21 @@
             <a class="btn btn-primary" href="recipes.html">레시피 바로보기</a>
             <a class="btn btn-secondary" href="videos.html">인기 영상 보기</a>
           </div>
+
+          <div class="recipe-share-bar" style="margin-top:16px;">
+            <button class="share-btn share-copy" id="shareCopyHome" aria-label="링크 복사">🔗 공유하기</button>
+            <a class="share-btn share-kakao" href="https://sharer.kakao.com/talk/friends/picker/link?url=https%3A%2F%2Finfluencertei.github.io%2Fbreadtalk%2F" target="_blank" rel="noopener" aria-label="카카오톡 공유">💬 카카오톡</a>
+            <a class="share-btn" href="https://twitter.com/intent/tweet?url=https%3A%2F%2Finfluencertei.github.io%2Fbreadtalk%2F&text=%EB%B9%B5%ED%86%A1+%7C+%EC%84%A4%ED%83%95%C2%B7%EB%B2%84%ED%84%B0+%EC%97%86%EB%8A%94+%EA%B1%B4%EA%B0%95%EB%B9%B5+%EB%A0%88%EC%8B%9C%ED%94%BC" target="_blank" rel="noopener" aria-label="X(트위터) 공유">𝕏 공유</a>
+          </div>
+          <script>
+            document.getElementById('shareCopyHome').addEventListener('click', function() {
+              navigator.clipboard.writeText(window.location.href).then(function() {
+                var btn = document.getElementById('shareCopyHome');
+                btn.textContent = '✅ 복사됨!';
+                setTimeout(function() { btn.textContent = '🔗 공유하기'; }, 2000);
+              });
+            });
+          </script>
         </div>
 
         <div class="hero-card">
