@@ -229,19 +229,12 @@
         <span>🔄 최종 업데이트: 2026년 3월 22일</span>
       </div>
       <div class="recipe-share-bar">
-        <button class="share-btn share-copy" id="shareCopy" aria-label="링크 복사">🔗 링크 복사</button>
+        <button class="share-btn" onclick="window._bs.open()" aria-label="공유하기">📤 공유하기</button>
+        <button class="share-btn share-kakao" onclick="window._bs.kakao()" aria-label="카카오톡 공유">💬 카카오톡</button>
+        <button class="share-btn" onclick="window._bs.band()" aria-label="밴드 공유">📣 밴드</button>
+        <button class="share-btn" onclick="window._bs.copy()" aria-label="링크 복사">🔗 링크 복사</button>
         <button class="share-btn share-print" onclick="window.print()" aria-label="인쇄">🖨️ 인쇄</button>
-        <a class="share-btn share-kakao" href="https://sharer.kakao.com/talk/friends/picker/link" target="_blank" rel="noopener" aria-label="카카오 공유">💬 카카오 공유</a>
       </div>
-      <script>
-        document.getElementById('shareCopy').addEventListener('click', function() {
-          navigator.clipboard.writeText(window.location.href).then(function() {
-            var btn = document.getElementById('shareCopy');
-            btn.textContent = '✅ 복사됨!';
-            setTimeout(function() { btn.textContent = '🔗 링크 복사'; }, 2000);
-          });
-        });
-      </script>
       <div class="health-disclaimer">
         ⚠️ 본 레시피는 건강 정보 제공을 목적으로 하며, 의학적 조언을 대체하지 않습니다. 특정 질환이나 알레르기가 있는 경우 전문가와 상담 후 적용하시기 바랍니다.
       </div>
@@ -440,6 +433,23 @@
       </div>
     </section>
 
+    <section class="viral-share-section">
+      <div class="container">
+        <div class="viral-share-card">
+          <span class="viral-share-bread" aria-hidden="true">🍞</span>
+          <h3>이 레시피 만들어보셨나요?</h3>
+          <p>맛있게 완성됐다면 카카오톡·밴드 친구들에게 알려주세요!<br>건강빵 정보를 더 많은 분들과 나눠보세요 💚</p>
+          <button class="viral-share-main" onclick="window._bs.open()">
+            📤 레시피 공유하기
+          </button>
+          <div class="viral-share-quick">
+            <button onclick="window._bs.kakao()">💬 카카오톡</button>
+            <button onclick="window._bs.band()">📣 밴드</button>
+            <button onclick="window._bs.copy()">🔗 링크 복사</button>
+          </div>
+        </div>
+      </div>
+    </section>
     <section class="disqus-section">
       <div class="container">
         <div class="disqus-header">
@@ -551,5 +561,6 @@
   <script>
     (function(){var b=document.getElementById('cookieBanner');if(!b)return;if(localStorage.getItem('cookieConsent')){b.style.display='none';return;}b.style.display='flex';document.getElementById('cookieAccept').onclick=function(){localStorage.setItem('cookieConsent','accepted');b.style.display='none';};document.getElementById('cookieDecline').onclick=function(){localStorage.setItem('cookieConsent','declined');b.style.display='none';};})();
   </script>
+  <script defer src="/share.js"></script>
 </body>
 </html>
