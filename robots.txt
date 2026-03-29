@@ -11,4 +11,4 @@ User-agent: Bingbot
 Allow: /
 
 # Sitemap
-Sitemap: https://influencertei.github.io/breadtalk/sitemap.xml
+Sitemap: https://breadtalk.store/sitemap.xml
