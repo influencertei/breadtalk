@@ -1,4 +1,14 @@
 User-agent: *
 Allow: /
+Disallow: /404.html
 
+# Naver Search Bot
+User-agent: Yeti
+Allow: /
+
+# Bing Search Bot
+User-agent: Bingbot
+Allow: /
+
+# Sitemap
 Sitemap: https://influencertei.github.io/breadtalk/sitemap.xml
