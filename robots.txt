@@ -11,4 +11,4 @@ User-agent: Bingbot
 Allow: /
 
 # Sitemap
-Sitemap: https://breadtalk.store/sitemap.xml
+Sitemap: https://www.breadtalk.store/sitemap.xml
