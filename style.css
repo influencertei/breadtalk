@@ -3,8 +3,7 @@
    따뜻하고 가독성 높은 홈베이킹 레시피 사이트
    ================================================ */
 
-/* ── Google Fonts ── */
-@import url('https://fonts.googleapis.com/css2?family=Noto+Sans+KR:wght@400;500;700;800;900&display=swap');
+/* ── Google Fonts: loaded via <link rel="preload"> in HTML for non-render-blocking ── */
 
 /* ── CSS 변수 ── */
 :root {
