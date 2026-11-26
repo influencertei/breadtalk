@@ -1,3 +1,5 @@
+> Project-specific operating rules: read [CLAUDE.md](CLAUDE.md) before any work. Its V5 brand, content-access, release and evidence rules take precedence over the general development guidance below. Older examples do not authorize autonomous publishing or new dependencies.
+
 # **AI Development Guidelines for Modern Web Projects in Firebase Studio**
 
 These guidelines define the operational principles and capabilities of an AI agent (e.g., Gemini) interacting with framework-less web projects (HTML, CSS, JavaScript) within the Firebase Studio environment. The goal is to enable an efficient, automated, and error-resilient application design and development workflow that leverages modern, widely supported web standards (Baseline).

@@ -10,5 +10,10 @@ Allow: /
 User-agent: Bingbot
 Allow: /
 
+# AI search crawler (search only)
+User-agent: OAI-SearchBot
+Allow: /
+Disallow: /404.html
+
 # Sitemap
 Sitemap: https://www.breadtalk.store/sitemap.xml
