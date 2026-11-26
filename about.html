@@ -54,20 +54,67 @@
   <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-2211671339021325"
        crossorigin="anonymous"></script>
   <script type="application/ld+json">
-  {
-    "@context": "https://schema.org",
-    "@type": "Organization",
-    "name": "빵톡",
-    "url": "https://www.breadtalk.store/",
-    "description": "설탕·버터 없는 건강빵·손반죽 레시피를 영상과 글로 제공하는 한국 건강빵 콘텐츠 채널",
-    "inLanguage": "ko",
-    "sameAs": ["https://www.youtube.com/@bread_talk"],
-    "contactPoint": {
-      "@type": "ContactPoint",
-      "contactType": "customer support",
-      "url": "https://www.breadtalk.store/contact.html"
+{
+  "@context": "https://schema.org",
+  "@graph": [
+    {
+      "@type": "WebSite",
+      "@id": "https://www.breadtalk.store/#website",
+      "name": "빵톡",
+      "alternateName": "빵톡 Bread TALK",
+      "url": "https://www.breadtalk.store/",
+      "inLanguage": "ko-KR",
+      "about": {
+        "@id": "https://www.breadtalk.store/#brand"
+      }
+    },
+    {
+      "@type": "Brand",
+      "@id": "https://www.breadtalk.store/#brand",
+      "name": "빵톡",
+      "alternateName": "빵톡 Bread TALK",
+      "description": "빵톡은 집에서 구하기 쉬운 재료로 만드는 손반죽 식사빵, 통밀빵, 모닝빵과 냉장발효를 영상과 글로 소개하는 홈베이킹 콘텐츠 브랜드입니다.",
+      "url": "https://www.breadtalk.store/",
+      "sameAs": [
+        "https://www.youtube.com/@bread_talk"
+      ]
+    },
+    {
+      "@type": "Book",
+      "@id": "https://www.breadtalk.store/about.html#book",
+      "name": "빵 안 산 지 1년",
+      "alternateName": "섞고, 접고, 기다리면 되는 빵톡의 손반죽 식사빵 20",
+      "isbn": "979-11-444-5114-8",
+      "bookFormat": "https://schema.org/EBook",
+      "numberOfPages": 249,
+      "inLanguage": "ko-KR",
+      "author": {
+        "@type": "Person",
+        "name": "빵톡"
+      },
+      "publisher": {
+        "@type": "Organization",
+        "name": "유페이퍼"
+      },
+      "description": "2026년 12월 14일 발행 예정. 실제 판매 및 구매 가능 여부는 확인 후 안내."
+    },
+    {
+      "@type": "AboutPage",
+      "@id": "https://www.breadtalk.store/about.html#page",
+      "name": "빵톡 소개",
+      "url": "https://www.breadtalk.store/about.html",
+      "isPartOf": {
+        "@id": "https://www.breadtalk.store/#website"
+      },
+      "about": {
+        "@id": "https://www.breadtalk.store/#brand"
+      },
+      "mentions": {
+        "@id": "https://www.breadtalk.store/about.html#book"
+      }
     }
-  }
+  ]
+}
   </script>
   <script>
     (function(){var t=localStorage.getItem("theme"),d=window.matchMedia("(prefers-color-scheme: dark)").matches;if(t==="dark"||((!t)&&d)){document.documentElement.setAttribute("data-theme","dark");}})();
@@ -115,7 +162,7 @@
       <div class="container">
         <span class="eyebrow">빵톡 브랜드 소개</span>
         <h1 class="page-title">빵 굽는 즐거움을<br />모두와 나누는 공간</h1>
-        <p class="page-desc">40대 이상 여성과 시니어도 쉽게 따라할 수 있는 건강빵 레시피 허브, 빵톡을 소개합니다.</p>
+        <p class="page-desc">빵톡은 집에서 구하기 쉬운 재료로 만드는 손반죽 식사빵, 통밀빵, 모닝빵과 냉장발효를 영상과 글로 소개하는 홈베이킹 콘텐츠 브랜드입니다. 40~60대 홈베이킹 초보자도 이해하기 쉽게 설명합니다.</p>
       </div>
     </div>
 
@@ -130,7 +177,7 @@
           </div>
           <div class="brand-stats">
             <div class="stat-item">
-              <span class="stat-num">6+</span>
+              <span class="stat-num">5</span>
               <span class="stat-label">대표 레시피</span>
             </div>
             <div class="stat-item">
@@ -138,7 +185,7 @@
               <span class="stat-label">콘텐츠 유형</span>
             </div>
             <div class="stat-item">
-              <span class="stat-num">100%</span>
+              <span class="stat-num">손반죽</span>
               <span class="stat-label">손반죽 중심</span>
             </div>
             <div class="stat-item">
@@ -162,7 +209,7 @@
             <div class="value-card">
               <div class="value-icon">🌾</div>
               <div class="value-title">건강한 재료</div>
-              <p class="value-text">버터와 설탕을 최소화하고 통밀, 잡곡, 천연 재료를 활용한 몸에 좋은 빵 레시피를 소개합니다.</p>
+              <p class="value-text">통밀, 잡곡 등 재료의 특성과 배합을 소개하고, 레시피별 재료와 실제 발효 상태를 확인할 수 있게 합니다. 특정 건강 효능을 보장하지 않습니다.</p>
             </div>
             <div class="value-card">
               <div class="value-icon">📺</div>
@@ -195,7 +242,7 @@
               <span class="timeline-date">MVP</span>
               <div class="timeline-content">
                 <h4>빵톡 홈페이지 1주차 오픈</h4>
-                <p>대표 레시피 6개, 추천 재료 페이지, 문의 폼을 갖춘 첫 번째 버전을 공개했습니다. 영상과 글을 함께 보는 구조가 핵심입니다.</p>
+                <p>대표 레시피와 추천 재료 페이지, 문의 폼을 갖춘 첫 번째 버전을 공개했습니다. 영상과 글을 함께 보는 구조가 핵심입니다.</p>
               </div>
             </div>
             <div class="timeline-item">
@@ -208,6 +255,13 @@
           </div>
         </div>
 
+        <div class="section-block" id="book">
+          <p class="section-label">빵톡 출판 프로젝트</p>
+          <h2 class="section-title">빵 안 산 지 1년</h2>
+          <p class="section-text">섞고, 접고, 기다리면 되는 빵톡의 손반죽 식사빵 20.</p>
+          <p>저자 빵톡 · 출판사 유페이퍼 · PDF 249쪽 · ISBN 979-11-444-5114-8. 발행 예정일은 2026년 12월 14일이며, 실제 판매 가능 여부 확인 후 구매 링크를 안내합니다.</p>
+          <p><a href="https://www.youtube.com/@bread_talk" target="_blank" rel="noopener noreferrer">빵톡 공식 유튜브</a> · <a href="https://breadtalk-kr.webflow.io/">빵톡 브랜드 소개 홈페이지</a> · <a href="guides/stretch-and-fold.html">손반죽 기초 가이드</a></p>
+        </div>
         <!-- 대상 & 방향 -->
         <div class="section-block">
           <p class="section-label">대상 & 방향</p>
