@@ -84,4 +84,7 @@
     <changefreq>weekly</changefreq>
     <priority>0.5</priority>
   </url>
+  <url>
+    <loc>https://www.breadtalk.store/guides/stretch-and-fold.html</loc>
+  </url>
 </urlset>
